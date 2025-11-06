@@ -12,11 +12,11 @@ Project snapshot
 
 Key scripts (use these exactly)
 
-- `npm run dev` -> `tsx src/server.ts` — runs the custom server live from source (use this to test Socket.IO locally).
-- `npm run build` -> `tsc --project tsconfig.server.json && next build` — compile server then build Next for production.
-- `npm run start` -> `cross-env NODE_ENV=production node out/server.js` — run compiled server in production.
-- `npm run lint` -> `biome check`.
-- `npm run format` -> `biome format --write`.
+- `bun run dev` -> `tsx src/server.ts` — runs the custom server live from source (use this to test Socket.IO locally).
+- `bun run build` -> `tsc --project tsconfig.server.json && next build` — compile server then build Next for production.
+- `bun run start` -> `cross-env NODE_ENV=production node out/server.js` — run compiled server in production.
+- `bun run lint` -> `biome check`.
+- `bun run format` -> `biome format --write`.
 
 Important patterns & conventions
 
@@ -34,14 +34,14 @@ WebSockets / Socket.IO (POC)
   - attach Socket.IO: `const io = new Server(server, { /* options */ })`
   - then `server.listen(port)` so both Next and Socket.IO share the same port.
 
-- Dev note: `npm run dev` runs `tsx src/server.ts` which executes TypeScript directly. If you add Socket.IO handlers in `src/server.ts`, they'll be active immediately under `dev`.
+- Dev note: `bun run dev` runs `tsx src/server.ts` which executes TypeScript directly. If you add Socket.IO handlers in `src/server.ts`, they'll be active immediately under `dev`.
 
 - Production build: when building for production `tsc --project tsconfig.server.json` must emit `out/server.js`. Ensure your Socket.IO imports are supported by the TypeScript target and ESM build.
 
 Build & deploy notes for agents
 
-- Respect the two-step production build: compile server (tsc with `tsconfig.server.json`) then `next build`. `npm run build` is the canonical flow.
-- `npm run start` expects `out/server.js` to exist. If you rename or move the server file, update `tsconfig.server.json` `include` and `package.json` scripts.
+- Respect the two-step production build: compile server (tsc with `tsconfig.server.json`) then `next build`. `bun run build` is the canonical flow.
+- `bun run start` expects `out/server.js` to exist. If you rename or move the server file, update `tsconfig.server.json` `include` and `package.json` scripts.
 
 Styling & frontend tools
 
@@ -49,7 +49,7 @@ Styling & frontend tools
 
 Linting / formatting
 
-- Use `biome` for linting and formatting. Run `npm run lint` and `npm run.format` before opening a PR.
+- Use `biome` for linting and formatting. Run `bun run lint` and `bun run.format` before opening a PR.
 
 Files to reference for examples
 
@@ -69,12 +69,12 @@ Troubleshooting & tips
 - To test Socket.IO locally: run
 
 ```
-npm run dev
+bun run dev
 ```
 
 and open the client that uses `socket.io-client` (it should connect to the same host/port as Next).
 
-- If `out/server.js` doesn't exist after `npm run build`, re-check `tsconfig.server.json` `include` paths and ensure `tsc` emitted files (no `noEmit` override).
+- If `out/server.js` doesn't exist after `bun run build`, re-check `tsconfig.server.json` `include` paths and ensure `tsc` emitted files (no `noEmit` override).
 - When adding server-side TypeScript code that uses Node APIs, prefer Node lib targets in `tsconfig.server.json` (it currently targets `es2019`).
 
 Questions for the repo owner (if unclear)
