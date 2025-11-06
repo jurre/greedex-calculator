@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "build": "tsc --project tsconfig.server.json && next build",
-    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "start": "cross-env NODE_ENV=production node out/server.js",
     "lint": "biome check",
     "format": "biome format --write"
   },
