@@ -33,14 +33,6 @@ app.prepare().then(() => {
       timestamp: new Date().toISOString(),
     });
 
-    // Send ping every 10 seconds
-    const pingInterval = setInterval(() => {
-      socket.emit("ping", {
-        text: `Ping from server at ${new Date().toLocaleTimeString()}`,
-        timestamp: new Date().toISOString(),
-      });
-    }, 2000);
-
     // Handle client messages
     socket.on("client-message", (data) => {
       console.log("Received from client:", data);
@@ -49,6 +41,14 @@ app.prepare().then(() => {
         timestamp: new Date().toISOString(),
       });
     });
+
+    // Send ping every 10 seconds
+    const pingInterval = setInterval(() => {
+      socket.emit("ping", {
+        text: `Ping from server at ${new Date().toLocaleTimeString()}`,
+        timestamp: new Date().toISOString(),
+      });
+    }, 10000);
 
     // Cleanup on disconnect
     socket.on("disconnect", () => {

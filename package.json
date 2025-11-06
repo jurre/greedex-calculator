@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc --project tsconfig.server.json && next build",
     "start": "cross-env NODE_ENV=production node out/server.js",
     "lint": "biome check",
