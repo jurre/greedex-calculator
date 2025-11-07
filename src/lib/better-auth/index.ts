@@ -10,6 +10,7 @@ import {
 } from "@/lib/email";
 
 export const auth = betterAuth({
+  appName: "Next WebSocket Server",
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,

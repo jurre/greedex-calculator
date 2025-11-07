@@ -57,7 +57,7 @@ export function UserSession() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-8 w-8 ring-1 ring-border">
             {user.image ? (
               <Image
                 src={user.image}

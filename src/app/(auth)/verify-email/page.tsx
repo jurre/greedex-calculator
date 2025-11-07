@@ -1,7 +1,5 @@
-import { Suspense } from "react";
 import RightSideImage from "@/components/auth/right-side-image";
 import { VerifyEmailContent } from "@/components/auth/verify-email-content";
-import { Spinner } from "@/components/ui/spinner";
 
 export default function VerifyEmailPage() {
   return (
@@ -9,15 +7,7 @@ export default function VerifyEmailPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex flex-1 justify-center">
           <div className="w-full max-w-md">
-            <Suspense
-              fallback={
-                <div className="flex items-center justify-center p-8">
-                  <Spinner />
-                </div>
-              }
-            >
-              <VerifyEmailContent />
-            </Suspense>
+            <VerifyEmailContent />
           </div>
         </div>
       </div>
