@@ -21,13 +21,24 @@ export const env = createEnv({
         },
         {
           message: "Must start with twelve digits",
-        },
+        }
       ),
     GOOGLE_CLIENT_SECRET: z
       .string()
       .refine((value) => value.startsWith("GOCSPX"), {
         message: "Must start with GOCSPX",
       }),
+    SMTP_HOST: z.string().min(1),
+    SMTP_PORT: z.string().regex(/^\d+$/, "Must be a number"),
+    SMTP_SENDER: z.string().email(),
+    SMTP_USERNAME: z.string().min(1),
+    SMTP_PASSWORD: z.string().min(1),
+    SMTP_SECURE: z
+      .string()
+      .refine((value) => value === "true" || value === "false", {
+        message: "Must be 'true' or 'false'",
+      })
+      .transform((value) => value === "true"),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.url(),
@@ -39,5 +50,11 @@ export const env = createEnv({
     BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_SENDER: process.env.SMTP_SENDER,
+    SMTP_USERNAME: process.env.SMTP_USERNAME,
+    SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    SMTP_SECURE: process.env.SMTP_SECURE,
   },
 });

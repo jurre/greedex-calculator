@@ -4,12 +4,38 @@ import { nextCookies } from "better-auth/next-js";
 import { env } from "@/env";
 import { db } from "@/lib/drizzle/db";
 import * as schema from "@/lib/drizzle/schema";
+import {
+  sendEmailVerificationEmail,
+  sendPasswordResetEmail,
+} from "@/lib/email";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
   }),
+
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true, // Must be true to block login until verified
+    sendResetPassword: async ({ user, url }) => {
+      await sendPasswordResetEmail({ user, url });
+    },
+  },
+  emailVerification: {
+    autoSignInAfterVerification: true,
+    sendOnSignUp: true, // This triggers email verification on signup
+    sendOnSignIn: false, // Don't send on every sign-in, only on signup
+    sendVerificationEmail: async ({ user, url, token }) => {
+      console.log("🔐 Better Auth verification token created:", {
+        userId: user.id,
+        email: user.email,
+        token: token.substring(0, 10) + "...",
+        url: url.substring(0, 50) + "...",
+      });
+      await sendEmailVerificationEmail({ user, url });
+    },
+  },
   socialProviders: {
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
