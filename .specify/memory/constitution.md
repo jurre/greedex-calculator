@@ -1,50 +1,119 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: template -> 1.0.0
+- Modified principles: (new) I. User Privacy & GDPR Compliance; II. Accuracy & Transparency; III. Accessibility & Inclusivity; IV. Test-First & Reproducibility; V. Simplicity & Maintainability
+- Added sections: Technical & Compliance Constraints; Development Workflow & Quality Gates
+- Removed sections: none
+- Templates requiring updates:
+	- .specify/templates/plan-template.md: ✅ reviewed
+	- .specify/templates/spec-template.md: ✅ reviewed
+	- .specify/templates/tasks-template.md: ✅ reviewed
+	- .specify/templates/checklist-template.md: ⚠ pending — update Constitution Check rules to reference new principles
+- Follow-up TODOs:
+	- TODO(CHECKLIST_TEMPLATE): Align 'Constitution Check' gates with Principle IV (Test-First) and Principle I (Privacy/GDPR).
+-->
+
+# Greendex 2.0 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. User Privacy & GDPR Compliance
+All features MUST minimise collection of personal data and treat any personal
+data as sensitive. Personal data storage MUST be explicit and pseudonymised
+where possible; retention MUST be the minimal period required. All processing
+for EU users MUST comply with GDPR. The project MUST provide mechanisms for
+consent, data export, and deletion (user-facing controls and an administrative
+process).
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Rationale: Greendex handles mobility and travel data tied to individuals and
+institutions. User privacy and legal compliance are non-negotiable.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Accuracy & Transparency
+All CO₂ calculations, emission factors, and dataset sources MUST be
+documented, versioned, and reproducible. Any assumption or approximation used
+in outputs MUST be exposed in the UI and documentation, with a link to the
+dataset and its version.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Rationale: Outputs inform decisions and reporting; transparency and auditability
+are essential to stakeholder trust.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Accessibility & Inclusivity
+UI and content MUST meet WCAG 2.1 AA standards. The application MUST support
+the primary Erasmus+ languages (at minimum) and be responsive for mobile use.
+Interfaces MUST function acceptably on low-bandwidth networks.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Rationale: Erasmus+ serves diverse users across Europe; accessibility and
+language coverage are essential for fairness and adoption.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Test-First & Reproducibility (NON-NEGOTIABLE)
+All new features MUST include tests before implementation: unit tests for core
+logic, contract tests for APIs, and integration/e2e tests for critical flows.
+The CO₂ calculation engine MUST have deterministic tests that assert expected
+numerical outputs for known inputs and dataset versions.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Rationale: Calculation correctness and reproducibility are central to the
+project's mission and credibility.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Simplicity & Maintainability
+Favor clear, well-documented solutions over premature optimisation. Modules
+MUST have a clear responsibility, be well-typed, and include inline and
+repository-level documentation. Code MUST pass linting and formatting checks
+before merge.
+
+Rationale: Simpler code lowers risk, aids audits (privacy/security), and eases
+contribution from partner institutions.
+
+## Technical & Compliance Constraints
+
+- **Stack**: Next.js 16 (App Router), custom server at `src/server.ts`,
+	`Better-Auth` (Drizzle adapter) for authentication, `drizzle` + PostgreSQL for
+	DB, `shadcn` + Tailwind for UI components.
+- **Authentication**: Use `Better-Auth` with the Drizzle/Postgres adapter as the
+	canonical auth solution. OAuth providers for institutional logins are allowed
+	but MUST be configured to limit scopes and present clear privacy notices.
+- **Data Handling**: Persist mobility and event records in Postgres. Separate
+	personally-identifying information from analytic datasets when possible
+	(pseudonymisation). Document data retention policies in `docs/privacy.md`.
+- **Security**: Secrets MUST be stored in environment variables or a secrets
+	manager. TLS is required in all environments exposing user data. Follow OWASP
+	guidance and perform threat modeling for sensitive components.
+- **Privacy by Design**: Telemetry and logs MUST avoid storing personal
+	identifiers. Introduce DPIA when adding new personal-data processing features.
+
+## Development Workflow & Quality Gates
+
+- **Branching**: Short-lived feature branches (e.g., `feature/xxx`), PRs to
+	`main` only.
+- **Code Review**: Every PR MUST have at least one approving reviewer and a
+	successful CI run. Changes touching auth, data models, or calculation logic
+	MUST be reviewed by a core maintainer.
+- **CI/Tests**: PRs MUST run lint/format (biome), unit tests, and relevant
+	integration tests. Critical calculation regressions MUST be prevented by
+	automated tests tied to dataset versions.
+- **Build / Release**: Local dev uses `bun run dev`. Production build follows
+	`bun run build` -> `bun run start` and relies on compiled `out/server.js` as
+	the authoritative artifact.
+- **Documentation**: Specs, plans, and PR descriptions MUST reference the
+	constitution when they affect privacy, calculations, accessibility, or
+	governance.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+1. Proposal: Any change to this constitution or to governance-relevant policies
+	 MUST be proposed via a repository pull request that includes a migration
+	 plan (if applicable) and the rationale for the change.
+2. Review & Approval: Constitutional amendments MUST be approved by at least
+	 two core maintainers. For additions that materially change project
+	 responsibilities (new principle or removal), approval MUST include a brief
+	 stakeholder consultation (e-mail or issue thread) with partners.
+3. Versioning Policy: The constitution follows semantic versioning for
+	 governance text:
+	 - MAJOR (X.0.0): Backwards-incompatible governance or principle removal/redefinition.
+	 - MINOR (0.Y.0): New principle or substantive addition to governance.
+	 - PATCH (0.0.Z): Clarifications, wording fixes, or editorial updates.
+4. Compliance Review: Pull requests that change data handling, auth, or the
+	 calculation engine MUST include a short 'Constitution Check' checklist
+	 verifying applicable principles, and indicate required follow-ups (DPIA,
+	 accessibility review, etc.).
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-11-07 | **Last Amended**: 2025-11-07

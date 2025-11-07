@@ -1,88 +1,74 @@
 # Copilot instructions for this repository
 
-This file gives AI coding agents focused, actionable knowledge to be productive in this repo.
+Concise, actionable guidance to get AI agents productive quickly in this codebase.
 
 Project snapshot
 
 - Framework: Next.js (App Router) under `src/app`.
-- Entry server: custom Next server at `src/server.ts` (uses `next()` + `node:http` createServer).
-- WebSocket POC: `socket.io` and `socket.io-client` are present in `package.json` — a proof-of-concept for Socket.IO on the custom server is intended.
-- Build flow: TypeScript server is compiled to `out/server.js` (see `tsconfig.server.json`), then `next build`.
-- Tooling: `biome` for lint/format; Tailwind/PostCSS for styling.
+- Custom server: `src/server.ts` uses `next()` + Node `createServer` and is the canonical place to attach server-side services (Socket.IO, custom HTTP handlers).
+- WebSockets: `socket.io` + `socket.io-client` are dependencies — a POC is intended to run on the custom server.
+- Build flow: server TypeScript is compiled to `out/server.js` via `tsc --project tsconfig.server.json`, then `next build` runs. See `package.json` scripts.
+- Tooling: `biome` for lint/format, Tailwind/PostCSS for styling, Drizzle for DB tooling.
 
-Key scripts (use these exactly)
+Key scripts (execute exactly as listed)
 
-- `bun run dev` -> `tsx src/server.ts` — runs the custom server live from source (use this to test Socket.IO locally).
-- `bun run build` -> `tsc --project tsconfig.server.json && next build` — compile server then build Next for production.
-- `bun run start` -> `cross-env NODE_ENV=production node out/server.js` — run compiled server in production.
-- `bun run lint` -> `biome check`.
-- `bun run format` -> `biome format --write`.
+- `bun run dev` — runs `tsx watch src/server.ts` (dev server + Next in same process). Use this when working on Socket.IO or server code.
+- `bun run build` — `tsc --project tsconfig.server.json && next build` (compile server to `out/` then build Next).
+- `bun run start` — `cross-env NODE_ENV=production node out/server.js` (expects compiled server in `out/server.js`).
+- `bun run lint` / `bun run format` — `biome` commands.
 
 Important patterns & conventions
 
-- Source location: all app code lives in `src/` (e.g. `src/app`, `src/server.ts`).
-- App Router: use the App Router conventions under `src/app` (update `page.tsx` or add route files under `src/app/*/route.ts`).
-- Custom server: the project uses a custom server (`src/server.ts`) instead of `next dev`. The development script runs that server directly — this is where Socket.IO should be wired.
-- ESM modules: `package.json` has `"type": "module"` — use ESM-style imports/exports everywhere for server code.
+- Source tree: all app code is under `src/` (App Router, components, API routes, server). Favor ESM imports (`package.json` sets `type: "module"`).
+- Custom server is authoritative: deploy uses compiled `out/server.js`. Do not rely on `next dev` for local behavior — `bun run dev` runs the custom server.
+- App Router usage: use `src/app/*` routes and `page.tsx` files. Server-only code and Node APIs belong in `src/server.ts` or in files only imported by it.
 
-WebSockets / Socket.IO (POC)
+WebSockets / Socket.IO (how to integrate)
 
-- Dependencies: `socket.io` and `socket.io-client` are added to `package.json` — look for POC code in `src/server.ts` or a newly added module.
-- How it's wired (pattern): attach Socket.IO to the same HTTP server returned by `createServer`:
+- Pattern: create the HTTP server, pass it to Next and then attach Socket.IO. Example pattern (in `src/server.ts`):
 
-  - create the server: `const server = createServer((req, res) => ...)`
-  - attach Socket.IO: `const io = new Server(server, { /* options */ })`
-  - then `server.listen(port)` so both Next and Socket.IO share the same port.
+  const server = createServer((req, res) => nextHandler(req, res));
+  const io = new Server(server, options);
+  server.listen(PORT);
 
-- Dev note: `bun run dev` runs `tsx src/server.ts` which executes TypeScript directly. If you add Socket.IO handlers in `src/server.ts`, they'll be active immediately under `dev`.
+- Dev workflow: modify `src/server.ts` and run `bun run dev` (tsx executes TypeScript directly). Handlers added to `io` will be live during development.
+- Production: ensure `tsc` emits `out/server.js` (check `tsconfig.server.json` include paths) so `bun run start` can run produced file.
 
-- Production build: when building for production `tsc --project tsconfig.server.json` must emit `out/server.js`. Ensure your Socket.IO imports are supported by the TypeScript target and ESM build.
+Auth, DB, and cross-cutting integrations
 
-Build & deploy notes for agents
+- Better-Auth integration: configuration and small helpers live under `src/lib/better-auth` (see `src/lib/better-auth/index.ts`). The API route for auth is `src/app/api/auth/[...all]/route.ts`.
+- Drizzle (DB): DB config and schema code live under `src/lib/drizzle` and migrations are under `src/lib/drizzle/migrations`.
 
-- Respect the two-step production build: compile server (tsc with `tsconfig.server.json`) then `next build`. `bun run build` is the canonical flow.
-- `bun run start` expects `out/server.js` to exist. If you rename or move the server file, update `tsconfig.server.json` `include` and `package.json` scripts.
+Files to reference (quick links)
 
-Styling & frontend tools
+- `src/server.ts` — custom server wiring (Next + Socket.IO).
+- `package.json` — scripts and dependencies (important: `dev`, `build`, `start`, `auth:generate`).
+- `tsconfig.server.json` — controls emitted `out/` server build.
+- `next.config.ts` — `reactCompiler: true` is enabled; changing it impacts builds.
+- `src/lib/better-auth/index.ts` — Better-Auth config referenced by CLI script.
 
-- Tailwind CSS is configured (see `postcss.config.mjs` and `tailwindcss` deps). Keep Tailwind utility usage (see `src/app/page.tsx`).
+What NOT to change without asking owner
 
-Linting / formatting
+- `reactCompiler: true` in `next.config.ts` and the two-step server build / start pipeline (`tsc` -> `next build` -> `node out/server.js`).
+- `type: "module"` in `package.json` — switching to CommonJS breaks `tsx`/`tsc` ESM expectations.
 
-- Use `biome` for linting and formatting. Run `bun run lint` and `bun run.format` before opening a PR.
+Agent tasks and quick wins
 
-Files to reference for examples
+- If adding Socket.IO, edit `src/server.ts` and test with `bun run dev`.
+- When adding server TS code, ensure it compiles under `tsc --project tsconfig.server.json`.
+- Run `bun run lint` and `bun run format` before PRs.
 
-- `package.json` — scripts and deps (Socket.IO present).
-- `src/server.ts` — custom server and the place to wire Socket.IO to the HTTP server.
-- `tsconfig.server.json` — controls `out` and server build options.
-- `next.config.ts` — `reactCompiler: true` is enabled; be cautious when modifying.
-- `src/app/page.tsx` — App Router page example and styling usage.
+Troubleshooting tips
 
-What NOT to change without checking owner intent
+- If `out/server.js` is missing after `bun run build`, check `tsconfig.server.json` include globs and confirm `tsc` emitted files (no `noEmit`).
+- For Node APIs on server, make sure the TS lib targets in `tsconfig.server.json` are appropriate (the project targets modern ES/Node libs).
 
-- `reactCompiler: true` in `next.config.ts` and the custom server pipeline (build -> out/server.js -> start). Changing these affects the build pipeline.
-- Module type: switching from ESM to CommonJS requires updates to `package.json` and may break the current server tooling (`tsx`, `tsc` config).
+Questions for repo owner (if unclear)
 
-Troubleshooting & tips
+- Should WebSocket scale out of process (separate service) or remain on the custom server for this project?
+- Preferred Node version / CI image for consistent `tsc`/`node` behavior?
 
-- To test Socket.IO locally: run
+If you'd like, I can:
 
-```
-bun run dev
-```
-
-and open the client that uses `socket.io-client` (it should connect to the same host/port as Next).
-
-- If `out/server.js` doesn't exist after `bun run build`, re-check `tsconfig.server.json` `include` paths and ensure `tsc` emitted files (no `noEmit` override).
-- When adding server-side TypeScript code that uses Node APIs, prefer Node lib targets in `tsconfig.server.json` (it currently targets `es2019`).
-
-Questions for the repo owner (if unclear)
-
-- Is the custom server intended to be the permanent host for WebSockets, or should Socket.IO be moved to a dedicated service/process for scaling?
-- Preferred Node version / CI runner image? This helps pin `tsc` / `node` behavior for builds.
-
-If you want I can:
-
-- add a short Socket.IO wiring example directly to `src/server.ts` (non-breaking, behind a small feature flag), or
-- add a sample `src/app/socket-client.tsx` demonstrating client usage of `socket.io-client`.
+- add a minimal Socket.IO wiring example to `src/server.ts` (feature-flagged / non-breaking), or
+- add a client example `src/app/socket-client.tsx` that connects with `socket.io-client`.
