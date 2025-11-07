@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${comfortaa.className} ${jetbrainsMono.variable} light antialiased`}
+        className={`${comfortaa.className} ${jetbrainsMono.variable} dark antialiased`}
       >
         {children}
         <Toaster />

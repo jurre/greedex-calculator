@@ -34,11 +34,11 @@ export function UserSession() {
 
   if (!session) {
     return (
-      <div className="flex items-center gap-2">
-        <Button variant="link" asChild>
+      <div className="flex items-center">
+        <Button variant="link" asChild className="px-2">
           <Link href="/login">Login</Link>
         </Button>
-        <Button variant="link" asChild>
+        <Button variant="link" asChild className="px-2">
           <Link href="/signup">Sign up</Link>
         </Button>
       </div>

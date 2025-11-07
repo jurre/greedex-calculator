@@ -8,7 +8,9 @@ export default function AppLayout({
   return (
     <>
       <Navbar />
-      <main className="flex min-h-[calc(100vh-4rem)] flex-col">{children}</main>
+      <main className="container mx-auto flex min-h-[calc(100vh-4rem)] flex-col">
+        {children}
+      </main>
     </>
   );
 }
