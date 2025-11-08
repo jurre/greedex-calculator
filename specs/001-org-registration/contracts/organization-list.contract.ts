@@ -146,4 +146,7 @@ export const listOrganizationsExamples = {
 };
 
 // ============================================================================
-// Contract Tests (to be implemented)
+// Contract Tests (SPEC ONLY — execution out-of-scope)
+// NOTE: No automated test harness is included in this repository for these
+// contracts. The contract definitions are specification artifacts; execution
+// and implementation of test harnesses are out-of-scope per product policy.

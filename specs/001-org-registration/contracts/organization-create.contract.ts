@@ -25,7 +25,7 @@ export const createOrganizationRequestSchema = z.object({
     .max(50, "Slug must not exceed 50 characters")
     .regex(
       /^[a-z0-9-]+$/,
-      "Slug must contain only lowercase letters, numbers, and hyphens"
+      "Slug must contain only lowercase letters, numbers, and hyphens",
     )
     .trim()
     .toLowerCase(),

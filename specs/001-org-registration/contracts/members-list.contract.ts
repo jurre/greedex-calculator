@@ -253,9 +253,13 @@ export const listMembersExamples = {
 };
 
 // ============================================================================
-// Contract Tests (to be implemented)
+// Contract Tests (SPEC ONLY — execution out-of-scope)
 // ============================================================================
 
+// NOTE: The following contract test cases are provided as specifications only.
+// Test execution, harnesses, and automated implementation are out-of-scope
+// per the current product policy. Use these cases as documentation for
+// future manual or automated test work.
 export const listMembersContractTests = [
   {
     name: "should return single owner for newly created organization",

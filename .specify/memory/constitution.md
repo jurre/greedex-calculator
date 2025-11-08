@@ -38,9 +38,7 @@ Rationale: Outputs inform decisions and reporting; transparency and auditability
 are essential to stakeholder trust.
 
 ### III. Accessibility & Inclusivity
-UI and content MUST meet WCAG 2.1 AA standards. The application MUST support
-the primary Erasmus+ languages (at minimum) and be responsive for mobile use.
-Interfaces MUST function acceptably on low-bandwidth networks.
+UI and content MUST is simple english, as this is the common language.
 
 Rationale: Erasmus+ serves diverse users across Europe; accessibility and
 language coverage are essential for fairness and adoption.
@@ -73,13 +71,13 @@ contribution from partner institutions.
 
 ## Entities
 
-- **Organisation**: The entity that plans and implements international
-	projects. An Organisation represents a legal or educational institution
+- **Organization**: The entity that plans and implements international
+	projects. An Organization represents a legal or educational institution
 	responsible for one or more Projects and for the associated administrative
 	data, consent flows, and membership management.
 - **Project**: A Project describes a single Erasmus+ activity or set of
 	activities, including title, description, start and end dates. A Project
-	logically belongs to an owning Organisation and references its Participants
+	logically belongs to an owning Organization and references its Participants
 	and the activity dataset(s) used for CO₂ calculations.
 - **Participant**: A Participant is a pupil or student participating in a
 	Project. Participants travel to project locations and produce trip records
@@ -87,9 +85,9 @@ contribution from partner institutions.
 	data for Participants MUST be minimised and handled in compliance with
 	Principle I.
 
-All roles, membership relationships, and business logic for Organisations,
+All roles, membership relationships, and business logic for Organizations,
 Projects, and Participants MUST be implemented using the `Better-Auth`
-organization plugin (see `.github/instructions/better-auth.organisations.md.instructions.md`) and the
+organization plugin (see `.github/instructions/better-auth.organizations.md.instructions.md`) and the
 project's `src/lib/better-auth` configuration. Use the plugin's organization,
 member, invitation and role APIs to model access control, ownership, teams,
 and role-based permissions for these entities.

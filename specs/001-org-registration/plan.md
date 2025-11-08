@@ -11,13 +11,13 @@ Enable verified users to create their first organization and access a dashboard 
 
 ## Technical Context
 
-**Language/Version**: TypeScript 5.x with Next.js 15+ (App Router)  
+**Language/Version**: TypeScript 5.x with Next.js 16 (App Router)  
 **Primary Dependencies**: Better Auth (organization plugin), React 19, nuqs (URL state), shadcn/ui, Drizzle ORM, Zod  
 **Storage**: PostgreSQL via Drizzle ORM (schema already includes organization, member, invitation tables)  
-**Testing**: Vitest for unit tests, Playwright for e2e tests  
+**Testing**: Testing tools (Vitest, Playwright) are referenced for future work; test execution is out-of-scope per product policy.
 **Target Platform**: Web application (Next.js App Router with custom server at src/server.ts)  
 **Project Type**: Web application (frontend + backend in monolithic Next.js structure)  
-**Performance Goals**: Dashboard initial load <2s, tab switching <1s, organization creation <1min end-to-end  
+**Performance Goals**: No formal performance targets in MVP; no performance testing is in scope  
 **Constraints**: Client-side validation must match server-side (3-50 char limits for name/slug), URL state must be type-safe  
 **Scale/Scope**: MVP supports single organization per user initially, ~50 members displayable without pagination
 
@@ -35,13 +35,12 @@ Enable verified users to create their first organization and access a dashboard 
 - ✅ **PASS** (N/A): No CO₂ calculations or emission factors in this feature. Data handling is straightforward CRUD for organizations and membership display.
 
 **Principle III: Accessibility & Inclusivity**
-- ⚠️ **DEFERRED**: WCAG 2.1 AA compliance validation deferred to Phase 2 (tasks). shadcn/ui components provide accessible foundations but need verification.
-- ✅ **PASS**: Responsive design required (FR-013 acceptance scenario 4). Mobile support inherent in Tailwind/shadcn approach.
-- 📋 **ACTION**: Add accessibility testing task in Phase 2 for form inputs, tab navigation keyboard support, and screen reader compatibility.
+- ℹ️ **NOTE**: Rely on shadcn/ui default semantics; no formal accessibility audit in MVP.
+- ✅ **PASS**: Responsive design required (US4 acceptance scenario 4). Mobile support inherent in Tailwind/shadcn approach.
 
 **Principle IV: Test-First & Reproducibility**
-- ✅ **PASS**: Test contracts and specifications defined per constitution.
-- 📋 **NOTE**: Test implementation is handled manually by project maintainer (no Vitest/Playwright code generation).
+-- ✅ **PASS**: Test contracts and specifications defined per constitution.
+-- 📋 **NOTE**: Test implementation is out-of-scope per product policy. Contracts and test cases remain as specification artifacts only.
 
 **Principle V: Simplicity & Maintainability**
 - ✅ **PASS**: Leverages existing Better Auth organization plugin rather than custom implementation. Uses established patterns (Server Components, Server Actions, shadcn/ui). No premature optimization.
@@ -70,14 +69,13 @@ Enable verified users to create their first organization and access a dashboard 
 - ✅ **CONFIRMED** (N/A): Still no CO₂ calculations in scope. All data operations are transparent CRUD via Better Auth APIs.
 
 **Principle III: Accessibility & Inclusivity**
-- ⚠️ **STILL DEFERRED**: WCAG 2.1 AA compliance testing remains in Phase 2 scope. Quickstart.md includes "Deployment Checklist" item for accessibility audit (pa11y or axe DevTools).
+- ℹ️ **NOTE**: Rely on shadcn/ui default semantics; no formal accessibility audit in MVP.
 - ✅ **PASS**: Responsive design confirmed in quickstart.md implementation examples. All components use Tailwind responsive utilities.
-- 📋 **ACTION CONFIRMED**: Accessibility testing will be Phase 2 task (keyboard navigation for tabs, ARIA labels for form inputs, screen reader compatibility for table).
 
 **Principle IV: Test-First & Reproducibility**
-- ✅ **PASS**: Contract files define comprehensive test cases (20+ test scenarios across 3 contracts).
-- ✅ **PASS**: Test contracts specify expected behavior for validation logic, server actions, and full flows.
-- ✅ **NOTE**: Test implementation is handled manually by project maintainer.
+-- ✅ **PASS**: Contract files define comprehensive test cases (20+ test scenarios across 3 contracts).
+-- ✅ **PASS**: Test contracts specify expected behavior for validation logic, server actions, and full flows.
+-- ✅ **NOTE**: Test implementation is out-of-scope per product policy; these contracts exist as documentation for future manual or automated work.
 - ✅ **REPRODUCIBILITY**: Quickstart.md provides step-by-step implementation sequence with time estimates (30min to 90min per phase).
 
 **Principle V: Simplicity & Maintainability**
@@ -94,10 +92,9 @@ Enable verified users to create their first organization and access a dashboard 
 
 **Design Quality Assessment**:
 - ✅ All 19 functional requirements mapped to contracts/data-model
-- ✅ Success criteria SC-001 to SC-010 all achievable with designed API surface
 - ✅ No technical debt introduced
 - ✅ Error handling patterns comprehensive (validation errors, duplicate slugs, unauthorized access)
-- ✅ Performance goals (dashboard <2s, tab switch <1s) achievable with documented approach
+ 
 
 **Gates Status**: ✅ **RE-APPROVED** - Phase 1 design complete. Feature ready for Phase 2 (task breakdown via `/speckit.tasks` command).
 
@@ -162,15 +159,6 @@ src/
 └── hooks/
     └── use-organization.ts          # NEW: Client-side org hooks (nuqs integration)
 
-tests/
-├── unit/
-│   └── validations/
-│       └── organization.test.ts    # Validation logic tests
-├── integration/
-│   └── api/
-│       └── organizations.test.ts   # API route tests
-└── e2e/
-    └── organization-onboarding.spec.ts  # Full flow test
 ```
 
 **Structure Decision**: Web application structure (single Next.js App Router project). All organization-related routes under `src/app/(app)/` (authenticated layout). Server Actions in `src/lib/actions/` for Better Auth API calls. Client components for forms and interactive elements. nuqs integrated at root layout level via NuqsAdapter.

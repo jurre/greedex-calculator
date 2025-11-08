@@ -489,35 +489,37 @@ bun run drizzle-kit introspect
 
 ---
 
-## Testing Data Requirements
+## Testing Data Requirements (documentation only)
 
-### Unit Test Fixtures
+The following fixtures, seed data, and E2E scenarios are documented for clarity and future use. Test execution and automated seeding are out-of-scope for the current product policy; these entries are reference artifacts only.
+
+### Unit Test Fixtures (documented for reference)
 ```typescript
-// Valid organization inputs
+// Valid organization inputs (reference fixtures)
 const validOrganization = {
   name: 'Test Organization',
   slug: 'test-org'
 }
 
-// Edge cases
+// Edge cases (reference fixtures)
 const minLengthOrg = { name: 'Abc', slug: 'abc' }
 const maxLengthOrg = {
   name: 'A'.repeat(50),
   slug: 'a'.repeat(50)
 }
 
-// Invalid inputs
+// Invalid inputs (reference fixtures)
 const tooShortName = { name: 'Ab', slug: 'test' }
 const tooLongName = { name: 'A'.repeat(51), slug: 'test' }
 const invalidSlug = { name: 'Test', slug: 'Invalid_Slug!' }
 ```
 
-### Integration Test Data
-- Mock Better Auth API responses
-- Seed database with test users (verified emails)
-- Seed database with existing organizations (for uniqueness testing)
+### Integration Test Data (reference)
+- Mock Better Auth API responses (for documentation)
+- Example seed data documented (e.g., users with verified emails); seeding/execution is out-of-scope
+- Example organizations shown for uniqueness scenarios (documentation only)
 
-### E2E Test Scenarios
+### E2E Test Scenarios (reference)
 - User account with verified email (no organizations)
 - Organization with owner member
 - Multiple members for testing table display

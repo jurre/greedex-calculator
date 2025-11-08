@@ -14,6 +14,8 @@
 - Q: Dashboard tab persistence behavior (session, database, URL-based, or none)? → A: URL-based by URL parameter using nuqs library
 - Q: Team table member display limit for initial release? → A: Display all members, no pagination for MVP
 - Q: Empty state messaging style for Projects tab? → A: Instructional with shadcn Empty component
+- Q: How to handle performance acceptance criteria and testing? → A: No performance testing in scope; remove timing SLAs from success criteria.
+- Q: What accessibility scope applies for the MVP? → A: Rely on shadcn/ui default semantics only; no additional accessibility audit or custom a11y work in MVP.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -90,7 +92,6 @@ Organization owners need to view all projects associated with their organization
 - What happens when a user tries to access the dashboard without having created an organization? The user should be redirected to the organization creation screen with all other navigation disabled.
 - What happens when an organization slug contains invalid characters or exceeds length limits? The form should validate and display specific error messages guiding the user to correct the input.
 - What happens when a user's email verification status changes after they've started creating an organization? The system should re-verify email status before allowing organization creation to complete.
-- What happens when a user tries to create multiple organizations simultaneously (e.g., in multiple browser tabs)? The system should handle concurrent requests gracefully, allowing only one successful creation and returning appropriate errors for duplicates.
 - What happens when the organization creation process fails partway through (network error, database issue)? The system should roll back any partial changes and present a clear error message allowing the user to retry.
 - What happens when a user navigates directly to a dashboard URL without being authenticated? The system should redirect to the login page with a return URL to bring them back after authentication.
 
@@ -110,7 +111,7 @@ Organization owners need to view all projects associated with their organization
 - **FR-010**: System MUST show at least one member (the owner) in the Team members table immediately after organization creation
 - **FR-011**: System MUST display member information including name, email, role, and join date in the Team table (display all members without pagination for MVP)
 - **FR-012**: System MUST render a grid layout for displaying project cards in the Projects tab
-- **FR-013**: System MUST display an empty state component when no projects exist in an organization using the shadcn Empty component with instructional messaging and future action guidance using the shadcn Empty component with instructional messaging and future action guidance
+- **FR-013**: System MUST display an empty state component when no projects exist in an organization using the shadcn Empty component with instructional messaging and future action guidance
 - **FR-014**: System MUST validate organization slugs to ensure they are URL-safe (alphanumeric characters and hyphens only, minimum 3 characters, maximum 50 characters)
 - **FR-015**: System MUST provide clear error messages when organization creation fails (e.g., slug already taken, validation errors)
 - **FR-016**: System MUST maintain the user's active organization context across page navigation
@@ -129,14 +130,14 @@ Organization owners need to view all projects associated with their organization
 
 ### Measurable Outcomes
 
-- **SC-001**: Verified users can create their first organization in under 1 minute from login
+- **SC-002**: [has become obsolete, already implemented]
 - **SC-002**: 100% of users with verified email addresses are presented with the organization creation screen when they have no organizations
 - **SC-003**: Organization creation succeeds with valid input and fails gracefully with clear error messages for invalid input
-- **SC-004**: Dashboard loads with all three tabs (Dashboard, Team, Projects) accessible within 2 seconds of organization creation
-- **SC-005**: Team table displays the organization owner's information accurately within 1 second of navigating to the Team tab
+ - **SC-004**: Dashboard loads with all three tabs (Dashboard, Team, Projects) accessible after organization creation
+ - **SC-005**: Team table displays the organization owner's information accurately upon navigating to the Team tab
 - **SC-006**: Users can navigate between all three dashboard tabs without page reloads or errors
 - **SC-007**: Empty state is displayed in Projects tab when no projects exist, providing clear guidance to users
-- **SC-008**: 95% of users successfully complete organization creation on their first attempt without encountering errors
+- **SC-008**: (has become obsolete!)
 - **SC-009**: All organization slugs remain unique across the system with zero conflicts
 - **SC-010**: Users understand their organization context and membership status by viewing the Team tab
 
@@ -153,5 +154,5 @@ Organization owners need to view all projects associated with their organization
 9. The Dashboard statistics tab can remain empty initially with a placeholder
 10. Projects functionality will be implemented in a future phase; this feature only needs to display the Projects tab with an empty state
 11. Only single organization ownership is supported initially; multi-organization support can be added later
-12. Standard web application performance expectations apply (page loads under 3 seconds on average connection)
+12. No formal performance targets; no performance testing is in scope for MVP
 13. Users access the application through modern web browsers (Chrome, Firefox, Safari, Edge - last 2 versions)

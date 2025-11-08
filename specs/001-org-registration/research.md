@@ -27,7 +27,7 @@
 - Direct Drizzle queries: Rejected to maintain abstraction and leverage plugin's validation/security
 
 **References**:
-- Better Auth Org Plugin Docs: `.github/instructions/better-auth.organisations.md.instructions.md`
+- Better Auth Org Plugin Docs: `.github/instructions/better-auth.organizations.md.instructions.md`
 - Current config: `src/lib/better-auth/index.ts` line 14: `organization()` plugin
 - Client config: `src/lib/better-auth/auth-client.ts` line 6: `organizationClient()` plugin
 
@@ -275,36 +275,18 @@ export async function createOrganization(input: unknown) {
 
 ---
 
-### 7. Testing Strategy
+### 7. Testing Strategy (documentation only)
 
-**Decision**: Three-tier testing approach (unit, integration, e2e)
+Testing approaches are documented for future contributors. Per product policy, automated test implementation and audit execution are out-of-scope for this feature's MVP — the materials below are specifications and references only.
 
-**Unit Tests** (Vitest):
-- Validation schemas: `tests/unit/validations/organization.test.ts`
-- Test all edge cases: min/max length, invalid characters, empty strings
-- Fast execution, no external dependencies
+- Overview: A three-tier approach (unit, integration, E2E) is described so future contributors can adopt it.
+- Tooling: Vitest and Playwright are referenced as sensible choices; no test harnesses, CI jobs, or runnable test code are included in this repository for the MVP.
+- Accessibility audits (pa11y/axe): Options are documented for future work; automated accessibility audits are out-of-scope for MVP.
 
-**Integration Tests** (Vitest + MSW):
-- API routes: `tests/integration/api/organizations.test.ts`
-- Server Actions: Mock Better Auth API calls
-- Verify request/response contracts
+References:
 
-**E2E Tests** (Playwright):
-- Full user flow: `tests/e2e/organization-onboarding.spec.ts`
-- Test: Register → Verify Email → Login → Create Org → View Dashboard → Switch Tabs
-- Visual regression testing for empty states
-- Accessibility audit (pa11y or axe integration)
-
-**Test-First Workflow** (per Constitution Principle IV):
-1. Write test contracts in Phase 1
-2. Implement tests before writing implementation code
-3. Tests define the interface and expected behavior
-4. Implementation makes tests pass
-
-**References**:
-- Vitest: https://vitest.dev/
-- Playwright: https://playwright.dev/
-- Constitution Principle IV: Test-First & Reproducibility
+- Vitest: https://vitest.dev/ (reference)
+- Playwright: https://playwright.dev/ (reference)
 
 ---
 
@@ -322,45 +304,41 @@ export async function createOrganization(input: unknown) {
 | Styling | Tailwind CSS | 3.x | Utility-first CSS |
 | URL State | nuqs | latest | Type-safe URL parameter management |
 | Forms | React Hook Form | 7.x | Form state management |
-| Testing (Unit) | Vitest | latest | Fast unit tests |
-| Testing (E2E) | Playwright | latest | Browser automation |
+| Testing (Unit) | Vitest | latest | Reference only — test execution out-of-scope |
+| Testing (E2E) | Playwright | latest | Reference only — test execution out-of-scope |
 | Toast Notifications | Sonner | latest | User feedback |
 
 ---
 
 ## Implementation Sequence
 
-Based on research findings, recommended implementation order:
 
-1. **Validation Layer** (Unit tests first)
-   - Create Zod schemas with tests
-   - Validate all edge cases from spec
+Based on research findings, recommended implementation order (testing references are documentation-only):
 
-2. **Server Actions** (Integration tests)
-   - Implement Better Auth API wrappers
-   - Add error handling and type safety
+1. **Validation Layer**
+  - Create Zod schemas
+  - Document fixtures and edge cases for reference
 
-3. **Organization Creation Flow** (E2E test)
-   - Build form with validation
-   - Implement redirect logic in layout
-   - Test full onboarding flow
+2. **Server Actions**
+  - Implement Better Auth API wrappers
+  - Add error handling and type safety
 
-4. **Dashboard Shell** (E2E test)
-   - Create tab navigation with nuqs
-   - Implement layout and routing
+3. **Organization Creation Flow**
+  - Build form with validation
+  - Implement redirect logic in layout
 
-5. **Team Table** (Integration test)
-   - Fetch and display members
-   - Handle empty state (single owner)
+4. **Dashboard Shell**
+  - Create tab navigation with nuqs
+  - Implement layout and routing
 
-6. **Projects Empty State** (Visual test)
-   - Implement shadcn Empty component
-   - Add instructional messaging
+5. **Team Table**
+  - Fetch and display members
+  - Handle empty state (single owner)
 
-7. **Accessibility Pass** (Automated audit)
-   - Keyboard navigation testing
-   - Screen reader compatibility
-   - WCAG 2.1 AA compliance check
+6. **Projects Empty State**
+  - Implement shadcn Empty component
+  - Add instructional messaging
+
 
 ---
 
