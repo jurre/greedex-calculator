@@ -106,9 +106,10 @@ export function formatDate(
     dateTimeFormatOptions.timeZone = timezone;
   }
 
-  // Use browser's locale if available, fallback to German
+  // Use provided locale, or browser's locale if available, fallback to German
   const resolvedLocale =
-    typeof window !== "undefined" ? navigator.language || locale : locale;
+    locale ||
+    (typeof window !== "undefined" ? navigator.language || "de-DE" : "de-DE");
 
   return new Intl.DateTimeFormat(resolvedLocale, dateTimeFormatOptions).format(
     dateObj,
