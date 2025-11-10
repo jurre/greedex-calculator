@@ -12,7 +12,7 @@ export function Navbar() {
   const { setTheme } = useTheme();
 
   const [currentTheme, setCurrentTheme] = useState<ThemeKey | undefined>(
-    "system"
+    "system",
   );
 
   return (

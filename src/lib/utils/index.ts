@@ -64,7 +64,7 @@ export const findAvailableSlug = async (baseName: string): Promise<string> => {
       // Slug is taken, try another variant
       attempt++;
       candidate = `${baseSlug}-${randomString(4)}`;
-    } catch (err) {
+    } catch (_err) {
       // If error is thrown, slug is likely taken
       attempt++;
       candidate = `${baseSlug}-${randomString(4)}`;
