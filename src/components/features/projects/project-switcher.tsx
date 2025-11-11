@@ -25,6 +25,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
+import { cn } from "@/lib/utils";
 
 export function ProjectSwitcher() {
   const { setIsLoading } = useAppLoading();
@@ -91,13 +92,13 @@ export function ProjectSwitcher() {
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="border border-secondary">
             <SidebarMenuButton
               size="lg"
-              className="border border-input/50 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="border border-secondary/50 ring-secondary hover:bg-secondary/40 data-[state=open]:bg-secondary/30 data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <MapPinnedIcon className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-secondary/70 text-secondary-foreground">
+                <MapPinnedIcon className="size-6" />
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="">{activeProjectState.name}</span>
@@ -144,10 +145,16 @@ export function ProjectSwitcher() {
 }
 
 export const ProjectSwitcherSkeleton = () => {
+  const { open: isSidebarOpen } = useSidebar();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <Skeleton className="h-12 w-full rounded-md" />
+        <Skeleton
+          className={cn(
+            "w-full rounded-md bg-secondary/70",
+            isSidebarOpen ? "h-12" : "h-8",
+          )}
+        />
       </SidebarMenuItem>
     </SidebarMenu>
   );

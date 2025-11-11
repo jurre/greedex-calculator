@@ -2,6 +2,10 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import {
+  ActiveProjectBreadcrumb,
+  BreadcrumbSkeleton,
+} from "@/components/active-project-breadcrumb";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
@@ -66,8 +70,11 @@ export default async function AppLayout({
           </ErrorBoundary>
           <SidebarInset>
             <main className="flex-1 flex-col">
-              <div className="border-b p-2 pl-0">
+              <div className="flex items-center gap-4 border-b p-2 pl-0">
                 <SidebarTrigger />
+                <Suspense fallback={<BreadcrumbSkeleton />}>
+                  <ActiveProjectBreadcrumb />
+                </Suspense>
               </div>
               <div className="p-2 md:p-4 lg:p-6 xl:p-8">{children}</div>
             </main>

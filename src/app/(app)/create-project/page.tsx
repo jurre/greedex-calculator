@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import type { OrganizationType } from "@/components/features/organizations/types";
-import CreateProjectForm from "@/components/features/projects/create-project";
+import CreateProjectForm from "@/components/features/projects/create-project-form";
 import { auth } from "@/lib/better-auth";
 
 export default async function CreateProjectPage() {
@@ -18,7 +18,7 @@ export default async function CreateProjectPage() {
   return (
     <div className="mx-auto max-w-3xl p-6">
       <h1 className="mb-4 font-semibold text-2xl">Create a new Project</h1>
-      <CreateProjectForm userOrganizations={organizations || []} />
+      <CreateProjectForm userOrganizations={organizations} />
     </div>
   );
 }

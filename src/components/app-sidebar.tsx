@@ -72,8 +72,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
-      <SidebarFooter>
+        <div className="grow flex-col" />
         <SidebarGroup>
           <SidebarGroupLabel>Organisation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -94,6 +93,8 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
         <OrganizationSwitcher />
         {/* <SidebarMenu>
           <SidebarMenuItem>

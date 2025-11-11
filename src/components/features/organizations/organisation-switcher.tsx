@@ -26,6 +26,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
+import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
   const queryClient = useQueryClient();
@@ -79,7 +80,7 @@ export function OrganizationSwitcher() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="border border-input/50 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="border border-sidebar-accent/80 hover:bg-sidebar-accent/40 data-[state=open]:bg-sidebar-accent/30 data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <Building2Icon className="size-4" />
@@ -150,10 +151,13 @@ export function OrganizationSwitcher() {
 }
 
 export const OrganizationSwitcherSkeleton = () => {
+  const { open: isSidebarOpen } = useSidebar();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <Skeleton className="h-12 w-full rounded-md" />
+        <Skeleton
+          className={cn("w-full rounded-md", isSidebarOpen ? "h-12" : "h-8")}
+        />
       </SidebarMenuItem>
     </SidebarMenu>
   );
