@@ -10,7 +10,7 @@ export const activityTypeEnum = pgEnum("activity_type", [
   "car",
 ]);
 
-export const project = pgTable("project", {
+export const projectTable = pgTable("project", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   startDate: timestamp("start_date").notNull(),
@@ -40,7 +40,7 @@ export const projectActivity = pgTable("project_activity", {
   id: text("id").primaryKey(),
   projectId: text("project_id")
     .notNull()
-    .references(() => project.id, { onDelete: "cascade" }),
+    .references(() => projectTable.id, { onDelete: "cascade" }),
 
   // Activity type: 'boat', 'bus', 'train', 'car'
   activityType: activityTypeEnum("activity_type").notNull(),
@@ -63,7 +63,7 @@ export const projectParticipant = pgTable("project_participant", {
   id: text("id").primaryKey(),
   projectId: text("project_id")
     .notNull()
-    .references(() => project.id, { onDelete: "cascade" }),
+    .references(() => projectTable.id, { onDelete: "cascade" }),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -72,13 +72,13 @@ export const projectParticipant = pgTable("project_participant", {
 });
 
 // project - relations
-export const projectRelations = relations(project, ({ one, many }) => ({
+export const projectRelations = relations(projectTable, ({ one, many }) => ({
   responsibleUser: one(user, {
-    fields: [project.responsibleUserId],
+    fields: [projectTable.responsibleUserId],
     references: [user.id],
   }),
   organization: one(organization, {
-    fields: [project.organizationId],
+    fields: [projectTable.organizationId],
     references: [organization.id],
   }),
   activities: many(projectActivity),
@@ -89,9 +89,9 @@ export const projectRelations = relations(project, ({ one, many }) => ({
 export const projectActivityRelations = relations(
   projectActivity,
   ({ one }) => ({
-    project: one(project, {
+    project: one(projectTable, {
       fields: [projectActivity.projectId],
-      references: [project.id],
+      references: [projectTable.id],
     }),
   }),
 );
@@ -99,9 +99,9 @@ export const projectActivityRelations = relations(
 export const projectParticipantRelations = relations(
   projectParticipant,
   ({ one }) => ({
-    project: one(project, {
+    project: one(projectTable, {
       fields: [projectParticipant.projectId],
-      references: [project.id],
+      references: [projectTable.id],
     }),
     user: one(user, {
       fields: [projectParticipant.userId],

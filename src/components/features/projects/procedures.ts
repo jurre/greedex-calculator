@@ -8,7 +8,7 @@ import {
   ProjectSelectSchema,
 } from "@/components/features/projects/types";
 import { db } from "@/lib/drizzle/db";
-import { project, projectParticipant } from "@/lib/drizzle/schema";
+import { projectParticipant, projectTable } from "@/lib/drizzle/schema";
 import { authorized } from "@/lib/orpc";
 
 /**
@@ -31,7 +31,7 @@ export const createProject = authorized
   )
   .handler(async ({ input, context }) => {
     const newProject = await db
-      .insert(project)
+      .insert(projectTable)
       .values({
         id: randomUUID(), // Generate server-side
         ...input,
@@ -66,21 +66,48 @@ export const listProjects = authorized
     // Query projects where user is responsible OR is a participant
     const projects = await db
       .select()
-      .from(project)
+      .from(projectTable)
       .where(
         or(
           and(
-            eq(project.responsibleUserId, context.user.id),
+            eq(projectTable.responsibleUserId, context.user.id),
             eq(
-              project.organizationId,
+              projectTable.organizationId,
               context.session.activeOrganizationId as string,
             ),
           ),
           participantProjectIds.length > 0
-            ? inArray(project.id, participantProjectIds)
+            ? inArray(projectTable.id, participantProjectIds)
             : undefined,
         ),
       );
 
     return projects;
+  });
+
+/**
+ * Get project details by ID
+ */
+export const getProjectById = authorized
+  .route({
+    method: "GET",
+    path: "/projects/:id",
+    summary: "Get project details by ID",
+    tags: ["project"],
+  })
+  .input(z.object({ id: z.string().describe("Project ID") }))
+  .output(ProjectSelectSchema)
+  .handler(async ({ input, context }) => {
+    const [project] = await db
+      .select()
+      .from(projectTable)
+      .where(eq(projectTable.id, input.id))
+      .limit(1)
+      .execute();
+
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    return project;
   });

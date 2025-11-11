@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     images: ["/greendex_logo.png"],
   },
   icons: {
-    icon: "greendex_logo_small.png",
+    icon: "/greendex_logo_small.png",
   },
 };
 

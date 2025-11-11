@@ -5,7 +5,6 @@ import {
   FileTextIcon,
   LayoutDashboardIcon,
   MapPinnedIcon,
-  Settings,
   SettingsIcon,
   UsersIcon,
 } from "lucide-react";
@@ -72,6 +71,8 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
         <SidebarGroup>
           <SidebarGroupLabel>Organisation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -92,16 +93,15 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-      </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
+        <OrganizationSwitcher />
+        {/* <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
               <Settings className="size-4" />
               <span>Account Settings</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
-        </SidebarMenu>
+        </SidebarMenu> */}
       </SidebarFooter>
     </Sidebar>
   );

@@ -7,7 +7,6 @@ import {
   ChevronsUpDownIcon,
   PlusIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import * as React from "react";
 import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
 import { useLoading } from "@/components/providers/loading-provider";
@@ -29,7 +28,6 @@ import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function OrganizationSwitcher() {
-  const router = useRouter();
   const queryClient = useQueryClient();
   const { setIsLoading } = useLoading();
   const {
@@ -81,7 +79,7 @@ export function OrganizationSwitcher() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="border border-input data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="border border-input/50 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <Building2Icon className="size-4" />

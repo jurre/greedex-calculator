@@ -3,15 +3,15 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
-import { project } from "@/lib/drizzle/schema";
+import { projectTable } from "@/lib/drizzle/schema";
 
-export type ProjectType = InferSelectModel<typeof project>;
-export type InsertProjectType = InferInsertModel<typeof project>;
+export type ProjectType = InferSelectModel<typeof projectTable>;
+export type InsertProjectType = InferInsertModel<typeof projectTable>;
 
-export const ProjectSelectSchema = createSelectSchema(project);
+export const ProjectSelectSchema = createSelectSchema(projectTable);
 
 // Full insert schema (includes all DB fields) with refinements
-export const ProjectInsertSchema = createInsertSchema(project, {
+export const ProjectInsertSchema = createInsertSchema(projectTable, {
   name: (schema) => schema.min(1, "Project name is required"),
   country: (schema) => schema.min(1, "Country is required"),
   organizationId: (schema) => schema.min(1, "Organization is required"),
