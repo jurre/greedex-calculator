@@ -1,8 +1,5 @@
 {
   "LandingPage": {
-    "title": "Welcome to Greedex",
-    "description": "Your app description",
-
     "launchButton": "Launch Erasmus+ Carbon Calculator",
     "launchButtonAria": "Open Erasmus+ Carbon Calculator — login required",
 

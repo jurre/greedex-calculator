@@ -1,7 +1,7 @@
 import { ArrowRight, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
 
@@ -34,6 +34,7 @@ const BrushStroke = () => (
 
 export default async function HeroSection() {
   const t = await getTranslations("LandingPage");
+  const locale = await getLocale();
   return (
     <main className="relative overflow-hidden">
       {/* subtle background image behind everything (low opacity, non-interactive) */}
@@ -63,7 +64,10 @@ export default async function HeroSection() {
 
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center sm:mx-auto lg:mt-0 lg:mr-auto">
-              <AnimatedGroup variants={transitionVariants}>
+              <AnimatedGroup
+                key={`hero-content-${locale}`}
+                variants={transitionVariants}
+              >
                 <Link
                   href="/org/dashboard"
                   title={t("launchButtonAria")}

@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Comfortaa, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 import Providers from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -81,7 +82,10 @@ export default function RootLayout({
         >
           <NuqsAdapter>
             <Providers>
-              <NextIntlClientProvider>{children}</NextIntlClientProvider>
+              <NextIntlClientProvider>
+                <LocaleSwitcher />
+                {children}
+              </NextIntlClientProvider>
             </Providers>
           </NuqsAdapter>
         </ThemeProvider>
