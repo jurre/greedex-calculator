@@ -1,14 +1,18 @@
 import { relations } from "drizzle-orm";
-import { decimal, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { decimal, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { organization, user } from "@/lib/drizzle/schemas/auth-schema";
 
-// Define enum for activity types
-export const activityTypeEnum = pgEnum("activity_type", [
-  "boat",
-  "bus",
-  "train",
-  "car",
-]);
+// Define activity types as a const array (single source of truth)
+const activityTypeValues = ["boat", "bus", "train", "car"] as const;
+export type ActivityType = (typeof activityTypeValues)[number];
+
+// Define participant roles as a const array (single source of truth)
+const participantRoleValues = ["participant", "leader"] as const;
+export type ParticipantRole = (typeof participantRoleValues)[number];
+
+// ============================================================================
+// TABLES
+// ============================================================================
 
 export const projectTable = pgTable("project", {
   id: text("id").primaryKey(),
@@ -43,7 +47,9 @@ export const projectActivity = pgTable("project_activity", {
     .references(() => projectTable.id, { onDelete: "cascade" }),
 
   // Activity type: 'boat', 'bus', 'train', 'car'
-  activityType: activityTypeEnum("activity_type").notNull(),
+  activityType: text("activity_type", { enum: activityTypeValues })
+    .$type<ActivityType>()
+    .notNull(),
 
   // Distance in kilometers
   distanceKm: decimal("distance_km", { precision: 10, scale: 2 }).notNull(),
@@ -67,9 +73,16 @@ export const projectParticipant = pgTable("project_participant", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  role: text("role").default("participant").notNull(), // z.B. 'participant', 'leader'
+  role: text("role", { enum: participantRoleValues })
+    .$type<ParticipantRole>()
+    .default("participant")
+    .notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+// ============================================================================
+// RELATIONS
+// ============================================================================
 
 // project - relations
 export const projectRelations = relations(projectTable, ({ one, many }) => ({
@@ -96,6 +109,7 @@ export const projectActivityRelations = relations(
   }),
 );
 
+// projectParticipant - relations
 export const projectParticipantRelations = relations(
   projectParticipant,
   ({ one }) => ({

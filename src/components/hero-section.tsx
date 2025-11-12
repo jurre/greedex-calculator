@@ -81,13 +81,17 @@ export default function HeroSection() {
             }}
             className="mask-b-from-35% mask-b-to-90% -z-20 absolute inset-0 top-56 lg:top-32"
           >
-            <Image
-              src="https://ik.imagekit.io/lrigu76hy/tailark/night-background.jpg?updatedAt=1745733451120"
-              alt="background"
-              className="hidden size-full dark:block"
-              width="3276"
-              height="4095"
-            />
+            {/* Ensure the Image `fill` has a positioned parent with non-zero height */}
+            <div className="relative w-full overflow-hidden md:h-[55vh] lg:h-[80vh]">
+              <Image
+                src="/night-background.jpg"
+                alt="background"
+                fill
+                className="object-cover dark:block"
+                priority
+                sizes="100vw"
+              />
+            </div>
           </AnimatedGroup>
 
           <div
@@ -293,78 +297,87 @@ export default function HeroSection() {
             </Link>
           </div>
           <div className="mx-auto mt-12 grid max-w-2xl grid-cols-4 gap-x-12 gap-y-8 transition-all duration-500 group-hover:opacity-50 group-hover:blur-xs sm:gap-x-16 sm:gap-y-14">
+            {/** Ensure external SVGs maintain aspect ratio when CSS changes one dimension. We set height via classes and keep width auto inline. */}
             <div className="flex">
               <Image
-                className="mx-auto h-5 w-fit dark:invert"
+                className="mx-auto h-5 dark:invert"
                 src="https://html.tailus.io/blocks/customers/nvidia.svg"
                 alt="Nvidia Logo"
-                height="20"
-                width="64"
+                width={64}
+                height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
 
             <div className="flex">
               <Image
-                className="mx-auto h-4 w-fit dark:invert"
+                className="mx-auto dark:invert"
                 src="https://html.tailus.io/blocks/customers/column.svg"
                 alt="Column Logo"
-                height="16"
-                width="64"
+                width={64}
+                height={16}
+                style={{ width: 64, height: 16 }}
               />
             </div>
             <div className="flex">
               <Image
-                className="mx-auto h-4 w-fit dark:invert"
+                className="mx-auto dark:invert"
                 src="https://html.tailus.io/blocks/customers/github.svg"
                 alt="GitHub Logo"
-                height="16"
-                width="64"
+                width={64}
+                height={16}
+                style={{ width: 64, height: 16 }}
               />
             </div>
             <div className="flex">
               <Image
-                className="mx-auto h-5 w-fit dark:invert"
+                className="mx-auto h-5 dark:invert"
                 src="https://html.tailus.io/blocks/customers/nike.svg"
                 alt="Nike Logo"
-                height="20"
-                width="64"
+                width={64}
+                height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
             <div className="flex">
               <Image
-                className="mx-auto h-5 w-fit dark:invert"
+                className="mx-auto h-5 dark:invert"
                 src="https://html.tailus.io/blocks/customers/lemonsqueezy.svg"
                 alt="Lemon Squeezy Logo"
-                height="20"
-                width="64"
+                width={64}
+                height={20}
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
             <div className="flex">
               <Image
-                className="mx-auto h-4 w-fit dark:invert"
+                className="mx-auto dark:invert"
                 src="https://html.tailus.io/blocks/customers/laravel.svg"
                 alt="Laravel Logo"
-                height="16"
-                width="64"
+                width={64}
+                height={16}
+                style={{ width: 64, height: 16 }}
               />
             </div>
             <div className="flex">
               <Image
-                className="mx-auto h-7 w-fit dark:invert"
+                className="mx-auto h-7 dark:invert"
                 src="https://html.tailus.io/blocks/customers/lilly.svg"
                 alt="Lilly Logo"
-                height="28"
-                width="64"
+                width={64}
+                height={28}
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
 
             <div className="flex">
               <Image
-                className="mx-auto h-6 w-fit dark:invert"
+                className="mx-auto h-6 dark:invert"
                 src="https://html.tailus.io/blocks/customers/openai.svg"
                 alt="OpenAI Logo"
-                height="24"
-                width="64"
+                width={64}
+                height={24}
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
           </div>

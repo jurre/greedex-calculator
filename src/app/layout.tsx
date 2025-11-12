@@ -10,10 +10,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 const comfortaa = Comfortaa({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {

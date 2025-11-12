@@ -7,6 +7,7 @@ function RightSideImage() {
         src="/greendex_logo.png"
         alt="Greendex Logo"
         fill
+        sizes="960px"
         className="object-contain p-12"
       />
     </div>

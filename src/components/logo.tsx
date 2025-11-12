@@ -17,6 +17,7 @@ function Logo({ isScrolled = true }: LogoProps) {
           src="/greendex_logo.png"
           alt="Logo"
           fill
+          sizes="(max-width: 640px) 120px, 180px"
           className={`object-contain transition-opacity duration-200 ease-in-out ${
             isScrolled ? "opacity-100" : "opacity-0"
           }`}
