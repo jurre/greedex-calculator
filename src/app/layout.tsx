@@ -3,6 +3,7 @@ import "@/lib/orpc/client.server"; // Initialize server-side oRPC client for pre
 
 import type { Metadata } from "next";
 import { Comfortaa, JetBrains_Mono } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Providers from "@/components/providers";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -79,7 +80,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <NuqsAdapter>
-            <Providers>{children}</Providers>
+            <Providers>
+              <NextIntlClientProvider>{children}</NextIntlClientProvider>
+            </Providers>
           </NuqsAdapter>
         </ThemeProvider>
       </body>
