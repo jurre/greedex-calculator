@@ -1,6 +1,6 @@
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/lib/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { calculatorWorkshops } from "@/components/landingpage/workshops/workshops.config";
 import { AnimatedGroup } from "@/components/ui/animated-group";
@@ -101,7 +101,7 @@ export default async function WorkshopsHeroSection() {
 
           <p>
             {t("workshops.bottomP2Prefix")}{" "}
-            <Link className="text-primary underline" href="/#">
+            <Link className="text-primary underline" href="/library">
               {t("workshops.library")}
             </Link>{" "}
             {t("workshops.bottomP2Middle") ?? "and"}{" "}
