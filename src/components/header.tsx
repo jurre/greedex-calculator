@@ -2,7 +2,6 @@
 
 import { Menu, X } from "lucide-react";
 import type { Route } from "next";
-import { Link } from "@/lib/i18n/navigation";
 import * as React from "react";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils/index";
 
 const menuItems = [
@@ -79,7 +79,7 @@ export const HeroHeader = () => {
                       <DropdownMenuItem key={item.name} asChild>
                         <Link
                           href={item.href}
-                          className="block text-muted-foreground hover:text-accent-foreground"
+                          className="block text-muted-foreground hover:text-primary-foreground"
                         >
                           <span>{item.name}</span>
                         </Link>
@@ -132,7 +132,7 @@ export const HeroHeader = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="block font-bold text-muted-foreground hover:text-accent-foreground"
+                      className="block font-bold text-muted-foreground hover:text-primary-foreground"
                     >
                       <span>{item.name}</span>
                     </Link>

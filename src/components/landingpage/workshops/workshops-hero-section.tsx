@@ -28,7 +28,7 @@ export default async function WorkshopsHeroSection() {
         <div className="space-y-8 text-center">
           <h2 className="text-balance font-semibold text-4xl lg:text-5xl">
             {t("workshops.headingPrefix")}{" "}
-            <span className="bg-accent text-accent-foreground">
+            <span className="bg-gradient-to-r from-primary/20 to-primary/60 px-1 py-2 text-accent-foreground">
               {t("workshops.headingEmphasis")}
             </span>
             .
@@ -36,7 +36,7 @@ export default async function WorkshopsHeroSection() {
           <p className="mx-auto max-w-4xl">{t("workshops.intro1")}</p>
           <p className="mx-auto max-w-4xl">
             {intro2Parts[0]}{" "}
-            <span className="bg-gradient-to-r from-primary to-secondary px-2 py-1 text-primary-foreground text-xl capitalize">
+            <span className="bg-gradient-to-r from-primary/80 to-primary/40 px-2 py-1 text-primary-foreground text-xl capitalize">
               {t("workshops.keyword")}
             </span>{" "}
             {intro2Parts[1] ?? ""}

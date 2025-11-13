@@ -1,9 +1,9 @@
 import { ArrowRight, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/lib/i18n/navigation";
 import { AnimatedGroup } from "@/components/ui/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
+import { Link } from "@/lib/i18n/navigation";
 
 const transitionVariants = {
   item: {
@@ -35,7 +35,7 @@ const BrushStroke = () => (
 export default async function HeroSection() {
   const t = await getTranslations("LandingPage");
   return (
-    <main className="relative overflow-hidden">
+    <>
       {/* subtle background image behind everything (low opacity, non-interactive) */}
       <div aria-hidden className="-z-30 pointer-events-none absolute inset-0">
         <Image
@@ -135,7 +135,7 @@ export default async function HeroSection() {
               </AnimatedGroup>
 
               <Link
-                href="#workshops"
+                href="#herobanner"
                 aria-label={t("hero.scrollDown")}
                 className="mx-auto"
               >
@@ -204,21 +204,22 @@ export default async function HeroSection() {
               ...transitionVariants,
             }}
           >
-            <div className="mask-b-from-55% -mr-56 relative mt-8 overflow-hidden px-2 sm:mt-12 sm:mr-0 md:mt-20">
-              <div className="relative inset-shadow-2xs mx-auto max-w-6xl overflow-hidden rounded-2xl border bg-background p-4 shadow-lg shadow-zinc-950/15 ring-1 ring-background dark:inset-shadow-white/20">
+            <div
+              id="herobanner"
+              className="mask-b-from-55% relative mt-8 overflow-hidden px-2 sm:mt-12 sm:mr-0 md:mt-20"
+            >
+              <div className="relative inset-shadow-2xs mx-auto aspect-video max-w-6xl overflow-hidden rounded-2xl border bg-background p-4 shadow-lg shadow-zinc-950/15 ring-1 ring-background dark:inset-shadow-white/20">
                 <Image
-                  className="relative hidden aspect-15/8 rounded-2xl bg-background dark:block"
-                  src="/mail2.png"
+                  className="relative hidden aspect-15/8 rounded-2xl bg-background object-cover dark:block"
+                  src="/Greendex-hero-banner.png"
                   alt="app screen"
-                  width="2700"
-                  height="1440"
+                  fill
                 />
                 <Image
-                  className="relative z-2 aspect-15/8 rounded-2xl border border-border/25 dark:hidden"
-                  src="/mail2-light.png"
+                  className="relative aspect-15/8 rounded-2xl bg-background object-cover dark:hidden"
+                  src="/Greendex-hero-banner.png"
                   alt="app screen"
-                  width="2700"
-                  height="1440"
+                  fill
                 />
               </div>
             </div>
@@ -326,6 +327,6 @@ export default async function HeroSection() {
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }
