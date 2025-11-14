@@ -100,34 +100,31 @@ export function OrganizationSwitcher() {
               <DropdownMenuItem
                 key={org.id}
                 onSelect={async () => {
-                  setActiveOrganization(org);
                   setIsLoading(true);
+
                   await authClient.organization.setActive({
                     organizationId: org.id,
                   });
 
-                  // Invalidate oRPC queries to refresh data after organization switch
-                  await queryClient.invalidateQueries({
-                    queryKey: orpcQuery.auth.getSession.queryKey(),
-                  });
-                  await queryClient.invalidateQueries({
-                    queryKey: orpcQuery.auth.listOrganizations.queryKey(),
-                  });
-                  await queryClient.invalidateQueries({
-                    queryKey: orpcQuery.project.list.queryKey(),
-                  });
+                  await Promise.all([
+                    // Invalidate oRPC queries to refresh data after organization switch
+                    queryClient.invalidateQueries(
+                      orpcQuery.betterauth.getSession.queryOptions(),
+                    ),
+                    queryClient.invalidateQueries(
+                      orpcQuery.project.list.queryOptions(),
+                    ),
 
-                  // Prefetch fresh data for the new organization
-                  await queryClient.prefetchQuery(
-                    orpcQuery.auth.getSession.queryOptions(),
-                  );
-                  await queryClient.prefetchQuery(
-                    orpcQuery.auth.listOrganizations.queryOptions(),
-                  );
-                  await queryClient.prefetchQuery(
-                    orpcQuery.project.list.queryOptions(),
-                  );
+                    // Prefetch fresh projects data for the new organization
+                    queryClient.prefetchQuery(
+                      orpcQuery.betterauth.getSession.queryOptions(),
+                    ),
+                    queryClient.prefetchQuery(
+                      orpcQuery.project.list.queryOptions(),
+                    ),
+                  ]);
 
+                  setActiveOrganization(org);
                   setIsLoading(false);
                 }}
               >

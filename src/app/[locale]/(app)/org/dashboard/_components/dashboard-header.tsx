@@ -8,18 +8,12 @@ import { Link } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function DashboardHeader() {
-  // Use oRPC queries with proper type safety
-  // TEMPORARY: Add 5s delay to test Suspense skeleton
-  const { data: session } = useSuspenseQuery({
-    ...orpcQuery.auth.getSession.queryOptions(),
-    queryFn: async () => {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      return orpcQuery.auth.getSession.call();
-    },
-  });
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
 
   const { data: organizations } = useSuspenseQuery(
-    orpcQuery.auth.listOrganizations.queryOptions(),
+    orpcQuery.organization.list.queryOptions(),
   );
 
   const activeOrganizationId =
@@ -28,22 +22,6 @@ export function DashboardHeader() {
   const activeOrganization = organizations?.find(
     (org) => org.id === activeOrganizationId,
   );
-
-  if (!organizations) {
-    return (
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-bold text-3xl">Loading...</h1>
-          <p className="text-muted-foreground">
-            Welcome to your organization's dashboard
-          </p>
-        </div>
-        <Button asChild variant="link">
-          <Link href="/adsf">Create New Project</Link>
-        </Button>
-      </div>
-    );
-  }
 
   return (
     <div className="flex items-center justify-between">

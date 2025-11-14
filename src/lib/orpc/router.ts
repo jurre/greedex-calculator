@@ -29,9 +29,13 @@ export const router = {
   },
 
   // Auth namespace for Better Auth procedures
-  auth: {
+  betterauth: {
     getSession,
-    listOrganizations,
+  },
+
+  // Organization namespace
+  organization: {
+    list: listOrganizations,
   },
 
   // Project namespace
