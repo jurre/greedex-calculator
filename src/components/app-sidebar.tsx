@@ -43,7 +43,11 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar className="h-[calc(svh-4rem)]" variant="inset" collapsible="icon">
+    <Sidebar
+      className="h-[calc(svh-4rem)]"
+      variant="sidebar"
+      collapsible="icon"
+    >
       <SidebarHeader>
         <ProjectSwitcher />
       </SidebarHeader>

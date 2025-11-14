@@ -206,7 +206,7 @@ body {
 }
 
 /* Override sidebar fixed positioning to work within container */
-.group.peer[data-variant="floating"] > div:nth-child(2) {
+.group.peer[data-variant="sidebar"] > div:nth-child(2) {
   position: relative;
   inset: unset;
   left: unset;
@@ -215,7 +215,7 @@ body {
 }
 
 /* Hide the spacer div that compensates for fixed positioning */
-.group.peer[data-variant="floating"] > div:first-child {
+.group.peer[data-variant="sidebar"] > div:first-child {
   display: none;
 }
 
