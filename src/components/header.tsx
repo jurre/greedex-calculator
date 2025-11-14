@@ -127,7 +127,7 @@ export const HeroHeader = () => {
             </div>
 
             <div className="inset-0 m-auto hidden size-fit lg:block">
-              <ul className="flex gap-8 text-lg xl:text-xl">
+              <ul className="flex gap-6 text-base xl:text-xl">
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
