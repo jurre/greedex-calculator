@@ -10,11 +10,16 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
-import { authClient } from "@/lib/better-auth/auth-client";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ActiveProjectBreadcrumb() {
-  const { data: session } = authClient.useSession();
+  // Use oRPC queries instead of authClient.useSession() to enable:
+  // 1. Server-side prefetching for optimal performance
+  // 2. Stable hydration (no SSR/client mismatch)
+  // 3. Server-side Suspense boundaries without errors
+  const { data: session } = useSuspenseQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
   const { data: projects } = useSuspenseQuery(
     orpcQuery.project.list.queryOptions(),
   );
@@ -22,10 +27,6 @@ export function ActiveProjectBreadcrumb() {
   const activeProject = projects?.find(
     (project) => project.id === session?.session?.activeProjectId,
   );
-
-  // if (!activeProject) {
-  //   return null;
-  // }
 
   return (
     <Breadcrumb>

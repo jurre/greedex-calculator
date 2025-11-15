@@ -6,7 +6,7 @@ import {
   ActiveProjectBreadcrumb,
   BreadcrumbSkeleton,
 } from "@/components/active-project-breadcrumb";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar, AppSidebarSkeleton } from "@/components/app-sidebar";
 import { Navbar } from "@/components/navbar";
 import { LoadingProvider } from "@/components/providers/loading-provider";
 import {
@@ -49,8 +49,14 @@ export default async function AppLayout({
     redirect({ href: "/org/create", locale });
   }
 
-  // Prefetch projects data on the server
+  // Prefetch data for all suspended client components
+  // This enables server-side Suspense without hydration errors
+  // Components using these queries: ActiveProjectBreadcrumb, DashboardHeader, ProjectSwitcher, OrganizationSwitcher
   const queryClient = getQueryClient();
+  void queryClient.prefetchQuery(
+    orpcQuery.betterauth.getSession.queryOptions(),
+  );
+  void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
   const cookieStore = await cookies();
@@ -67,7 +73,7 @@ export default async function AppLayout({
             className="min-h-[calc(svh-4rem)]"
           >
             <ErrorBoundary fallback={<div>Failed to load sidebar.</div>}>
-              <Suspense fallback="loading sidebar...">
+              <Suspense fallback={<AppSidebarSkeleton />}>
                 <AppSidebar />
               </Suspense>
             </ErrorBoundary>

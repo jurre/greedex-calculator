@@ -2,7 +2,6 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "@/lib/i18n/navigation";
@@ -11,6 +10,8 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 export function DashboardHeader() {
   const t = useTranslations("organization");
 
+  // Using oRPC queries for stable SSR hydration
+  // Prefetched in page.tsx, so no loading state on mount
   const { data: session } = useSuspenseQuery(
     orpcQuery.betterauth.getSession.queryOptions(),
   );
@@ -39,14 +40,6 @@ export function DashboardHeader() {
         <Link href="/create-project">{t("button.create")}</Link>
       </Button>
     </div>
-  );
-}
-
-export function DashboardHeaderWrapper() {
-  return (
-    <Suspense fallback={<DashboardHeaderSkeleton />}>
-      <DashboardHeader />
-    </Suspense>
   );
 }
 
