@@ -317,5 +317,12 @@
     "sidebar": {
       "projects": "Projects"
     }
+  },
+  "project": {
+    "no-projects-yet": "No projects yet",
+    "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project": "Projects will help you organize your work and track activities. Start by creating your first project!",
+    "button": {
+      "create-project": "Create new project"
+    }
   }
 }

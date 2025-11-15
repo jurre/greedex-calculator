@@ -71,7 +71,7 @@ export function ProjectSwitcher() {
     },
   });
 
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
 
   // Fix hydration by only rendering after mount
   useEffect(() => {
@@ -107,7 +107,11 @@ export function ProjectSwitcher() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) border border-secondary/50 bg-background/80 backdrop-blur-md"
+            className={cn(
+              "border border-secondary/50 bg-background/80 backdrop-blur-md",
+              state === "expanded" && "w-(--radix-dropdown-menu-trigger-width)",
+              state === "collapsed" && "w-48",
+            )}
             align="start"
             side={isMobile ? undefined : "right"}
             sideOffset={4}
@@ -128,9 +132,9 @@ export function ProjectSwitcher() {
                 )}
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
+            {projects && projects.length > 0 && <DropdownMenuSeparator />}
             <DropdownMenuItem
-              className="focus:bg-secondary/50 focus:text-accent-foreground"
+              className="flex justify-center focus:bg-secondary/50 focus:text-accent-foreground"
               onSelect={() => {
                 // TODO: Open create project modal
               }}

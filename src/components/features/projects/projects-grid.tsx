@@ -2,6 +2,7 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { FolderOpen, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import ProjectDetailCard from "@/components/features/organizations/organization-card";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,8 @@ import {
 import { orpcQuery } from "@/lib/orpc/orpc";
 
 export function ProjectsGrid() {
+  const t = useTranslations("project");
+
   const { data: projects, error } = useSuspenseQuery(
     orpcQuery.project.list.queryOptions(),
   );
@@ -30,16 +33,17 @@ export function ProjectsGrid() {
           <EmptyMedia variant="icon">
             <FolderOpen className="size-6" />
           </EmptyMedia>
-          <EmptyTitle>No projects yet</EmptyTitle>
+          <EmptyTitle>{t("no-projects-yet")}</EmptyTitle>
           <EmptyDescription>
-            Projects will help you organize your work and track activities.
-            Start by creating your first project!
+            {t(
+              "projects-will-help-you-organize-your-work-and-track-activities-start-by-creating-your-first-project",
+            )}
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <Button>
             <Plus className="mr-2 size-4" />
-            Create Project
+            {t("button.create-project")}
           </Button>
         </EmptyContent>
       </Empty>
