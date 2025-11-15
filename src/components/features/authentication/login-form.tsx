@@ -107,7 +107,7 @@ export function LoginForm({
   };
 
   return (
-    <Card>
+    <Card className="mx-auto max-w-lg p-12">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
         <CardHeader className="flex flex-col items-center gap-4 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
@@ -122,14 +122,14 @@ export function LoginForm({
         </CardHeader>
 
         <CardContent>
-          <Tabs defaultValue="password" className="w-full">
+          <Tabs defaultValue="password" className="w-full space-y-8">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="password">Password</TabsTrigger>
               <TabsTrigger value="magic-link">Magic Link</TabsTrigger>
             </TabsList>
             <TabsContent value="password">
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FieldGroup className="gap-6">
+                <FieldGroup className="gap-4">
                   <FormField
                     name="email"
                     control={form.control}
@@ -160,6 +160,7 @@ export function LoginForm({
                   />
 
                   <Button
+                    className="mt-2"
                     type="submit"
                     variant="default"
                     disabled={form.formState.isSubmitting}
@@ -171,7 +172,7 @@ export function LoginForm({
             </TabsContent>
             <TabsContent value="magic-link">
               <form onSubmit={magicLinkForm.handleSubmit(onMagicLinkSubmit)}>
-                <FieldGroup className="gap-6">
+                <FieldGroup className="gap-4">
                   <FormField
                     name="email"
                     control={magicLinkForm.control}
@@ -185,6 +186,7 @@ export function LoginForm({
                   />
 
                   <Button
+                    className="mt-2"
                     type="submit"
                     variant="default"
                     disabled={magicLinkForm.formState.isSubmitting}
