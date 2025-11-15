@@ -45,7 +45,7 @@ export default async function AppLayout({
   const hasOrgs = Array.isArray(organizations) && organizations.length > 0;
 
   if (!hasOrgs) {
-    // Authenticated but no orgs -> create one
+    // Authenticated but no orgs -> send to org setup flow (different route group)
     redirect({ href: "/org/create", locale });
   }
 

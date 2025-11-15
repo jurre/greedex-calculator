@@ -19,7 +19,6 @@ export default async () => {
   const activeOrganizationId = sessionResult.session.activeOrganizationId;
 
   if (!activeOrganizationId) {
-    console.error("No active organization ID found in session");
     await auth.api.signOut({
       headers: headers,
     });
