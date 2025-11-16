@@ -12,13 +12,19 @@ import { auth } from "@/lib/better-auth";
  * - Unauthenticated users -> can access (public participation) pages
  * - Participants will be onboarded by sending their activities for arrival and departure
  */
-export default async function OrgSetupLayout({
+export default async function PublicParticipateLayout({
   children,
+  params,
 }: Readonly<{
+  params: Promise<{ id: string }>;
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
+  const { id: projectId } = await params;
+
+  return <>{children}</>;
 }
