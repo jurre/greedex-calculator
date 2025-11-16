@@ -42,12 +42,12 @@ export function checkProjectPermission(
 /**
  * Hook to check if current user can perform project actions
  *
- * @returns Object with permission check functions
+ * @returns Object with permission check functions and current role
  *
  * @example
  * ```tsx
  * function ProjectActions() {
- *   const { canCreate, canUpdate, canDelete } = useProjectPermissions();
+ *   const { canCreate, canUpdate, canDelete, role } = useProjectPermissions();
  *
  *   return (
  *     <div>
@@ -60,36 +60,29 @@ export function checkProjectPermission(
  * ```
  */
 export function useProjectPermissions() {
-  // Get session and organizations
-  const { data: session } = authClient.useSession();
-  const { data: organizations } = authClient.useListOrganizations();
+  // Get session and active organization
+  const { data: session, isPending: sessionPending } = authClient.useSession();
+  const { data: activeOrg, isPending: orgPending } =
+    authClient.useActiveOrganization();
 
-  // Find active organization
-  const activeOrgId = session?.session?.activeOrganizationId;
-  const activeOrg = organizations?.find((org) => org.id === activeOrgId);
+  // Default to least privileged role
+  let role: OrganizationRole = "member";
 
-  // Try to get role from the active organization
-  // Note: useListOrganizations returns organizations with a members array
-  // but TypeScript types don't reflect this. We need to access it at runtime.
-  const currentUserId = session?.user?.id;
-  let role: OrganizationRole = "member"; // default to least privileged
-
-  if (activeOrg && currentUserId) {
-    // Access members property which exists at runtime but not in types
-    const orgWithMembers = activeOrg as typeof activeOrg & {
-      members?: Array<{ userId: string; role: string }>;
-    };
-    const members = orgWithMembers.members;
-    if (Array.isArray(members)) {
-      const membership = members.find((m) => m.userId === currentUserId);
-      if (membership?.role) {
-        role = membership.role as OrganizationRole;
-      }
+  // Find current user's role in the active organization
+  if (activeOrg && session?.user?.id) {
+    const currentMember = activeOrg.members.find(
+      (member) => member.userId === session.user.id,
+    );
+    if (currentMember?.role) {
+      role = currentMember.role as OrganizationRole;
     }
   }
 
+  const isPending = sessionPending || orgPending;
+
   return {
     role,
+    isPending,
     canCreate: checkProjectPermission(role, ["create"]),
     canRead: checkProjectPermission(role, ["read"]),
     canUpdate: checkProjectPermission(role, ["update"]),

@@ -36,7 +36,15 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
   const { confirm, ConfirmDialogComponent } = useConfirmDialog();
 
   // Get user permissions
-  const { canDelete } = useProjectPermissions();
+  const {
+    // canCreate,
+    // canRead,
+    canUpdate,
+    canDelete,
+    // canShare,
+    // role,
+    isPending: permissionsPending,
+  } = useProjectPermissions();
 
   // Delete mutation
   const { mutateAsync: deleteProjectMutation, isPending: isDeleting } =
@@ -83,7 +91,7 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
     <>
       <Card
         key={project.id}
-        className="transition-transform duration-150 hover:scale-[1.01] hover:bg-accent/10 hover:text-accent dark:hover:text-accent-foreground"
+        // className="transition-transform duration-150 hover:scale-[1.01] hover:bg-accent/10 hover:text-accent dark:hover:text-accent-foreground"
       >
         <CardHeader>
           <CardTitle>{project.name}</CardTitle>
@@ -112,36 +120,42 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
           </div>
         </CardContent>
         <CardFooter className="w-full">
-          <div className="w-full flex-col gap-2 sm:flex">
-            <Button
-              className="flex-1 gap-4"
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setIsEditModalOpen(true);
-              }}
-            >
-              <Edit2Icon />
-              Edit Project
-            </Button>
+          <div className="flex w-full gap-2 sm:flex-col">
             <Button
               asChild
               className="flex-1 gap-4"
               variant="outline"
-              size="sm"
+              // size="sm"
+              disabled={permissionsPending}
             >
               <Link href={`/org/projects/${project.id}`}>
                 <EyeIcon />
                 View Details
               </Link>
             </Button>
+
+            {canUpdate && (
+              <Button
+                className="flex-1 gap-4"
+                variant="outline"
+                // size="sm"
+                onClick={() => {
+                  setIsEditModalOpen(true);
+                }}
+                disabled={permissionsPending}
+              >
+                <Edit2Icon />
+                Edit Project
+              </Button>
+            )}
+
             {canDelete && (
               <Button
                 className="flex-1 gap-4"
                 variant="destructive"
-                size="sm"
+                // size="sm"
                 onClick={handleDelete}
-                disabled={isDeleting}
+                disabled={isDeleting || permissionsPending}
               >
                 <Trash2Icon />
                 Delete Project
@@ -150,17 +164,20 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
           </div>
         </CardFooter>
       </Card>
-      <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Project</DialogTitle>
-          </DialogHeader>
-          <EditProjectForm
-            project={project}
-            onSuccess={() => setIsEditModalOpen(false)}
-          />
-        </DialogContent>
-      </Dialog>
+
+      {canUpdate && (
+        <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Project</DialogTitle>
+            </DialogHeader>
+            <EditProjectForm
+              project={project}
+              onSuccess={() => setIsEditModalOpen(false)}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
 
       <ConfirmDialogComponent />
     </>
