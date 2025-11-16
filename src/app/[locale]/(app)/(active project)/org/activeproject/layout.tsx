@@ -1,5 +1,6 @@
 import { Loader2Icon } from "lucide-react";
 import { Suspense } from "react";
+import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
 
@@ -8,13 +9,28 @@ export default async function AppLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Prefetch project data including the members / participants
+  // Prefetch common data
   const queryClient = getQueryClient();
+
+  // Get session to determine active project
+  const session = await auth.api.getSession({
+    headers: await import("next/headers").then((m) => m.headers()),
+  });
+
   void queryClient.prefetchQuery(
-    // orpc query needs to be implemented
+    orpcQuery.betterauth.getSession.queryOptions(),
   );
   void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
   void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
+
+  // Prefetch participants for active project if available
+  if (session?.session?.activeProjectId) {
+    void queryClient.prefetchQuery(
+      orpcQuery.project.getParticipants.queryOptions({
+        input: { projectId: session.session.activeProjectId },
+      }),
+    );
+  }
 
   return (
     <Suspense fallback={<Loader2Icon className="animate-spin" />}>

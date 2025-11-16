@@ -55,12 +55,11 @@ export default function ControlActiveProjectPage() {
   );
 
   // Get participants for the active project
-  const { data: participants } = useSuspenseQuery({
-    ...orpcQuery.project.getParticipants.queryOptions({
-      projectId: activeProjectId || "",
+  const { data: participants } = useSuspenseQuery(
+    orpcQuery.project.getParticipants.queryOptions({
+      input: { projectId: activeProjectId || "" },
     }),
-    enabled: !!activeProjectId,
-  });
+  );
 
   // Get user permissions
   const {
