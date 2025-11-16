@@ -42,12 +42,12 @@ export function checkProjectPermission(
 /**
  * Hook to check if current user can perform project actions
  *
- * @returns Object with permission check functions
+ * @returns Object with permission check functions and current role
  *
  * @example
  * ```tsx
  * function ProjectActions() {
- *   const { canCreate, canUpdate, canDelete } = useProjectPermissions();
+ *   const { canCreate, canUpdate, canDelete, role } = useProjectPermissions();
  *
  *   return (
  *     <div>
@@ -59,16 +59,30 @@ export function checkProjectPermission(
  * }
  * ```
  */
-export async function useProjectPermissions() {
-  // Get the current user's active member data (includes role)
-  const { data: activeMember } =
-    await authClient.organization.getActiveMember();
+export function useProjectPermissions() {
+  // Get session and active organization
+  const { data: session, isPending: sessionPending } = authClient.useSession();
+  const { data: activeOrg, isPending: orgPending } =
+    authClient.useActiveOrganization();
 
-  // Extract role with proper type casting
-  const role = (activeMember?.role as OrganizationRole | undefined) || "member";
+  // Default to least privileged role
+  let role: OrganizationRole = "member";
+
+  // Find current user's role in the active organization
+  if (activeOrg && session?.user?.id) {
+    const currentMember = activeOrg.members.find(
+      (member) => member.userId === session.user.id,
+    );
+    if (currentMember?.role) {
+      role = currentMember.role as OrganizationRole;
+    }
+  }
+
+  const isPending = sessionPending || orgPending;
 
   return {
     role,
+    isPending,
     canCreate: checkProjectPermission(role, ["create"]),
     canRead: checkProjectPermission(role, ["read"]),
     canUpdate: checkProjectPermission(role, ["update"]),

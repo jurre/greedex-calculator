@@ -24,7 +24,7 @@ import {
  * - share: Share projects with other users
  */
 const statement = {
-  ...defaultStatements, // Include default organization, member, invitation permissions
+  ...defaultStatements, // Includes default organization, member, invitation and team permissions
   project: ["create", "read", "update", "delete", "share"],
 } as const;
 
