@@ -3,10 +3,6 @@ import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
-  DashboardHeader,
-  DashboardHeaderSkeleton,
-} from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-header";
-import {
   ActiveProjectBreadcrumb,
   BreadcrumbSkeleton,
 } from "@/components/active-project-breadcrumb";
@@ -61,8 +57,8 @@ export default async function AppLayout({
   void queryClient.prefetchQuery(
     orpcQuery.betterauth.getSession.queryOptions(),
   );
-  void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
-  void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
+  // void queryClient.prefetchQuery(orpcQuery.organization.list.queryOptions());
+  // void queryClient.prefetchQuery(orpcQuery.project.list.queryOptions());
 
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
@@ -96,9 +92,6 @@ export default async function AppLayout({
                   </Suspense>
                 </div>
                 <div className="space-y-8 p-2 md:p-4 lg:p-6 xl:p-8">
-                  <Suspense fallback={<DashboardHeaderSkeleton />}>
-                    <DashboardHeader />
-                  </Suspense>
                   {children}
                 </div>
               </main>

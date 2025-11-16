@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
-export function DashboardHeader() {
+export function OrganizationHeader() {
   const t = useTranslations("organization");
 
   // Using oRPC queries for stable SSR hydration
