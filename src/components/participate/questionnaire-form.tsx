@@ -4,10 +4,12 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
+  Factory,
   Leaf,
   TreePine,
 } from "lucide-react";
 import { useState } from "react";
+import { AnimatedGroup } from "@/components/ui/animated-group";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -93,6 +95,35 @@ const EMISSION_IMPACT_STEPS = [
 ];
 
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
+  const transitionVariants = {
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          delayChildren: 0.5,
+          staggerChildren: 1, // 1 second delay between each child
+        },
+      },
+    },
+    item: {
+      hidden: {
+        opacity: 0,
+        filter: "blur(12px)",
+        y: 12,
+      },
+      visible: {
+        opacity: 1,
+        filter: "blur(0px)",
+        y: 0,
+        transition: {
+          type: "spring",
+          bounce: 0.3,
+          duration: 1.5,
+        },
+      },
+    },
+  } as const;
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Partial<ParticipantAnswers>>({
     firstName: "",
@@ -326,7 +357,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   const displayEmissions = calculateEmissions(displayAnswers);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
         <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-500/20 to-emerald-500/20 px-6 py-2">
@@ -335,14 +366,17 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             Greendex 2.0
           </span>
         </div>
-        <h1 className="mb-2 font-bold text-3xl text-foreground sm:text-4xl">
+        <h1 className="mb-1 font-bold text-2xl text-foreground sm:text-4xl md:text-3xl lg:text-4xl">
+          Welcome to Greendex
+        </h1>
+        <h1 className="mb-2 font-bold text-foreground text-xl sm:text-3xl md:text-2xl lg:text-3xl">
           CO₂ Calculator for Erasmus+ Mobilities
         </h1>
         <p className="text-lg text-muted-foreground">{project.name}</p>
       </div>
 
       {/* Progress Bar */}
-      <div className="relative h-2 overflow-hidden rounded-full bg-secondary">
+      <div className="relative h-2 overflow-hidden rounded-full bg-gradient-to-r from-teal-800/60 to-secondary/60">
         <div
           className="absolute top-0 left-0 h-full bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
@@ -358,27 +392,29 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       {currentStep >= 2 && (
         <div className="grid grid-cols-2 gap-4">
           {/* CO₂ Footprint Card */}
-          <Card className="border-teal-500/30 bg-gradient-to-br from-teal-500/10 to-emerald-500/10 p-4 text-center">
+          <Card className="gap-2 border-red-500/30 bg-gradient-to-br from-red-500/10 to-red-600/10 p-4 text-center font-mono md:gap-4 lg:gap-6">
             <div className="mb-2 flex justify-center">
-              <Leaf className="h-8 w-8 text-teal-400" />
+              <Factory className="size-12 text-red-400 md:size-16 lg:size-20" />
             </div>
-            <div className="mb-1 font-bold text-3xl text-teal-400">
-              {displayEmissions.totalCO2.toFixed(1)}
+            <div className="mb-1 font-bold text-3xl text-red-400 tracking-tighter">
+              {displayEmissions.totalCO2.toFixed(1)} kg
             </div>
-            <div className="text-muted-foreground text-xs">kg</div>
-            <div className="mt-1 text-foreground text-sm">CO₂ Footprint</div>
+            <div className="mt-1 text-foreground text-sm md:text-base lg:text-lg">
+              CO₂ Footprint
+            </div>
           </Card>
 
           {/* Trees Needed Card */}
-          <Card className="border-green-500/30 bg-gradient-to-br from-green-500/10 to-emerald-500/10 p-4 text-center">
+          <Card className="gap-2 border-green-500/30 bg-gradient-to-br from-green-500/10 to-emerald-500/10 p-4 text-center font-mono md:gap-4 lg:gap-6">
             <div className="mb-2 flex justify-center">
-              <TreePine className="h-8 w-8 text-green-400" />
+              <TreePine className="size-12 text-green-400 md:size-16 lg:size-20" />
             </div>
             <div className="mb-1 font-bold text-3xl text-green-400">
               {displayEmissions.treesNeeded}
             </div>
-            <div className="text-muted-foreground text-xs">(1 Year)</div>
-            <div className="mt-1 text-foreground text-sm">Trees</div>
+            <div className="mt-1 text-foreground text-sm md:text-base lg:text-lg">
+              Trees (1 Year)
+            </div>
           </Card>
         </div>
       )}
@@ -404,32 +440,41 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       <Card className="border-primary/20 bg-card/50 p-6 backdrop-blur-sm sm:p-8">
         {/* Step 0: Welcome */}
         {currentStep === 0 && (
-          <div className="space-y-6 text-center">
-            <h2 className="font-bold text-2xl text-foreground">
-              Welcome to Greendex
-            </h2>
-            <p className="text-muted-foreground">
+          <div className="space-y-12 text-center">
+            <p className="text-lg text-muted-foreground">
               {project.welcomeMessage ||
                 "Calculate the carbon footprint of your participation in this Erasmus+ project."}
             </p>
+            <AnimatedGroup variants={transitionVariants}>
+              <p className="mt-4 text-center text-3xl text-emerald-500">
+                Get ready to discover your carbon footprint! 🌱
+              </p>
+              <p className="mt-4 text-center font-bold text-secondary text-xl">
+                Every choice matters on your journey to a greener future!
+              </p>
+              <p className="mx-auto mt-8 max-w-xl text-center font-semibold text-2xl text-foreground">
+                We wish you lots of fun and some "Aha!" moments on your journey
+                with Greendex! 🌳
+              </p>
+            </AnimatedGroup>
             <Button
               onClick={handleNext}
               size="lg"
-              className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white hover:from-teal-600 hover:to-emerald-600"
+              className="mt-8 bg-gradient-to-r from-teal-700 to-emerald-600 px-12 py-6 text-xl transition-colors duration-250 hover:from-teal-800 hover:to-emerald-700"
             >
               Start Greendex
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-6 w-6" />
             </Button>
           </div>
         )}
 
         {/* Step 1: Participant Info */}
         {currentStep === 1 && (
-          <div className="space-y-6">
-            <h2 className="mb-6 text-center font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <h2 className="mb-6 text-center font-bold text-3xl text-foreground">
               Before we start, please tell us:
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-8">
               <div className="space-y-2">
                 <Label htmlFor="firstName" className="text-foreground">
                   Your first name <span className="text-red-500">*</span>
@@ -476,8 +521,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 2: Days */}
         {currentStep === 2 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               How many days are you participating on your project?
             </Label>
             <p className="text-muted-foreground text-sm">without travel days</p>
@@ -496,8 +541,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 3: Accommodation Category */}
         {currentStep === 3 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Which type of accommodation are you staying in?
             </Label>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -521,8 +566,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 4: Room Occupancy */}
         {currentStep === 4 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               How many people are sharing the room/tent?
             </Label>
             <div className="grid grid-cols-2 gap-3">
@@ -546,8 +591,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 5: Electricity */}
         {currentStep === 5 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Which type of energy does your accommodation use?
             </Label>
             <div className="grid grid-cols-1 gap-2">
@@ -571,8 +616,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 6: Food */}
         {currentStep === 6 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               How often do you plan to eat meat on your project?
             </Label>
             <div className="grid grid-cols-1 gap-2">
@@ -596,8 +641,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 7: Flight km */}
         {currentStep === 7 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Your way TO the project: How many kilometres did you fly?
             </Label>
             <Input
@@ -616,8 +661,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 8: Boat km */}
         {currentStep === 8 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Your way TO the project: How many kilometres did you go by boat?
             </Label>
             <Input
@@ -636,8 +681,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 9: Train km */}
         {currentStep === 9 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Your way TO the project: How many kilometres did you go by train
               or metro?
             </Label>
@@ -657,8 +702,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 10: Bus km */}
         {currentStep === 10 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Your way TO the project: How many kilometres did you go by
               bus/van?
             </Label>
@@ -678,8 +723,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 11: Car km */}
         {currentStep === 11 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               Your way TO the project: How many kilometres did you go by car?
             </Label>
             <Input
@@ -698,8 +743,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 11: Car Type (conditional) */}
         {currentStep === 12 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               What type of car did you use?
             </Label>
             <div className="grid grid-cols-1 gap-2">
@@ -723,8 +768,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 12: Car Passengers (conditional) */}
         {currentStep === 13 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               How many participants (including you) were sitting in the car?
             </Label>
             <Input
@@ -745,8 +790,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 14: Age */}
         {currentStep === 14 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               How old are you?
             </Label>
             <Input
@@ -764,8 +809,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
 
         {/* Step 15: Gender */}
         {currentStep === 15 && (
-          <div className="space-y-4">
-            <Label className="font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <Label className="font-bold text-foreground text-xl md:text-2xl lg:text-3xl">
               What is your gender?
             </Label>
             <div className="grid grid-cols-1 gap-2">
@@ -788,46 +833,48 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
         )}
 
         {/* Navigation */}
-        <div className="mt-6 flex gap-3">
-          {currentStep > 0 && (
+        {currentStep > 0 && (
+          <div className="mt-6 flex gap-3">
+            {currentStep > 0 && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleBack}
+                className="flex-1"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+              </Button>
+            )}
             <Button
               type="button"
-              variant="outline"
-              onClick={handleBack}
-              className="flex-1"
+              onClick={handleNext}
+              disabled={!canProceed()}
+              className={`flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white transition-colors duration-250 hover:from-teal-600 hover:to-emerald-600 ${
+                currentStep === 0 ? "w-full" : ""
+              }`}
             >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
+              {currentStep === 14 ? (
+                <>
+                  <CheckCircle2 className="mr-2 h-4 w-4" />
+                  Complete
+                </>
+              ) : (
+                <>
+                  Continue
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </>
+              )}
             </Button>
-          )}
-          <Button
-            type="button"
-            onClick={handleNext}
-            disabled={!canProceed()}
-            className={`flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white hover:from-teal-600 hover:to-emerald-600 ${
-              currentStep === 0 ? "w-full" : ""
-            }`}
-          >
-            {currentStep === 14 ? (
-              <>
-                <CheckCircle2 className="mr-2 h-4 w-4" />
-                Complete
-              </>
-            ) : (
-              <>
-                Continue
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </>
-            )}
-          </Button>
-        </div>
+          </div>
+        )}
       </Card>
 
       {/* Show final results after completion */}
       {currentStep === 15 && emissions.totalCO2 > 0 && (
         <Card className="border-teal-500/30 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 p-6">
-          <div className="space-y-4">
-            <h3 className="text-center font-bold text-foreground text-xl">
+          <div className="space-y-8">
+            <h3 className="text-center font-bold text-3xl text-foreground">
               Your Carbon Footprint Summary
             </h3>
             <div className="space-y-3 text-sm">

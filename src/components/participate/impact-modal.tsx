@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRightIcon, LeafIcon, TreePineIcon, XIcon } from "lucide-react";
+import { animate, motion, useMotionValue } from "motion/react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -124,41 +125,33 @@ export function ImpactModal({
   const [animationPhase, setAnimationPhase] = useState<
     "start" | "counting" | "complete"
   >("start");
-  const [displayCO2, setDisplayCO2] = useState(previousCO2);
+  const [displayCO2, setDisplayCO2] = useState(previousCO2.toFixed(1));
+  const counterValue = useMotionValue(previousCO2);
 
   // Start animation when modal opens
   useEffect(() => {
     if (!isOpen) return;
 
     setAnimationPhase("start");
-    setDisplayCO2(previousCO2);
+    setDisplayCO2(previousCO2.toFixed(1));
+    counterValue.set(previousCO2);
 
     // Phase 1: Show modal, then start counting
     const showTimer = setTimeout(() => {
       setAnimationPhase("counting");
 
       // Phase 2: Animate counter
-      const duration = 2000;
-      const steps = 60;
-      const increment = (newCO2 - previousCO2) / steps;
-      let current = 0;
-
-      const countTimer = setInterval(() => {
-        current++;
-        if (current <= steps) {
-          setDisplayCO2(previousCO2 + increment * current);
-        } else {
-          setDisplayCO2(newCO2);
-          setAnimationPhase("complete");
-          clearInterval(countTimer);
-        }
-      }, duration / steps);
-
-      return () => clearInterval(countTimer);
+      animate(counterValue, newCO2, {
+        duration: 2,
+        ease: "easeOut",
+        onUpdate: (value) => setDisplayCO2(value.toFixed(1)),
+      }).then(() => {
+        setAnimationPhase("complete");
+      });
     }, 100);
 
     return () => clearTimeout(showTimer);
-  }, [isOpen, previousCO2, newCO2]);
+  }, [isOpen, previousCO2, newCO2, counterValue]);
 
   if (!isOpen) return null;
 
@@ -175,7 +168,12 @@ export function ImpactModal({
   const treesNeeded = Math.ceil(newCO2 / 22);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-10">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={isOpen ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-10"
+    >
       <div className="w-full max-w-3xl text-center">
         <button
           type="button"
@@ -201,8 +199,8 @@ export function ImpactModal({
               <LeafIcon className="h-8 w-8 text-emerald-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Total CO₂</div>
-            <div className={`font-bold text-5xl ${getCO2Color(displayCO2)}`}>
-              {displayCO2.toFixed(1)}
+            <div className={`font-bold text-5xl ${getCO2Color(newCO2)}`}>
+              {displayCO2}
             </div>
             <div className="mt-2 text-white/60">kg CO₂</div>
           </div>
@@ -247,6 +245,6 @@ export function ImpactModal({
           <ArrowRightIcon className="ml-2 h-5 w-5" />
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }
