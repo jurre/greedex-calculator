@@ -67,11 +67,13 @@ const getImpactMessage = (
     }
 
     case "electricity": {
+      const nights = days ? days - 1 : 0;
+      const baseMessage = `${accommodationCategory || "Accommodation"} with ${value} for ${nights} nights, ${roomOccupancy || "alone"}`;
+
       if (value === "green energy") {
-        return `♻️ Excellent! Green energy reduces your footprint (+${impact.toFixed(1)} kg CO₂)`;
+        return `♻️ Excellent! ${baseMessage} keeps emissions low at ${impact.toFixed(1)} kg CO₂`;
       }
-      const nights = days ? days + 1 : 0;
-      return `🏨 ${accommodationCategory || "Accommodation"} with ${value} for ${nights} nights, ${roomOccupancy || "alone"} (+${impact.toFixed(1)} kg CO₂)`;
+      return `🏨 ${baseMessage} adds ${impact.toFixed(1)} kg CO₂ to your footprint`;
     }
 
     case "carType":

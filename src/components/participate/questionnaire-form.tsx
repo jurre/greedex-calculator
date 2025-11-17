@@ -191,9 +191,17 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     const stepKey = getStepKey(currentStep);
 
     if (stepKey && shouldShowImpact(stepKey)) {
-      // Calculate previous CO2 WITHOUT the current answer
+      // Calculate previous CO2 WITHOUT the current answer(s)
       const answersWithoutCurrent = { ...answers };
-      delete answersWithoutCurrent[stepKey as keyof ParticipantAnswers];
+      if (stepKey === "electricity") {
+        // For accommodation, calculate impact as total accommodation CO2
+        // by removing all accommodation-related answers
+        delete answersWithoutCurrent.accommodationCategory;
+        delete answersWithoutCurrent.roomOccupancy;
+        delete answersWithoutCurrent.electricity;
+      } else {
+        delete answersWithoutCurrent[stepKey as keyof ParticipantAnswers];
+      }
       const previousCO2 = calculateEmissions(answersWithoutCurrent).totalCO2;
 
       // Calculate new CO2 WITH the current answer
@@ -309,6 +317,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       ? 12 // Show as step 12 if we skipped car questions
       : currentStep;
 
+  // Calculate emissions for display (up to previous step)
+  const stepKey = getStepKey(currentStep);
+  const displayAnswers = { ...answers };
+  if (stepKey) {
+    delete displayAnswers[stepKey as keyof ParticipantAnswers];
+  }
+  const displayEmissions = calculateEmissions(displayAnswers);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -347,7 +363,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               <Leaf className="h-8 w-8 text-teal-400" />
             </div>
             <div className="mb-1 font-bold text-3xl text-teal-400">
-              {emissions.totalCO2.toFixed(1)}
+              {displayEmissions.totalCO2.toFixed(1)}
             </div>
             <div className="text-muted-foreground text-xs">kg</div>
             <div className="mt-1 text-foreground text-sm">CO₂ Footprint</div>
@@ -359,7 +375,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               <TreePine className="h-8 w-8 text-green-400" />
             </div>
             <div className="mb-1 font-bold text-3xl text-green-400">
-              {emissions.treesNeeded}
+              {displayEmissions.treesNeeded}
             </div>
             <div className="text-muted-foreground text-xs">(1 Year)</div>
             <div className="mt-1 text-foreground text-sm">Trees</div>
