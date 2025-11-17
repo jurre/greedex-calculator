@@ -1,9 +1,9 @@
-import { Loader2Icon } from "lucide-react";
+import { headers } from "next/headers";
 import { Suspense } from "react";
+import ControlActiveProjectPageSkeleton from "@/components/features/projects/ControlActiveProjectPageSkeleton";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
-import { headers } from "next/headers";
 
 export default async function AppLayout({
   children,
@@ -33,7 +33,7 @@ export default async function AppLayout({
   }
 
   return (
-    <Suspense fallback={<Loader2Icon className="animate-spin" />}>
+    <Suspense fallback={<ControlActiveProjectPageSkeleton />}>
       {children}
     </Suspense>
   );
