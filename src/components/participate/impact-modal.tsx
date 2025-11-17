@@ -1,6 +1,6 @@
 "use client";
 
-import { Leaf, TreePine, X } from "lucide-react";
+import { ArrowRightIcon, LeafIcon, TreePineIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -181,7 +181,7 @@ export function ImpactModal({
           className="absolute top-4 right-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
           aria-label="Close"
         >
-          <X className="h-6 w-6" />
+          <XIcon className="h-6 w-6" />
         </button>
 
         <h2 className="mb-10 font-bold text-4xl text-white sm:text-5xl">
@@ -196,7 +196,7 @@ export function ImpactModal({
           {/* Current CO2 */}
           <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-gradient-to-br from-teal-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
-              <Leaf className="h-8 w-8 text-emerald-400" />
+              <LeafIcon className="h-8 w-8 text-emerald-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Total CO₂</div>
             <div className={`font-bold text-5xl ${getCO2Color(displayCO2)}`}>
@@ -208,7 +208,7 @@ export function ImpactModal({
           {/* Trees Needed */}
           <div className="max-w-xs flex-1 rounded-2xl border-2 border-white/20 bg-gradient-to-br from-green-500/20 to-emerald-500/20 p-8 backdrop-blur-sm">
             <div className="mb-3 flex items-center justify-center gap-2">
-              <TreePine className="h-8 w-8 text-green-400" />
+              <TreePineIcon className="h-8 w-8 text-green-400" />
             </div>
             <div className="mb-2 text-lg text-white/80">Trees Needed</div>
             <div className="font-bold text-5xl text-green-400">
@@ -242,7 +242,7 @@ export function ImpactModal({
           className="bg-gradient-to-r from-teal-500 to-emerald-500 text-lg text-white hover:from-teal-600 hover:to-emerald-600"
         >
           Continue
-          <ArrowRight className="ml-2 h-5 w-5" />
+          <ArrowRightIcon className="ml-2 h-5 w-5" />
         </Button>
       </div>
     </div>
