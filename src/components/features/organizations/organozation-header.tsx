@@ -30,7 +30,7 @@ export function OrganizationHeader() {
   return (
     <div className="flex items-center justify-between rounded-md border border-accent/70 bg-accent/10">
       <div className="space-y-2 p-4">
-        <h1 className="flex items-center justify-start gap-3 font-bold text-3xl text-primary-foreground">
+        <h1 className="flex items-center justify-start gap-3 font-bold text-3xl text-accent/60 dark:text-primary-foreground/60">
           <Building2Icon />
           {activeOrganization?.name}
         </h1>
