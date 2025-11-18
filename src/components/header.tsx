@@ -56,8 +56,8 @@ export const HeroHeader = () => {
               >
                 <Logo isScrolled={!isScrolled} />
               </Link>
-              <div className="flex items-center gap-3 lg:hidden">
-                <LocaleSwitcher />
+              <div className="flex items-center gap-4 lg:hidden">
+                <LocaleSwitcher className="h-10 rounded-md" />
                 <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                   <DropdownMenuTrigger asChild>
                     <Button

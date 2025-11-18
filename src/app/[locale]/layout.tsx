@@ -1,4 +1,4 @@
-import { Comfortaa, JetBrains_Mono } from "next/font/google";
+import { Comfortaa, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -11,12 +11,19 @@ const comfortaa = Comfortaa({
   subsets: ["latin"],
   display: "swap",
   preload: false,
+  variable: "--font-sans",
 });
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
   preload: false,
+});
+const sourceSerif4 = Source_Serif_4({
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+  variable: "--font-serif",
 });
 
 type Props = {
@@ -43,7 +50,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning className="scroll-smooth">
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={`${comfortaa.variable} ${sourceSerif4.variable} ${jetbrainsMono.variable} scroll-smooth`}
+    >
       <head>
         <script
           async
