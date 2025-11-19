@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 const createFormSchema = (t: (key: string) => string) =>
   z.object({
-    email: z.string().email(t("validation.emailInvalid")),
+    email: z.email(t("emailInvalid")),
   });
 
 export function ForgotPasswordForm({

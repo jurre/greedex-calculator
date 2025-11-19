@@ -24,13 +24,11 @@ import { cn } from "@/lib/utils";
 const createFormSchema = (t: (key: string) => string) =>
   z
     .object({
-      password: z.string().min(8, t("validation.passwordMinLength")),
-      confirmPassword: z
-        .string()
-        .min(1, t("validation.passwordConfirmRequired")),
+      password: z.string().min(8, t("passwordMinLength")),
+      confirmPassword: z.string().min(1, t("passwordConfirmRequired")),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: t("validation.passwordsNoMatch"),
+      message: t("passwordsNoMatch"),
       path: ["confirmPassword"],
     });
 

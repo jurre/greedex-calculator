@@ -34,13 +34,13 @@ import { cn } from "@/lib/utils";
 // Schema factory function that takes translation function
 const createCredentialsSchema = (t: (key: string) => string) =>
   z.object({
-    email: z.string().email(t("validation.emailInvalid")),
-    password: z.string().min(1, t("validation.passwordRequired")),
+    email: z.email(t("emailInvalid")),
+    password: z.string().min(1, t("passwordRequired")),
   });
 
 export const createMagicLinkSchema = (t: (key: string) => string) =>
   z.object({
-    email: z.string().email(t("validation.emailInvalid")),
+    email: z.email(t("emailInvalid")),
   });
 
 export function LoginForm({
@@ -100,7 +100,7 @@ export function LoginForm({
       {
         onError: (c) => {
           if (c.error.code === "EMAIL_NOT_VERIFIED") {
-            toast.error(t("messages.verifyEmail"));
+            toast.error("messages.verifyEmail");
             router.push(
               `/verify-email?email=${encodeURIComponent(data.email)}`,
             );

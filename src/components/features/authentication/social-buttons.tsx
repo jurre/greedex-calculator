@@ -25,7 +25,7 @@ function SocialButtons({ disabled, callbackUrl, lastLoginMethod }: Props) {
 
   return (
     <Field>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
         {SUPPORTED_OAUTH_PROVIDERS.map((provider) => {
           const { name, Icon } = SUPPORTED_OAUTH_PROVIDER_DETAILS[provider];
 
