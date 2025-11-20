@@ -224,10 +224,10 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     const stepKey = getStepKey(currentStep);
 
     if (stepKey && shouldShowImpact(stepKey)) {
-      // Calculate previous CO2 WITHOUT the current answer(s)
+      // Calculate previous CO₂ WITHOUT the current answer(s)
       const answersWithoutCurrent = { ...answers };
       if (stepKey === "electricity") {
-        // For accommodation, calculate impact as total accommodation CO2
+        // For accommodation, calculate impact as total accommodation CO₂
         // by removing all accommodation-related answers
         delete answersWithoutCurrent.accommodationCategory;
         delete answersWithoutCurrent.roomOccupancy;
@@ -237,7 +237,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       }
       const previousCO2 = calculateEmissions(answersWithoutCurrent).totalCO2;
 
-      // Calculate new CO2 WITH the current answer
+      // Calculate new CO₂ WITH the current answer
       const currentValue = answers[stepKey as keyof ParticipantAnswers];
       const newCO2 = calculateEmissions(answers).totalCO2;
       const impact = newCO2 - previousCO2;

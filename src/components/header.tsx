@@ -47,7 +47,7 @@ export const HeroHeader = () => {
               "max-w-5xl rounded-2xl border bg-background/50 backdrop-blur-lg lg:px-5",
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:flex-nowrap lg:gap-0 lg:py-4">
             <div className="flex w-full items-center justify-between lg:w-auto">
               <Link
                 href="/"
@@ -94,8 +94,8 @@ export const HeroHeader = () => {
                     <div className="flex w-full items-center justify-end gap-3">
                       <div
                         className={cn(
-                          "relative h-8 overflow-hidden transition-all ease-in-out",
-                          isScrolled ? "lg:w-0" : "lg:w-fit",
+                          "relative h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out",
+                          isScrolled ? "max-w-0" : "max-w-[7.5rem]",
                         )}
                         aria-hidden={isScrolled}
                       >
@@ -148,12 +148,11 @@ export const HeroHeader = () => {
 
             <div className="hidden items-center gap-3 lg:flex">
               <LocaleSwitcher className="rounded-md" />
-              <div
+              {/* <div
                 className={cn(
-                  "relative hidden h-8 overflow-hidden transition-all ease-in-out xl:inline-block",
-                  isScrolled ? "w-0" : "w-fit",
+                  "relative hidden h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out xl:inline-block",
+                  isScrolled ? "max-w-0" : "max-w-[9rem]",
                 )}
-                aria-hidden={isScrolled}
               >
                 <Button
                   asChild
@@ -163,12 +162,13 @@ export const HeroHeader = () => {
                     "transition-opacity ease-in-out",
                     isScrolled ? "opacity-0" : "opacity-100",
                   )}
+                  aria-hidden={isScrolled}
                 >
                   <Link href="/login">
                     <span>Login</span>
                   </Link>
                 </Button>
-              </div>
+              </div> */}
 
               <Button
                 asChild

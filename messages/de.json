@@ -1,12 +1,12 @@
 {
   "LandingPage": {
-    "launchButton": "Erasmus+ CO2-Rechner starten",
-    "launchButtonAria": "Erasmus+ CO2-Rechner öffnen — Login erforderlich",
+    "launchButton": "Erasmus+ CO₂-Rechner starten",
+    "launchButtonAria": "Erasmus+ CO₂-Rechner öffnen — Login erforderlich",
     "hero": {
       "missionTitle": "Unsere Mission",
-      "missionText": "Das Erasmus+ Programm ermöglicht uns fantastische Lernabenteuer mit inspirierenden Menschen aus verschiedenen Ländern. Jedoch trägt jede unserer persönlichen Begegnungen zu einem erheblichen CO2-Fußabdruck bei – durch unsere Reise- und Lebensgewohnheiten. Ziel dieses Projekts ist es, unseren CO2-Fußabdruck in den Projekten, die wir durchführen, auszugleichen, indem wir mehr Bewusstsein schaffen und aktiv unsere Gewohnheiten ändern. Aus diesem Grund haben wir einen CO2-Rechner entwickelt, der speziell auf Erasmus+ Projekte wie Jugendbegegnungen, Trainingskurse, Meetings etc. zugeschnitten ist. Dieser Rechner zeigt die finale CO2-Menge, die jeder Teilnehmende verursacht, und rechnet diese in die durchschnittliche Anzahl von Bäumen um, die unser CO2 in ihrer Lebenszeit absorbieren werden. Unsere Berechnungen basieren auf wissenschaftlicher Forschung verschiedener Fachleute. Wir haben keine eigenen Berechnungen angestellt.",
+      "missionText": "Das Erasmus+ Programm ermöglicht uns fantastische Lernabenteuer mit inspirierenden Menschen aus verschiedenen Ländern. Jedoch trägt jede unserer persönlichen Begegnungen zu einem erheblichen CO₂-Fußabdruck bei – durch unsere Reise- und Lebensgewohnheiten. Ziel dieses Projekts ist es, unseren CO₂-Fußabdruck in den Projekten, die wir durchführen, auszugleichen, indem wir mehr Bewusstsein schaffen und aktiv unsere Gewohnheiten ändern. Aus diesem Grund haben wir einen CO₂-Rechner entwickelt, der speziell auf Erasmus+ Projekte wie Jugendbegegnungen, Trainingskurse, Meetings etc. zugeschnitten ist. Dieser Rechner zeigt die finale CO₂-Menge, die jeder Teilnehmende verursacht, und rechnet diese in die durchschnittliche Anzahl von Bäumen um, die unser CO₂ in ihrer Lebenszeit absorbieren werden. Unsere Berechnungen basieren auf wissenschaftlicher Forschung verschiedener Fachleute. Wir haben keine eigenen Berechnungen angestellt.",
       "visionTitle": "Unsere Vision",
-      "visionText": "Wir möchten eine Bewegung schaffen, bei der jedes Erasmus+ Projekt seinen CO2-Fußabdruck berechnet und Bäume pflanzt, um ihn auszugleichen. Wir sehen mehrere Erasmus+ Wälder in Europa entstehen, die zu sauberer Luft in Europa beitragen. Wir sehen junge Menschen, die weiterhin gemeinsam in einer nachhaltigeren Umgebung lernen, dabei grün reisen und die Schönheit der Natur genießen. Diese Website hat so viel Wissen für dich gesammelt – nimm dir etwas Zeit und schau dich ein bisschen um.",
+      "visionText": "Wir möchten eine Bewegung schaffen, bei der jedes Erasmus+ Projekt seinen CO₂-Fußabdruck berechnet und Bäume pflanzt, um ihn auszugleichen. Wir sehen mehrere Erasmus+ Wälder in Europa entstehen, die zu sauberer Luft in Europa beitragen. Wir sehen junge Menschen, die weiterhin gemeinsam in einer nachhaltigeren Umgebung lernen, dabei grün reisen und die Schönheit der Natur genießen. Diese Website hat so viel Wissen für dich gesammelt – nimm dir etwas Zeit und schau dich ein bisschen um.",
       "scrollDown": "Nach unten scrollen",
       "meetCustomers": "Lerne unsere Partner kennen"
     },
@@ -28,17 +28,17 @@
         "moment": {
           "title": "Greendex Moment",
           "duration": "30 min",
-          "description": "Dieser Workshop bietet Berechnungen des CO2-Fußabdrucks eurer Mobilität und zeigt, wie viele Bäume gepflanzt werden müssen, um das CO2 auszugleichen."
+          "description": "Dieser Workshop bietet Berechnungen des CO₂-Fußabdrucks eurer Mobilität und zeigt, wie viele Bäume gepflanzt werden müssen, um das CO₂ auszugleichen."
         },
         "deal": {
           "title": "Greendex Deal",
           "duration": "60 min",
-          "description": "Dieser Workshop bietet Berechnungen des CO2-Fußabdrucks eurer Mobilität und zeigt, wie viele Bäume gepflanzt werden müssen, um das CO2 auszugleichen, sowie einige nachhaltige und inspirierende Herausforderungen für die Teilnehmenden, die sie während eurer Mobilität ausprobieren können."
+          "description": "Dieser Workshop bietet Berechnungen des CO₂-Fußabdrucks eurer Mobilität und zeigt, wie viele Bäume gepflanzt werden müssen, um das CO₂ auszugleichen, sowie einige nachhaltige und inspirierende Herausforderungen für die Teilnehmenden, die sie während eurer Mobilität ausprobieren können."
         },
         "day": {
           "title": "Greendex Day",
           "duration": "180 min",
-          "description": "Diese Session bietet zusätzlich zum bereits erwähnten Rechner und den Herausforderungen ein Quiz über den CO2-Fußabdruck, Reflexion darüber, wie viel Plastik wir zu dieser Mobilität mitgebracht haben, und Unterstützung, um sozialen Druck auszuüben."
+          "description": "Diese Session bietet zusätzlich zum bereits erwähnten Rechner und den Herausforderungen ein Quiz über den CO₂-Fußabdruck, Reflexion darüber, wie viel Plastik wir zu dieser Mobilität mitgebracht haben, und Unterstützung, um sozialen Druck auszuüben."
         }
       },
       "details": {
@@ -49,7 +49,7 @@
               "steps": {
                 "create": {
                   "title": "Erstelle das Projekt in der Greendex App",
-                  "content": "Beginne mit der Erstellung deines Projekts in unserer Anwendung, um deinen CO2-Fußabdruck zu verfolgen."
+                  "content": "Beginne mit der Erstellung deines Projekts in unserer Anwendung, um deinen CO₂-Fußabdruck zu verfolgen."
                 },
                 "map": {
                   "title": "Zeichne deine Reise von zu Hause bis hierher auf",
@@ -69,10 +69,10 @@
                 },
                 "debate": {
                   "title": "Zeige die Projektergebnisse und diskutiere darüber",
-                  "content": "Du kannst ihnen folgende Fragen stellen:\n\n• Gibt es etwas Überraschendes für dich in den Ergebnissen?\n• Wie fühlen dich die Ergebnisse?\n• Hast du Vorschläge, wie das freigesetzte CO2 bei zukünftigen Projekten reduziert werden kann?"
+                  "content": "Du kannst ihnen folgende Fragen stellen:\n\n• Gibt es etwas Überraschendes für dich in den Ergebnissen?\n• Wie fühlen dich die Ergebnisse?\n• Hast du Vorschläge, wie das freigesetzte CO₂ bei zukünftigen Projekten reduziert werden kann?"
                 },
                 "plant": {
-                  "title": "Pflanze Bäume, um den CO2-Fußabdruck deines Projekts auszugleichen",
+                  "title": "Pflanze Bäume, um den CO₂-Fußabdruck deines Projekts auszugleichen",
                   "content": "Du kannst folgende Optionen anbieten:\n\n• Spende, um Bäume in einem der Erasmus+ Wälder zu pflanzen\n• Suche nach Möglichkeiten, die Bäume selbst zu pflanzen! Vielleicht kannst du sogar deinen eigenen Erasmus+ Wald starten und Teil der Greendex-Bewegung werden."
                 },
                 "share_social": {
@@ -90,7 +90,7 @@
               "steps": {
                 "create": {
                   "title": "Erstelle das Projekt in der Greendex App",
-                  "content": "Beginne mit der Erstellung deines Projekts in unserer Anwendung, um deinen CO2-Fußabdruck zu verfolgen."
+                  "content": "Beginne mit der Erstellung deines Projekts in unserer Anwendung, um deinen CO₂-Fußabdruck zu verfolgen."
                 },
                 "map": {
                   "title": "Zeichne deine Reise von zu Hause bis hierher auf",
@@ -110,7 +110,7 @@
                 },
                 "debate": {
                   "title": "Zeige die Projektergebnisse und diskutiere darüber",
-                  "content": "Du kannst ihnen folgende Fragen stellen:\n\n• Gibt es etwas Überraschendes für dich in den Ergebnissen?\n• Wie fühlen dich die Ergebnisse?\n• Hast du Vorschläge, wie das freigesetzte CO2 bei zukünftigen Projekten reduziert werden kann?"
+                  "content": "Du kannst ihnen folgende Fragen stellen:\n\n• Gibt es etwas Überraschendes für dich in den Ergebnissen?\n• Wie fühlen dich die Ergebnisse?\n• Hast du Vorschläge, wie das freigesetzte CO₂ bei zukünftigen Projekten reduziert werden kann?"
                 }
               }
             },
@@ -122,11 +122,11 @@
                   "content": "Mache dich als Teil der Vorbereitung für diesen Workshop mit den verfügbaren Herausforderungen vertraut."
                 },
                 "present": {
-                  "title": "Präsentiere Herausforderungen, um das freigesetzte CO2 während des Projekts zu reduzieren",
+                  "title": "Präsentiere Herausforderungen, um das freigesetzte CO₂ während des Projekts zu reduzieren",
                   "content": "Lade die Teilnehmenden ein, mindestens eine Herausforderung zu wählen, die sie während des Projekts ausprobieren möchten. Bilde kleinere Unterstützungsgruppen, um sich gegenseitig während des Projekts zu motivieren."
                 },
                 "plant": {
-                  "title": "Pflanze Bäume, um den CO2-Fußabdruck deines Projekts auszugleichen",
+                  "title": "Pflanze Bäume, um den CO₂-Fußabdruck deines Projekts auszugleichen",
                   "content": "Du kannst folgende Optionen anbieten:\n\n• Spende, um Bäume in einem der Erasmus+ Wälder zu pflanzen\n• Suche nach Möglichkeiten, die Bäume selbst zu pflanzen! Vielleicht kannst du sogar deinen eigenen Erasmus+ Wald starten und Teil der Greendex-Bewegung werden."
                 },
                 "share": {
@@ -140,7 +140,7 @@
               "steps": {
                 "evaluate": {
                   "title": "Nutze die abschließende Evaluation, um deinen Fortschritt zu überprüfen",
-                  "content": "Widme einige Fragen in der abschließenden Evaluation des Projekts, um das Ausmaß des geschaffenen Bewusstseins über Nachhaltigkeit und CO2-Fußabdruck zu überprüfen. Du kannst ihnen folgende Fragen stellen:\n\n• Wie erfolgreich warst du bei den Herausforderungen?\n• Wärst du bereit, einige Herausforderungen in dein Leben zu integrieren?\n• Was kannst du sonst noch tun, um deinen CO2-Fußabdruck zu reduzieren?"
+                  "content": "Widme einige Fragen in der abschließenden Evaluation des Projekts, um das Ausmaß des geschaffenen Bewusstseins über Nachhaltigkeit und CO₂-Fußabdruck zu überprüfen. Du kannst ihnen folgende Fragen stellen:\n\n• Wie erfolgreich warst du bei den Herausforderungen?\n• Wärst du bereit, einige Herausforderungen in dein Leben zu integrieren?\n• Was kannst du sonst noch tun, um deinen CO₂-Fußabdruck zu reduzieren?"
                 }
               }
             }
@@ -199,7 +199,7 @@
               }
             },
             "quiz": {
-              "title": "3.3. Was ist ein CO2-Fußabdruck?",
+              "title": "3.3. Was ist ein CO₂-Fußabdruck?",
               "steps": {
                 "form_groups": {
                   "title": "Bildet kleinere interkulturelle Gruppen",
@@ -215,11 +215,11 @@
                 },
                 "start_quiz": {
                   "title": "Starte das Quiz",
-                  "content": "Du kannst die Fragen vorlesen, auf Papier posten oder eine Art Online-Tool für die Teilnehmenden verwenden. Dies ist kein Wettbewerb, nur eine Recherche.\n\nBevor das Quiz beginnt, stelle zwei sehr grundlegende Fragen:\n\n• Weißt du, was ein CO2-Fußabdruck ist?\nAntwort: Ein CO2-Fußabdruck ist die Gesamtmenge an Treibhausgasen, die durch unsere Handlungen erzeugt werden.\n\n• Warum sprechen wir über Kohlendioxid – CO2?\nAntwort: Zu viel Kohlendioxid (und andere Treibhausgase wie Methan) in der Atmosphäre erwärmt den Planeten und verursacht den Klimawandel.\n\nHier sind die Fragen:\n• Wie viel CO2 wird von einem Fleischesser freigesetzt?\n• Wie viel CO2 wird von einem Vegetarier freigesetzt?\n• Wie viel CO2 wird beim Fliegen von 1000 km freigesetzt?\n• Wie viel CO2 wird beim Reisen von 1000 km mit dem Zug freigesetzt?\n• Wie viel CO2 wird beim Reisen von 1000 km mit dem Auto freigesetzt?\n• Wie viel CO2 wird von einem Nadelbaum absorbiert?\n• Wie viel CO2 wird von einem Laubbaum absorbiert?\n• Wie viel O2 benötigt eine Person pro Jahr (in kg)?\n• Wie viel O2 produziert ein durchschnittlicher Baum pro Jahr (in kg)?\n• Wie viele Menschen gibt es derzeit auf der Welt?"
+                  "content": "Du kannst die Fragen vorlesen, auf Papier posten oder eine Art Online-Tool für die Teilnehmenden verwenden. Dies ist kein Wettbewerb, nur eine Recherche.\n\nBevor das Quiz beginnt, stelle zwei sehr grundlegende Fragen:\n\n• Weißt du, was ein CO₂-Fußabdruck ist?\nAntwort: Ein CO₂-Fußabdruck ist die Gesamtmenge an Treibhausgasen, die durch unsere Handlungen erzeugt werden.\n\n• Warum sprechen wir über Kohlendioxid – CO₂?\nAntwort: Zu viel Kohlendioxid (und andere Treibhausgase wie Methan) in der Atmosphäre erwärmt den Planeten und verursacht den Klimawandel.\n\nHier sind die Fragen:\n• Wie viel CO₂ wird von einem Fleischesser freigesetzt?\n• Wie viel CO₂ wird von einem Vegetarier freigesetzt?\n• Wie viel CO₂ wird beim Fliegen von 1000 km freigesetzt?\n• Wie viel CO₂ wird beim Reisen von 1000 km mit dem Zug freigesetzt?\n• Wie viel CO₂ wird beim Reisen von 1000 km mit dem Auto freigesetzt?\n• Wie viel CO₂ wird von einem Nadelbaum absorbiert?\n• Wie viel CO₂ wird von einem Laubbaum absorbiert?\n• Wie viel O2 benötigt eine Person pro Jahr (in kg)?\n• Wie viel O2 produziert ein durchschnittlicher Baum pro Jahr (in kg)?\n• Wie viele Menschen gibt es derzeit auf der Welt?"
                 },
                 "debate": {
                   "title": "Diskussion",
-                  "content": "Ermutige die Teilnehmenden, Gedanken und Emotionen über die Ergebnisse zu teilen. Du kannst ihnen folgende Fragen stellen:\n\n• Was war das Interessanteste an eurer Recherche?\n• Gab es etwas, das Emotionen hervorgerufen hat? Wenn ja, welche Emotionen und warum?\n• Konntet ihr das Verhältnis zwischen absorbiertem CO2 und freigesetztem O2 erkennen?\n• Wie dicht sind die Bäume in eurem Land gepflanzt?"
+                  "content": "Ermutige die Teilnehmenden, Gedanken und Emotionen über die Ergebnisse zu teilen. Du kannst ihnen folgende Fragen stellen:\n\n• Was war das Interessanteste an eurer Recherche?\n• Gab es etwas, das Emotionen hervorgerufen hat? Wenn ja, welche Emotionen und warum?\n• Konntet ihr das Verhältnis zwischen absorbiertem CO₂ und freigesetztem O2 erkennen?\n• Wie dicht sind die Bäume in eurem Land gepflanzt?"
                 }
               }
             },
@@ -228,7 +228,7 @@
               "steps": {
                 "create": {
                   "title": "Erstelle das Projekt in der Greendex App",
-                  "content": "Beginne mit der Erstellung deines Projekts in unserer Anwendung, um deinen CO2-Fußabdruck zu verfolgen."
+                  "content": "Beginne mit der Erstellung deines Projekts in unserer Anwendung, um deinen CO₂-Fußabdruck zu verfolgen."
                 },
                 "map": {
                   "title": "Zeichne deine Reise von zu Hause bis hierher auf",
@@ -248,7 +248,7 @@
                 },
                 "debate": {
                   "title": "Zeige die Projektergebnisse und diskutiere darüber",
-                  "content": "Du kannst ihnen folgende Fragen stellen:\n\n• Gibt es etwas Überraschendes für dich in den Ergebnissen?\n• Wie fühlen dich die Ergebnisse?\n• Hast du Vorschläge, wie das freigesetzte CO2 bei zukünftigen Projekten reduziert werden kann?"
+                  "content": "Du kannst ihnen folgende Fragen stellen:\n\n• Gibt es etwas Überraschendes für dich in den Ergebnissen?\n• Wie fühlen dich die Ergebnisse?\n• Hast du Vorschläge, wie das freigesetzte CO₂ bei zukünftigen Projekten reduziert werden kann?"
                 }
               }
             },
@@ -260,11 +260,11 @@
                   "content": "Mache dich als Teil der Vorbereitung für diesen Workshop mit den verfügbaren Herausforderungen vertraut."
                 },
                 "present": {
-                  "title": "Präsentiere Herausforderungen, um das freigesetzte CO2 während des Projekts zu reduzieren",
+                  "title": "Präsentiere Herausforderungen, um das freigesetzte CO₂ während des Projekts zu reduzieren",
                   "content": "Lade die Teilnehmenden ein, mindestens eine Herausforderung zu wählen, die sie während des Projekts ausprobieren möchten. Bilde kleinere Unterstützungsgruppen, um sich gegenseitig während des Projekts zu motivieren."
                 },
                 "plant": {
-                  "title": "Pflanze Bäume, um den CO2-Fußabdruck deines Projekts auszugleichen",
+                  "title": "Pflanze Bäume, um den CO₂-Fußabdruck deines Projekts auszugleichen",
                   "content": "Du kannst folgende Optionen anbieten:\n\n• Spende, um Bäume in einem der Erasmus+ Wälder zu pflanzen\n• Suche nach Möglichkeiten, die Bäume selbst zu pflanzen! Vielleicht kannst du sogar deinen eigenen Erasmus+ Wald starten und Teil der Greendex-Bewegung werden."
                 },
                 "share": {
@@ -278,7 +278,7 @@
               "steps": {
                 "evaluate": {
                   "title": "Widme Zeit für die abschließende Evaluation",
-                  "content": "Wir laden dich ein, am letzten Tag deiner Mobilität etwas Zeit in deiner abschließenden Evaluation zu widmen, um einige grüne Fragen zu stellen. Du kannst ihnen folgende Fragen stellen:\n\n• Wie bewusst warst du über deine umwelt(un)freundlichen Gewohnheiten?\n• Hast du etwas erkannt, das du tun könntest, um deine Gewohnheiten zu ändern?\n• Hast du an den vorgeschlagenen Herausforderungen teilgenommen?\n• Wie erfolgreich warst du bei deinen Herausforderungen?\n• Gibt es eine Herausforderung, von der du denkst, dass du sie für den Rest deines Lebens machen könntest?\n• Wärst du bereit, einige Herausforderungen in dein Leben zu integrieren?\n• Was kannst du sonst noch tun, um deinen CO2-Fußabdruck zu reduzieren?\n\nWas du in den sozialen Medien mit #greendex posten kannst:\n• Anzahl der zu pflanzenden Bäume\n• An welchen Herausforderungen hast du dich entschieden teilzunehmen?\n• Brief zum sozialen Druck."
+                  "content": "Wir laden dich ein, am letzten Tag deiner Mobilität etwas Zeit in deiner abschließenden Evaluation zu widmen, um einige grüne Fragen zu stellen. Du kannst ihnen folgende Fragen stellen:\n\n• Wie bewusst warst du über deine umwelt(un)freundlichen Gewohnheiten?\n• Hast du etwas erkannt, das du tun könntest, um deine Gewohnheiten zu ändern?\n• Hast du an den vorgeschlagenen Herausforderungen teilgenommen?\n• Wie erfolgreich warst du bei deinen Herausforderungen?\n• Gibt es eine Herausforderung, von der du denkst, dass du sie für den Rest deines Lebens machen könntest?\n• Wärst du bereit, einige Herausforderungen in dein Leben zu integrieren?\n• Was kannst du sonst noch tun, um deinen CO₂-Fußabdruck zu reduzieren?\n\nWas du in den sozialen Medien mit #greendex posten kannst:\n• Anzahl der zu pflanzenden Bäume\n• An welchen Herausforderungen hast du dich entschieden teilzunehmen?\n• Brief zum sozialen Druck."
                 }
               }
             }
@@ -503,7 +503,7 @@
         "complete": "Abschließen"
       },
       "results": {
-        "co2-footprint": "CO₂-Fußabdruck",
+        "CO₂-footprint": "CO₂-Fußabdruck",
         "trees-needed": "Bäume (1 Jahr)",
         "summary-title": "Deine CO₂-Fußabdruck-Zusammenfassung",
         "transport": "Transport:",
@@ -514,8 +514,8 @@
       },
       "impact-modal": {
         "title": "Dein Einfluss",
-        "total-co2": "Gesamt-CO₂",
-        "kg-co2": "kg CO₂",
+        "total-CO₂": "Gesamt-CO₂",
+        "kg-CO₂": "kg CO₂",
         "trees-needed": "Benötigte Bäume",
         "to-offset": "zum Ausgleich",
         "impact": "Einfluss:",

@@ -7,7 +7,7 @@ import {
 } from "../questionnaire-types";
 
 describe("Questionnaire Types and Calculations", () => {
-  describe("CO2 Emission Factors", () => {
+  describe("CO₂ Emission Factors", () => {
     it("should have correct transport emission factors", () => {
       expect(CO2_FACTORS.flight).toBe(0.255);
       expect(CO2_FACTORS.boat).toBe(0.115);

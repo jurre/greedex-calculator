@@ -4,7 +4,7 @@
     "launchButtonAria": "Open Erasmus+ Carbon Calculator — login required",
     "hero": {
       "missionTitle": "Our mission",
-      "missionText": "Erasmus+ programme enables us to have amazing learning adventures with inspirational people from different countries. However, each of our personal gatherings contributes to a deep carbon footprint due to our travelling and living habits. The purpose of this project was to offset our carbon footprint on the projects we make by bringing more awareness and more action to change our habits. For this reason, we have created a carbon footprint calculator that is specialized for Erasmus+ projects such as youth exchanges, training courses, meetings etc. This calculator offers the final number of the CO2 produced by each participant and transforms this number to the number of the average trees that will absorb our CO2 in their lifetime. Our calculations are based on scientific research done by different professionals. We did not make our own calculations.",
+      "missionText": "Erasmus+ programme enables us to have amazing learning adventures with inspirational people from different countries. However, each of our personal gatherings contributes to a deep carbon footprint due to our travelling and living habits. The purpose of this project was to offset our carbon footprint on the projects we make by bringing more awareness and more action to change our habits. For this reason, we have created a carbon footprint calculator that is specialized for Erasmus+ projects such as youth exchanges, training courses, meetings etc. This calculator offers the final number of the CO₂ produced by each participant and transforms this number to the number of the average trees that will absorb our CO₂ in their lifetime. Our calculations are based on scientific research done by different professionals. We did not make our own calculations.",
       "visionTitle": "Our vision",
       "visionText": "We want to create a movement, where each Erasmus+ project calculates their carbon footprint and plants trees to offset it. We see several Erasmus+ forests rising in Europe which contribute to the cleaner air in Europe. We see young people continuing to learn together in a more sustainable environment, while travelling green, and enjoying the beauty of nature. This website has so much knowledge gathered for you, so take some time and search a bit around.",
       "scrollDown": "Scroll down",
@@ -28,12 +28,12 @@
         "moment": {
           "title": "Greendex Moment",
           "duration": "30 min",
-          "description": "This workshop offers calculations of the CO2 on your mobility and how many trees need to be planted to offset the CO2."
+          "description": "This workshop offers calculations of the CO₂ on your mobility and how many trees need to be planted to offset the CO₂."
         },
         "deal": {
           "title": "Greendex Deal",
           "duration": "60 min",
-          "description": "This workshop offers calculations of the CO2 on your mobility and how many trees need to be planted to offset the CO2 as well as some sustainable and inspirational challenges for the participants to try out during your mobility."
+          "description": "This workshop offers calculations of the CO₂ on your mobility and how many trees need to be planted to offset the CO₂ as well as some sustainable and inspirational challenges for the participants to try out during your mobility."
         },
         "day": {
           "title": "Greendex Day",
@@ -69,7 +69,7 @@
                 },
                 "debate": {
                   "title": "Display and debate on project results",
-                  "content": "You may ask them the following questions:\n\n• Is there something surprising for you in the results?\n• How do the results make you feel?\n• Do you have any suggestions on how to reduce the CO2 released on future projects?"
+                  "content": "You may ask them the following questions:\n\n• Is there something surprising for you in the results?\n• How do the results make you feel?\n• Do you have any suggestions on how to reduce the CO₂ released on future projects?"
                 },
                 "plant": {
                   "title": "Plant trees to offset the carbon footprint of your project",
@@ -110,7 +110,7 @@
                 },
                 "debate": {
                   "title": "Display and debate on project results",
-                  "content": "You may ask them the following questions:\n\n• Is there something surprising for you in the results?\n• How do the results make you feel?\n• Do you have any suggestions on how to reduce the CO2 released on future projects?"
+                  "content": "You may ask them the following questions:\n\n• Is there something surprising for you in the results?\n• How do the results make you feel?\n• Do you have any suggestions on how to reduce the CO₂ released on future projects?"
                 }
               }
             },
@@ -122,7 +122,7 @@
                   "content": "As a part of preparation for this workshop, familiarize yourself with the available challenges."
                 },
                 "present": {
-                  "title": "Present challenges to reduce released CO2 during the project",
+                  "title": "Present challenges to reduce released CO₂ during the project",
                   "content": "Invite participants to choose at least one challenge they want to try out during the project. Create smaller support groups to motivate each other through the project."
                 },
                 "plant": {
@@ -215,11 +215,11 @@
                 },
                 "start_quiz": {
                   "title": "Start the quiz",
-                  "content": "You can read the questions, post them on the paper, or form some sort of online tool for participants to use. This is not a competition, just research.\n\nBefore the quiz starts, ask two very basic questions:\n\n• Do you know what a carbon footprint is?\nAnswer: A carbon footprint is the total amount of greenhouse gasses that are generated by our actions.\n\n• Why do we talk about Carbon Dioxide – CO2?\nAnswer: Too much carbon dioxide (and other greenhouse gasses such as methane) in the atmosphere warms the planet, causing climate change.\n\nHere are the questions:\n• How much CO2 is released by a meat eater?\n• How much CO2 is released by a vegetarian?\n• How much CO2 is released when flying 1000 km?\n• How much CO2 is released when traveling 1000 km by train?\n• How much CO2 is released when traveling 1000 km by car?\n• How much CO2 is absorbed by one coniferous tree?\n• How much CO2 is absorbed by one deciduous tree?\n• How much O2 does one person need in a year (in kg)?\n• How much O2 does one average tree produce in a year (in kg)?\n• How many people are currently in the world?"
+                  "content": "You can read the questions, post them on the paper, or form some sort of online tool for participants to use. This is not a competition, just research.\n\nBefore the quiz starts, ask two very basic questions:\n\n• Do you know what a carbon footprint is?\nAnswer: A carbon footprint is the total amount of greenhouse gasses that are generated by our actions.\n\n• Why do we talk about Carbon Dioxide – CO₂?\nAnswer: Too much carbon dioxide (and other greenhouse gasses such as methane) in the atmosphere warms the planet, causing climate change.\n\nHere are the questions:\n• How much CO₂ is released by a meat eater?\n• How much CO₂ is released by a vegetarian?\n• How much CO₂ is released when flying 1000 km?\n• How much CO₂ is released when traveling 1000 km by train?\n• How much CO₂ is released when traveling 1000 km by car?\n• How much CO₂ is absorbed by one coniferous tree?\n• How much CO₂ is absorbed by one deciduous tree?\n• How much O2 does one person need in a year (in kg)?\n• How much O2 does one average tree produce in a year (in kg)?\n• How many people are currently in the world?"
                 },
                 "debate": {
                   "title": "Debate",
-                  "content": "Encourage participants to share thoughts and emotions about the results. You may ask them the following questions:\n\n• What was the most interesting in your research?\n• Was there something that brought out some emotions? If yes, which emotions and why?\n• Were you able to recognize the ratio between the number absorbed CO2 and released O2?\n• How densely planted are trees in your country?"
+                  "content": "Encourage participants to share thoughts and emotions about the results. You may ask them the following questions:\n\n• What was the most interesting in your research?\n• Was there something that brought out some emotions? If yes, which emotions and why?\n• Were you able to recognize the ratio between the number absorbed CO₂ and released O2?\n• How densely planted are trees in your country?"
                 }
               }
             },
@@ -248,7 +248,7 @@
                 },
                 "debate": {
                   "title": "Display and debate on project results",
-                  "content": "You may ask them the following questions:\n\n• Is there something surprising for you in the results?\n• How do the results make you feel?\n• Do you have any suggestions on how to reduce the CO2 released on future projects?"
+                  "content": "You may ask them the following questions:\n\n• Is there something surprising for you in the results?\n• How do the results make you feel?\n• Do you have any suggestions on how to reduce the CO₂ released on future projects?"
                 }
               }
             },
@@ -260,7 +260,7 @@
                   "content": "As a part of preparation for this workshop, familiarize yourself with the available challenges."
                 },
                 "present": {
-                  "title": "Present challenges to reduce released CO2 during the project",
+                  "title": "Present challenges to reduce released CO₂ during the project",
                   "content": "Invite participants to choose at least one challenge they want to try out during the project. Create smaller support groups to motivate each other through the project."
                 },
                 "plant": {
@@ -503,7 +503,7 @@
         "complete": "Complete"
       },
       "results": {
-        "co2-footprint": "CO₂ Footprint",
+        "CO₂-footprint": "CO₂ Footprint",
         "trees-needed": "Trees (1 Year)",
         "summary-title": "Your Carbon Footprint Summary",
         "transport": "Transport:",
@@ -514,8 +514,8 @@
       },
       "impact-modal": {
         "title": "Your Impact",
-        "total-co2": "Total CO₂",
-        "kg-co2": "kg CO₂",
+        "total-CO₂": "Total CO₂",
+        "kg-CO₂": "kg CO₂",
         "trees-needed": "Trees Needed",
         "to-offset": "to offset",
         "impact": "Impact:",
