@@ -39,8 +39,8 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 100 * 0.255 + 50 * 0.041 + 20 * 0.089 = 25.5 + 2.05 + 1.78 = 29.33
-      expect(emissions.transportCO2).toBeCloseTo(29.33, 1);
+      // 100 * 0.255 + 50 * 0.041 + 20 * 0.089 = 25.5 + 2.05 + 1.78 = 29.33 (round trip: * 2 = 58.66)
+      expect(emissions.transportCO2).toBeCloseTo(58.66, 1);
     });
 
     it("should calculate car emissions with passengers correctly", () => {
@@ -52,8 +52,8 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 100 * 0.192 / 4 = 4.8
-      expect(emissions.transportCO2).toBeCloseTo(4.8, 1);
+      // 100 * 0.192 / 4 = 4.8 (round trip: * 2 = 9.6)
+      expect(emissions.transportCO2).toBeCloseTo(9.6, 1);
     });
 
     it("should calculate electric car emissions correctly", () => {
@@ -65,8 +65,8 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 100 * 0.053 / 1 = 5.3
-      expect(emissions.transportCO2).toBeCloseTo(5.3, 1);
+      // 100 * 0.053 / 1 = 5.3 (round trip: * 2 = 10.6)
+      expect(emissions.transportCO2).toBeCloseTo(10.6, 1);
     });
 
     it("should calculate accommodation emissions correctly", () => {
@@ -79,8 +79,8 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // 7 days * 3.0 (hostel) * 0.6 (2 people) * 0.5 (green energy) = 6.3
-      expect(emissions.accommodationCO2).toBeCloseTo(6.3, 1);
+      // 7 days * 3.0 (hostel) * 0.6 (2 people) * 0.75 (green energy) = 9.45
+      expect(emissions.accommodationCO2).toBeCloseTo(9.45, 1);
     });
 
     it("should calculate food emissions correctly", () => {
@@ -111,12 +111,12 @@ describe("Questionnaire Types and Calculations", () => {
 
       const emissions = calculateEmissions(answers);
 
-      // Transport: 500 * 0.255 = 127.5
-      // Accommodation: 7 * 1.5 * 0.3 * 0.5 = 1.575
+      // Transport: 500 * 0.255 * 2 (round trip) = 255
+      // Accommodation: 7 * 1.5 * 0.3 * 0.75 (green energy) = 2.3625
       // Food: 7 * 1.5 = 10.5
-      // Total: 139.575
-      expect(emissions.totalCO2).toBeCloseTo(139.575, 1);
-      expect(emissions.treesNeeded).toBe(7); // ceil(139.575 / 22)
+      // Total: 267.8625
+      expect(emissions.totalCO2).toBeCloseTo(267.8625, 1);
+      expect(emissions.treesNeeded).toBe(13); // ceil(267.8625 / 22)
     });
 
     it("should handle zero values correctly", () => {

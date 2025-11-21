@@ -1,31 +1,74 @@
 // Questionnaire types based on the clickdummy App.js structure
 
-export type AccommodationCategory =
-  | "Camping"
-  | "Hostel"
-  | "3★ Hotel"
-  | "4★ Hotel"
-  | "5★ Hotel"
-  | "Apartment"
-  | "Friends/Family";
+const ACCOMMODATION_DATA = [
+  ["Camping", 1.5],
+  ["Hostel", 3.0],
+  ["3★ Hotel", 5.0],
+  ["4★ Hotel", 7.5],
+  ["5★ Hotel", 10.0],
+  ["Apartment", 4.0],
+  ["Friends/Family", 2.0],
+] as const;
 
-export type RoomOccupancy = "alone" | "2 people" | "3 people" | "4+ people";
+const ACCOMMODATION_VALUES = ACCOMMODATION_DATA.map(([value]) => value);
 
-export type ElectricityType =
-  | "green energy"
-  | "conventional energy"
-  | "could not find out";
+export type AccommodationCategory = (typeof ACCOMMODATION_VALUES)[number];
 
-export type FoodFrequency =
-  | "never"
-  | "rarely"
-  | "sometimes"
-  | "almost every day"
-  | "every day";
+const ROOM_OCCUPANCY_VALUES = [
+  "alone",
+  "2 people",
+  "3 people",
+  "4+ people",
+] as const;
 
-export type CarType = "conventional (diesel, petrol, gas…)" | "electric";
+export type RoomOccupancy = (typeof ROOM_OCCUPANCY_VALUES)[number];
 
-export type Gender = "Female" | "Male" | "Other / Prefer not to say";
+const ELECTRICITY_VALUES = [
+  "green energy",
+  "conventional energy",
+  "could not find out",
+] as const;
+
+export type ElectricityType = (typeof ELECTRICITY_VALUES)[number];
+
+const FOOD_DATA = [
+  ["never", 1.5], // Never eat meat (vegetarian/vegan) - lowest emissions
+  ["rarely", 2.5], // Rarely eat meat
+  ["sometimes", 4.0], // Sometimes eat meat
+  ["almost every day", 5.5], // Almost every day eat meat
+  ["every day", 7.0], // Every day eat meat - highest emissions
+] as const;
+
+const FOOD_VALUES = FOOD_DATA.map(([value]) => value);
+
+export type FoodFrequency = (typeof FOOD_VALUES)[number];
+
+const CAR_TYPE_VALUES = [
+  "conventional (diesel, petrol, gas…)",
+  "electric",
+] as const;
+
+export type CarType = (typeof CAR_TYPE_VALUES)[number];
+
+const GENDER_VALUES = ["Female", "Male", "Other / Prefer not to say"] as const;
+
+export type Gender = (typeof GENDER_VALUES)[number];
+
+export const ACCOMMODATION_OPTIONS: AccommodationCategory[] = [
+  ...ACCOMMODATION_VALUES,
+];
+
+export const ROOM_OCCUPANCY_OPTIONS: RoomOccupancy[] = [
+  ...ROOM_OCCUPANCY_VALUES,
+];
+
+export const ELECTRICITY_OPTIONS: ElectricityType[] = [...ELECTRICITY_VALUES];
+
+export const FOOD_OPTIONS: FoodFrequency[] = [...FOOD_VALUES];
+
+export const CAR_TYPE_OPTIONS: CarType[] = [...CAR_TYPE_VALUES];
+
+export const GENDER_OPTIONS: Gender[] = [...GENDER_VALUES];
 
 export interface ParticipantAnswers {
   // Step 0: Participant Info
@@ -79,32 +122,24 @@ export interface ParticipantAnswers {
 // CO₂ emission factors (kg CO₂ per km per person)
 export const CO2_FACTORS = {
   flight: 0.255,
-  boat: 0.115,
-  train: 0.041,
-  bus: 0.089,
   car: 0.192,
+  boat: 0.115,
+  bus: 0.089,
   electricCar: 0.053,
+  train: 0.041,
 };
 
 // Accommodation CO₂ factors (kg CO₂ per night per person)
-export const ACCOMMODATION_FACTORS: Record<AccommodationCategory, number> = {
-  Camping: 1.5,
-  Hostel: 3.0,
-  "3★ Hotel": 5.0,
-  "4★ Hotel": 7.5,
-  "5★ Hotel": 10.0,
-  Apartment: 4.0,
-  "Friends/Family": 2.0,
-};
+export const ACCOMMODATION_FACTORS: Record<AccommodationCategory, number> =
+  Object.fromEntries(ACCOMMODATION_DATA) as Record<
+    AccommodationCategory,
+    number
+  >;
 
 // Food CO₂ factors (kg CO₂ per day)
-const FOOD_FACTORS: Record<FoodFrequency, number> = {
-  never: 1.5, // Vegetarian/vegan
-  rarely: 2.5,
-  sometimes: 4.0,
-  "almost every day": 5.5,
-  "every day": 7.0,
-};
+const FOOD_FACTORS: Record<FoodFrequency, number> = Object.fromEntries(
+  FOOD_DATA,
+) as Record<FoodFrequency, number>;
 
 export interface EmissionCalculation {
   transportCO2: number;
@@ -121,7 +156,7 @@ export function calculateEmissions(
   let accommodationCO2 = 0;
   let foodCO2 = 0;
 
-  // Calculate transport emissions (TO project only, as per clickdummy)
+  // Calculate transport emissions (round trip: TO and FROM project)
   if (answers.flightKm) {
     transportCO2 += answers.flightKm * CO2_FACTORS.flight;
   }
@@ -142,6 +177,9 @@ export function calculateEmissions(
     const passengers = answers.carPassengers || 1;
     transportCO2 += (answers.carKm * carFactor) / passengers;
   }
+
+  // Double transport emissions for round trip (to and from project)
+  transportCO2 *= 2;
 
   // Calculate accommodation emissions
   if (answers.days && answers.accommodationCategory) {
@@ -164,10 +202,10 @@ export function calculateEmissions(
         break;
     }
 
-    // Adjust for electricity type
+    // Adjust for electricity type (green energy reduces emissions by 25%)
     let electricityFactor = 1.0;
     if (answers.electricity === "green energy") {
-      electricityFactor = 0.5;
+      electricityFactor = 0.75;
     }
 
     accommodationCO2 =

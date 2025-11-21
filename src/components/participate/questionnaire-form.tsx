@@ -17,14 +17,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ImpactModal } from "./impact-modal";
 import {
-  type AccommodationCategory,
-  type CarType,
+  ACCOMMODATION_OPTIONS,
+  CAR_TYPE_OPTIONS,
   calculateEmissions,
-  type ElectricityType,
-  type FoodFrequency,
-  type Gender,
+  ELECTRICITY_OPTIONS,
+  FOOD_OPTIONS,
+  GENDER_OPTIONS,
   type ParticipantAnswers,
-  type RoomOccupancy,
+  ROOM_OCCUPANCY_OPTIONS,
 } from "./questionnaire-types";
 
 interface Project {
@@ -41,58 +41,15 @@ interface QuestionnaireFormProps {
   project: Project;
 }
 
-const ACCOMMODATION_OPTIONS: AccommodationCategory[] = [
-  "Camping",
-  "Hostel",
-  "3★ Hotel",
-  "4★ Hotel",
-  "5★ Hotel",
-  "Apartment",
-  "Friends/Family",
-];
-
-const ROOM_OCCUPANCY_OPTIONS: RoomOccupancy[] = [
-  "alone",
-  "2 people",
-  "3 people",
-  "4+ people",
-];
-
-const ELECTRICITY_OPTIONS: ElectricityType[] = [
-  "green energy",
-  "conventional energy",
-  "could not find out",
-];
-
-const FOOD_OPTIONS: FoodFrequency[] = [
-  "never",
-  "rarely",
-  "sometimes",
-  "almost every day",
-  "every day",
-];
-
-const CAR_TYPE_OPTIONS: CarType[] = [
-  "conventional (diesel, petrol, gas…)",
-  "electric",
-];
-
-const GENDER_OPTIONS: Gender[] = [
-  "Female",
-  "Male",
-  "Other / Prefer not to say",
-];
-
 // Steps that trigger impact modal when answered
 const EMISSION_IMPACT_STEPS = [
+  "electricity",
+  "food",
   "flightKm",
   "boatKm",
   "trainKm",
   "busKm",
-  "carKm",
   "carPassengers",
-  "electricity",
-  "food",
 ];
 
 export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
@@ -149,6 +106,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     impact: number;
     stepKey: string;
     stepValue: string | number;
+  } | null>(null);
+
+  // Confirmed emissions for display, updated only after impact modals
+  const [confirmedEmissions, setConfirmedEmissions] = useState<{
+    totalCO2: number;
+    treesNeeded: number;
   } | null>(null);
 
   // Total steps: 1 welcome form + 1 participant info + 14 questions = 16 total
@@ -256,6 +219,11 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   };
 
   const handleImpactModalClose = () => {
+    const fullEmissions = calculateEmissions(answers);
+    setConfirmedEmissions({
+      totalCO2: fullEmissions.totalCO2,
+      treesNeeded: fullEmissions.treesNeeded,
+    });
     setShowImpactModal(false);
     proceedToNextStep();
   };
@@ -350,14 +318,6 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       ? 12 // Show as step 12 if we skipped car questions
       : currentStep;
 
-  // Calculate emissions for display (up to previous step)
-  const stepKey = getStepKey(currentStep);
-  const displayAnswers = { ...answers };
-  if (stepKey) {
-    delete displayAnswers[stepKey as keyof ParticipantAnswers];
-  }
-  const displayEmissions = calculateEmissions(displayAnswers);
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -368,7 +328,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
             {t("header.badge")}
           </span>
         </div>
-        <h1 className="mb-1 font-bold text-2xl text-foreground sm:text-4xl md:text-3xl lg:text-4xl">
+        <h1 className="mb-1 font-bold text-4xl text-foreground sm:text-4xl md:text-3xl lg:text-4xl">
           {t("header.title")}
         </h1>
         <h1 className="mb-2 font-bold text-foreground text-xl sm:text-3xl md:text-2xl lg:text-3xl">
@@ -397,12 +357,12 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       {currentStep >= 2 && (
         <div className="grid grid-cols-2 gap-4">
           {/* CO₂ Footprint Card */}
-          <Card className="gap-2 border-red-500/30 bg-gradient-to-br from-red-500/10 to-red-600/10 p-4 text-center font-mono md:gap-4 lg:gap-6">
+          <Card className="gap-2 border-red-500/30 bg-gradient-to-br from-red-500/10 to-red-600/10 p-4 text-center md:gap-4 lg:gap-6">
             <div className="mb-2 flex justify-center">
               <Factory className="size-12 text-red-400 md:size-16 lg:size-20" />
             </div>
-            <div className="mb-1 font-bold text-3xl text-red-400 tracking-tighter">
-              {displayEmissions.totalCO2.toFixed(1)} kg
+            <div className="mb-1 font-bold font-mono text-3xl text-red-400 tracking-tighter">
+              {(confirmedEmissions?.totalCO2 ?? 0).toFixed(1)} kg
             </div>
             <div className="mt-1 text-foreground text-sm md:text-base lg:text-lg">
               {t("results.co2-footprint")}
@@ -415,7 +375,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
               <TreePine className="size-12 text-green-400 md:size-16 lg:size-20" />
             </div>
             <div className="mb-1 font-bold text-3xl text-green-400">
-              {displayEmissions.treesNeeded}
+              {confirmedEmissions?.treesNeeded ?? 0}
             </div>
             <div className="mt-1 text-foreground text-sm md:text-base lg:text-lg">
               {t("results.trees-needed")}

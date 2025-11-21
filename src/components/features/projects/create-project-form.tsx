@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { OrganizationType } from "@/components/features/organizations/types";
@@ -56,8 +56,6 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     },
   });
 
-  const locale = useLocale();
-
   const queryClient = useQueryClient();
 
   const router = useRouter();
@@ -70,7 +68,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
       } else {
         toast.error(t("toast.error"));
       }
-      router.push(`/${locale}/org/projects/${result.project.id}`);
+      router.push(`/org/projects/${result.project.id}`);
       // Invalidate project list
       queryClient.invalidateQueries({
         queryKey: orpcQuery.project.list.queryKey(),

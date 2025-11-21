@@ -510,7 +510,8 @@
         "accommodation": "Unterkunft:",
         "food": "Essen:",
         "total": "Gesamt:",
-        "console-note": "Daten wurden in die Konsole protokolliert (siehe Browser-Entwicklertools)"
+        "console-note": "Daten wurden in die Konsole protokolliert (siehe Browser-Entwicklertools)",
+        "co2-footprint": "CO₂-Fußabdruck"
       },
       "impact-modal": {
         "title": "Dein Einfluss",

@@ -510,7 +510,8 @@
         "accommodation": "Accommodation:",
         "food": "Food:",
         "total": "Total:",
-        "console-note": "Data has been logged to the console (check browser developer tools)"
+        "console-note": "Data has been logged to the console (check browser developer tools)",
+        "co2-footprint": "CO₂ Footprint"
       },
       "impact-modal": {
         "title": "Your Impact",
