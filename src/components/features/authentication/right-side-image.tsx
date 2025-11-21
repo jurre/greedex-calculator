@@ -45,7 +45,6 @@ export default function RightSideImage({
           <ul className="relative z-10 grid gap-3 text-sm">
             {highlights.map((value, index) => (
               <li
-                // biome-ignore lint/suspicious/noArrayIndexKey: <come on>
                 key={`${value}-${index}`}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-muted/50 px-4 py-2 font-medium text-sm"
               >

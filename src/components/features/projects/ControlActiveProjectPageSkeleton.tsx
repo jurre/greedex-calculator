@@ -45,7 +45,6 @@ export default function ControlActiveProjectPageSkeleton() {
         <div className="space-y-2">
           {Array.from({ length: 3 }).map((_, i) => (
             <div
-              // biome-ignore lint/suspicious/noArrayIndexKey: Skeleton items don't need unique keys
               key={`skeleton-${i}`}
               className="flex items-center gap-4 rounded-lg border p-4"
             >
