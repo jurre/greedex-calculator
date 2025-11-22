@@ -16,7 +16,7 @@ export function OrganizationHeader() {
   // Using oRPC query for active organization details
   // Prefetched in page.tsx, so no loading state on mount
   const { data: activeOrganization } = useSuspenseQuery(
-    orpcQuery.organization.getActiveOrganizationDetails.queryOptions(),
+    orpcQuery.organization.getActiveOrganization.queryOptions(),
   );
 
   return (

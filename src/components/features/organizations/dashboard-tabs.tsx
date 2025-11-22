@@ -3,9 +3,9 @@
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { Suspense } from "react";
-import { DashboardStats } from "@/app/[locale]/(app)/org/dashboard/_components/dashboard-stats";
-import { TeamTable } from "@/app/[locale]/(app)/org/dashboard/_components/team-table";
-import { organizationRoles } from "@/components/features/organizations/types";
+import { DashboardStats } from "@/components/features/organizations/dashboard-stats";
+import { TeamTable } from "@/components/features/organizations/team-table";
+import { memberRoles } from "@/components/features/organizations/types";
 import { ProjectsGrid } from "@/components/features/projects/projects-grid";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -48,7 +48,7 @@ export function DashboardTabs({ organizationId }: DashboardTabsProps) {
       <TabsContent value="participants">
         <TeamTable
           organizationId={organizationId}
-          roles={[organizationRoles.Participant]}
+          roles={[memberRoles.Participant]}
         />
       </TabsContent>
     </Tabs>

@@ -6,7 +6,12 @@ import { Edit2Icon, EyeIcon, MoreHorizontal, Trash2Icon } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import type { ProjectType } from "@/components/features/projects/types";
+import EditProjectForm from "@/components/features/projects/edit-project-form";
+import {
+  type ProjectType,
+  SORT_OPTIONS,
+} from "@/components/features/projects/types";
+import { SortableHeader } from "@/components/sortable-header";
 import { Button } from "@/components/ui/button";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import {
@@ -23,12 +28,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SortableHeader } from "@/components/ui/sortable-header";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import EditProjectForm from "./edit-project-form";
-import { SORT_OPTIONS } from "./types";
 
 function DateCell({ date }: { date: Date }) {
   const format = useFormatter();

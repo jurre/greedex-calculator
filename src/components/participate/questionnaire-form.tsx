@@ -10,12 +10,8 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { AnimatedGroup } from "@/components/ui/animated-group";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ImpactModal } from "./impact-modal";
+import { AnimatedGroup } from "@/components/animated-group";
+import { ImpactModal } from "@/components/participate/impact-modal";
 import {
   ACCOMMODATION_OPTIONS,
   CAR_TYPE_OPTIONS,
@@ -25,7 +21,11 @@ import {
   GENDER_OPTIONS,
   type ParticipantAnswers,
   ROOM_OCCUPANCY_OPTIONS,
-} from "./questionnaire-types";
+} from "@/components/participate/questionnaire-types";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Project {
   id: string;

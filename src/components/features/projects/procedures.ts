@@ -5,7 +5,7 @@ import { ORPCError } from "@orpc/server";
 import { and, asc, eq, type SQL, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 import { z } from "zod";
-import { organizationRoles } from "@/components/features/organizations/types";
+import { memberRoles } from "@/components/features/organizations/types";
 import { ProjectParticipantWithUserSchema } from "@/components/features/projects/participant-types";
 import {
   DEFAULT_PROJECT_SORT,
@@ -49,8 +49,7 @@ export const createProject = authorized
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
       throw new ORPCError("BAD_REQUEST", {
-        message:
-          "2 No active organization. Please select an organization first.",
+        message: "No active organization. Please select an organization first.",
       });
     }
 
@@ -338,10 +337,7 @@ export const setActiveProject = authorized
         headers: await headers(),
       });
 
-      if (
-        role !== organizationRoles.Employee &&
-        role !== organizationRoles.Owner
-      ) {
+      if (role !== memberRoles.Employee && role !== memberRoles.Owner) {
         throw new ORPCError("FORBIDDEN", {
           message: "You don't have permission to set an active project",
         });

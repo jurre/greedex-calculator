@@ -8,11 +8,11 @@
  */
 
 import {
-  type OrganizationRole,
-  organizationRoles,
+  type MemberRole,
+  memberRoles,
 } from "@/components/features/organizations/types";
-import { authClient } from "./auth-client";
-import type { ProjectPermission } from "./permissions";
+import { authClient } from "@/lib/better-auth/auth-client";
+import type { ProjectPermission } from "@/lib/better-auth/permissions";
 
 /**
  * Check if a given role has specific project permissions
@@ -31,7 +31,7 @@ import type { ProjectPermission } from "./permissions";
  * ```
  */
 export function checkProjectPermission(
-  role: OrganizationRole,
+  role: MemberRole,
   permissions: ProjectPermission[],
 ): boolean {
   return authClient.organization.checkRolePermission({
@@ -69,7 +69,7 @@ export function useProjectPermissions() {
     authClient.useActiveOrganization();
 
   // Default to least privileged role
-  let role: OrganizationRole = organizationRoles.Participant;
+  let role: MemberRole = memberRoles.Participant;
 
   // Find current user's role in the active organization
   if (activeOrg && session?.user?.id) {
@@ -77,7 +77,7 @@ export function useProjectPermissions() {
       (member) => member.userId === session.user.id,
     );
     if (currentMember?.role) {
-      role = currentMember.role as OrganizationRole;
+      role = currentMember.role as MemberRole;
     }
   }
 
@@ -97,28 +97,28 @@ export function useProjectPermissions() {
 /**
  * Check if a user's role can create projects
  */
-export function canCreateProjects(role: OrganizationRole): boolean {
+export function canCreateProjects(role: MemberRole): boolean {
   return checkProjectPermission(role, ["create"]);
 }
 
 /**
  * Check if a user's role can update projects
  */
-export function canUpdateProjects(role: OrganizationRole): boolean {
+export function canUpdateProjects(role: MemberRole): boolean {
   return checkProjectPermission(role, ["update"]);
 }
 
 /**
  * Check if a user's role can delete projects
  */
-export function canDeleteProjects(role: OrganizationRole): boolean {
+export function canDeleteProjects(role: MemberRole): boolean {
   return checkProjectPermission(role, ["delete"]);
 }
 
 /**
  * Check if a user's role can only read projects (member role)
  */
-export function isReadOnlyMember(role: OrganizationRole): boolean {
+export function isReadOnlyMember(role: MemberRole): boolean {
   return (
     checkProjectPermission(role, ["read"]) &&
     !checkProjectPermission(role, ["create", "update", "delete"])

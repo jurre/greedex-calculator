@@ -3,6 +3,7 @@ import { Edit2Icon, EyeIcon, Trash2Icon } from "lucide-react";
 import { useFormatter } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import EditProjectForm from "@/components/features/projects/edit-project-form";
 import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +24,6 @@ import {
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
-import EditProjectForm from "./edit-project-form";
 
 interface ProjectDetailCardProps {
   project: ProjectType;

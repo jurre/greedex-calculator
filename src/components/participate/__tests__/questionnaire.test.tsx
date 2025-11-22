@@ -4,7 +4,7 @@ import {
   CO2_FACTORS,
   calculateEmissions,
   type ParticipantAnswers,
-} from "../questionnaire-types";
+} from "@/components/participate/questionnaire-types";
 
 describe("Questionnaire Types and Calculations", () => {
   describe("CO₂ Emission Factors", () => {

@@ -8,8 +8,8 @@
 
 import { z } from "zod";
 import {
-  type OrganizationRole,
-  organizationRoles,
+  type MemberRole,
+  memberRoles,
 } from "@/components/features/organizations/types";
 
 // ============================================================================
@@ -26,7 +26,7 @@ export const listMembersQuerySchema = z
     limit: z.coerce.number().int().min(1).max(100).default(100).optional(),
     offset: z.coerce.number().int().min(0).default(0).optional(),
     // Future filtering
-    role: z.enum(organizationRoles).optional(),
+    role: z.enum(memberRoles).optional(),
   })
   .optional();
 
@@ -41,7 +41,7 @@ export const memberSchema = z.object({
   id: z.string().uuid(),
   userId: z.string().uuid(),
   organizationId: z.string().uuid(),
-  role: z.enum(organizationRoles),
+  role: z.enum(memberRoles),
   createdAt: z.date(), // Join date
   user: z.object({
     id: z.string().uuid(),
@@ -345,7 +345,7 @@ export interface TeamTableRow {
   id: string;
   name: string;
   email: string;
-  role: OrganizationRole;
+  role: MemberRole;
   joinDate: string; // Formatted date string
   avatar: string | null;
 }

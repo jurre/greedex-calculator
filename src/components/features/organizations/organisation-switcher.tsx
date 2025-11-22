@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import CreateOrganizationModal from "@/components/features/organizations/create-organization-modal";
-import type { OrganizationType } from "@/components/features/organizations/types";
+import type { Organization } from "@/components/features/organizations/types";
 // import type { OrganizationType } from "@/components/features/organizations/types";
 import { useAppLoading } from "@/components/providers/loading-provider";
 import {
@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 
 export function OrganizationSwitcher() {
   const [activeOrganization, setActiveOrganization] = React.useState<
-    OrganizationType | undefined
+    Organization | undefined
   >(undefined);
   const { setIsLoading } = useAppLoading();
   const queryClient = useQueryClient();
@@ -147,7 +147,7 @@ export function OrganizationSwitcher() {
                     );
 
                     await queryClient.invalidateQueries(
-                      orpcQuery.organization.getActiveOrganizationDetails.queryOptions(),
+                      orpcQuery.organization.getActiveOrganization.queryOptions(),
                     );
 
                     // // Invalidate participants queries for the previous active project if present

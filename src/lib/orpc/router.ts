@@ -1,6 +1,6 @@
 import {
-  listOrganizationMembers,
   listOrganizations,
+  searchMembers,
 } from "@/components/features/organizations/procedures";
 import {
   createProject,
@@ -40,13 +40,13 @@ export const router = {
 
   // Organization namespace
   organization: {
-    getActiveOrganizationDetails: getFullOrganization,
+    getActiveOrganization: getFullOrganization,
     list: listOrganizations,
   },
 
   // Member namespace
   member: {
-    list: listOrganizationMembers,
+    search: searchMembers,
   },
 
   // Project namespace

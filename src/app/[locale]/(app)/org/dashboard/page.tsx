@@ -1,13 +1,12 @@
 import { LayoutDashboardIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
-import { organizationRoles } from "@/components/features/organizations/types";
+import { DashboardTabs } from "@/components/features/organizations/dashboard-tabs";
+import { memberRoles } from "@/components/features/organizations/types";
 import { DEFAULT_PROJECT_SORT } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
-import { DashboardTabs } from "./_components/dashboard-tabs";
-
 export default async function DashboardPage() {
   const t = await getTranslations("organization.dashboard");
   const queryClient = getQueryClient();
@@ -36,10 +35,10 @@ export default async function DashboardPage() {
 
   // Prefetch members data
   void queryClient.prefetchQuery(
-    orpcQuery.member.list.queryOptions({
+    orpcQuery.member.search.queryOptions({
       input: {
         organizationId: activeOrganizationId,
-        roles: [organizationRoles.Participant],
+        roles: [memberRoles.Participant],
       },
     }),
   );

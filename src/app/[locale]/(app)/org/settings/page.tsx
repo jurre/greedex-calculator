@@ -20,7 +20,7 @@ export default async function SettingsPage() {
 
   // Prefetch organization data for SSR
   void queryClient.prefetchQuery(
-    orpcQuery.organization.getActiveOrganizationDetails.queryOptions(),
+    orpcQuery.organization.getActiveOrganization.queryOptions(),
   );
 
   return (

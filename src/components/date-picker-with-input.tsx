@@ -1,8 +1,8 @@
 "use client";
 
 import { CalendarIcon } from "lucide-react";
-import { useState } from "react";
 import { useFormatter, useLocale } from "next-intl";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -35,11 +35,15 @@ function DatePickerWithInput({
       <Input
         id={id}
         type="text"
-        value={value ? format.dateTime(value, { 
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit"
-         }) : ""}
+        value={
+          value
+            ? format.dateTime(value, {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+            : ""
+        }
         placeholder={placeholder}
         readOnly
         className="cursor-pointer bg-background pr-10"

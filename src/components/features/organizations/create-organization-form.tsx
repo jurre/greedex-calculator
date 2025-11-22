@@ -3,10 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {
-  OrganizationFormSchema,
-  type OrganizationFormSchemaType,
-} from "@/components/features/organizations/types";
+import { OrganizationFormSchema } from "@/components/features/organizations/types";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,14 +27,14 @@ export default function CreateOrganizationForm({
 }: CreateOrganizationFormProps) {
   const router = useRouter();
 
-  const form = useForm<OrganizationFormSchemaType>({
+  const form = useForm<OrganizationFormSchema>({
     resolver: zodResolver(OrganizationFormSchema),
     defaultValues: {
       name: "",
     },
   });
 
-  async function onSubmit(data: OrganizationFormSchemaType) {
+  async function onSubmit(data: OrganizationFormSchema) {
     try {
       // Find an available slug automatically
       const availableSlug = await findAvailableSlug(data.name);

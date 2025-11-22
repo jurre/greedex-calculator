@@ -1,12 +1,12 @@
 // src/components/features/projects/types.ts:
 
-import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import type { InferSelectModel } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
 import { projectTable } from "@/lib/drizzle/schema";
 
 export type ProjectType = InferSelectModel<typeof projectTable>;
-export type InsertProjectType = InferInsertModel<typeof projectTable>;
+// export type InsertProjectType = InferInsertModel<typeof projectTable>;
 
 export const ProjectSelectSchema = createSelectSchema(projectTable);
 

@@ -3,11 +3,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import {
-  type OrganizationRole,
-  organizationRoles,
+  type MemberRole,
+  memberRoles,
 } from "@/components/features/organizations/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -20,14 +21,14 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 
 interface TeamTableProps {
   organizationId: string;
-  roles: OrganizationRole[];
+  roles: MemberRole[];
 }
 
 export function TeamTable({ organizationId, roles }: TeamTableProps) {
   const t = useTranslations("organization.team.table");
 
   const { data: membersResult } = useSuspenseQuery(
-    orpcQuery.member.list.queryOptions({
+    orpcQuery.member.search.queryOptions({
       input: { organizationId, roles },
     }),
   );
@@ -35,7 +36,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
   const members = membersResult.members;
 
   const roleKeyByValue: Record<string, string> = Object.fromEntries(
-    Object.entries(organizationRoles).map(([key, value]) => [value, key]),
+    Object.entries(memberRoles).map(([key, value]) => [value, key]),
   );
   return (
     <div className="rounded-md border">
@@ -76,6 +77,55 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
                   month: "short",
                   day: "numeric",
                 }).format(new Date(member.createdAt))}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+/**
+ * TeamTable Skeleton with Shadcn UI table structure
+ * Used as a fallback while loading the actual TeamTable
+ * implementation: Shadcn Skeletons
+ */
+
+export function TeamTableSkeleton() {
+  return (
+    <div className="rounded-md border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>
+              <Skeleton className="h-4 w-24" />
+            </TableHead>
+            <TableHead>
+              <Skeleton className="h-4 w-24" />
+            </TableHead>
+            <TableHead>
+              <Skeleton className="h-4 w-16" />
+            </TableHead>
+            <TableHead>
+              <Skeleton className="h-4 w-20" />
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <TableRow key={index}>
+              <TableCell>
+                <Skeleton className="h-8 w-32" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-8 w-40" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-6 w-20" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-6 w-24" />
               </TableCell>
             </TableRow>
           ))}

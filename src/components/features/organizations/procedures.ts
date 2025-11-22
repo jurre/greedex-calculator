@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { MemberWithUserSchema } from "@/components/features/organizations/types";
 import { auth } from "@/lib/better-auth";
 import { base } from "@/lib/orpc/context";
 import { authorized } from "@/lib/orpc/middleware";
@@ -14,24 +15,39 @@ export const listOrganizations = base.handler(async ({ context }) => {
   return organizations || [];
 });
 
-export const listOrganizationMembers = authorized
-  // .route()
+export const searchMembers = authorized
+  .route({
+    method: "POST",
+    path: "/organizations/members/search",
+    description: "Search members with flexible filters",
+    tags: ["Organizations"],
+  })
   .input(
     z.object({
       organizationId: z.string(),
-      roles: z.array(z.string()),
+      filters: z
+        .object({
+          roles: z.array(z.string()).optional(),
+          //TODO: Add more filters easily in the future
+          // search: z.string().optional(),
+          // status: z.enum(["active", "pending", "inactive"]).optional(),
+          // limit: z.number().optional(),
+          // offset: z.number().optional(),
+        })
+        .optional(),
     }),
   )
   .output(
     z.object({
-      members: z.array(z.any()), // TODO: Define proper member schema
+      members: z.array(MemberWithUserSchema),
+      total: z.number(),
     }),
   )
   .handler(async ({ context, input }) => {
-    const { organizationId, roles } = input;
+    const { organizationId, filters } = input;
 
     const allMembers = [];
-    for (const role of roles) {
+    for (const role of filters?.roles || []) {
       const result = await auth.api.listMembers({
         query: {
           organizationId,
@@ -50,5 +66,8 @@ export const listOrganizationMembers = authorized
         index === self.findIndex((m) => m.id === member.id),
     );
 
-    return { members: uniqueMembers };
+    return {
+      members: uniqueMembers,
+      total: uniqueMembers.length,
+    };
   });

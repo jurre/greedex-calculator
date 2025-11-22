@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
-import type { OrganizationType } from "@/components/features/organizations/types";
+import type { Organization } from "@/components/features/organizations/types";
 import CreateProjectForm from "@/components/features/projects/create-project-form";
 import { auth } from "@/lib/better-auth";
 
@@ -12,11 +12,12 @@ export default async function CreateProjectPage() {
   });
 
   // Transform to match your Organization type
-  const organizations: Omit<OrganizationType, "metadata">[] =
-    organizationsData.map((org) => ({
+  const organizations: Omit<Organization, "metadata">[] = organizationsData.map(
+    (org) => ({
       ...org,
       logo: org.logo ?? null, // Convert undefined to null
-    }));
+    }),
+  );
 
   return (
     <div className="mx-auto max-w-3xl p-6">

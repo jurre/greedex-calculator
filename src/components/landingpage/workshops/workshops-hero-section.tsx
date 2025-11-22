@@ -1,11 +1,11 @@
 import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
+import { AnimatedGroup } from "@/components/animated-group";
 import {
   type CalculatorType,
   WORKSHOPS,
 } from "@/components/landingpage/workshops/workshops.config";
-import { AnimatedGroup } from "@/components/ui/animated-group";
 import {
   Card,
   CardContent,

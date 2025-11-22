@@ -1,11 +1,11 @@
 "use client";
 
+import { TransportIcon } from "@/components/participate/transport-icon";
 import {
   activityTypeValues,
   type ProjectStats,
 } from "@/components/participate/types";
 import { Card } from "@/components/ui/card";
-import { TransportIcon } from "./transport-icon";
 
 interface TransportBreakdownProps {
   stats: ProjectStats;

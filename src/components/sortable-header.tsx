@@ -1,6 +1,11 @@
-
-import { type Column, type Table } from "@tanstack/react-table";
-import { ArrowUpDown, ArrowUpAZIcon, ArrowDownZAIcon, ArrowUp01, ArrowDown10 } from "lucide-react";
+import type { Column, Table } from "@tanstack/react-table";
+import {
+  ArrowDown10,
+  ArrowDownZAIcon,
+  ArrowUp01,
+  ArrowUpAZIcon,
+  ArrowUpDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +26,7 @@ export function SortableHeader<TData, TValue>({
 }: SortableHeaderProps<TData, TValue>) {
   // Get the current sorting state for this column
   const sorting = table.getState().sorting;
-  const currentSort = sorting.find(sort => sort.id === column.id);
+  const currentSort = sorting.find((sort) => sort.id === column.id);
   const sortState = currentSort?.desc ? "desc" : currentSort ? "asc" : false;
 
   return (
@@ -31,7 +36,7 @@ export function SortableHeader<TData, TValue>({
       className={cn(
         "-ml-4 h-8 hover:bg-transparent",
         sortState && "sorted font-medium text-foreground",
-        className
+        className,
       )}
     >
       {title}

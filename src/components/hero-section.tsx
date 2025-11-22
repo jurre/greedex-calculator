@@ -1,7 +1,7 @@
 import { ArrowRight, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { AnimatedGroup } from "@/components/ui/animated-group";
+import { AnimatedGroup } from "@/components/animated-group";
 import { TextEffect } from "@/components/ui/text-effect";
 import { Link } from "@/lib/i18n/navigation";
 

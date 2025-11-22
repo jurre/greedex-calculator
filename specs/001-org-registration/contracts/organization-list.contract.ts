@@ -7,7 +7,7 @@
  */
 
 import { z } from "zod";
-import { organizationRoles } from "@/components/features/organizations/types";
+import { memberRoles } from "@/components/features/organizations/types";
 
 // ============================================================================
 // Request Schema
@@ -37,7 +37,7 @@ export const organizationSummarySchema = z.object({
   slug: z.string(),
   logo: z.string().url().nullable(),
   createdAt: z.date(),
-  role: z.enum(organizationRoles), // User's role in this org
+  role: z.enum(memberRoles), // User's role in this org
   memberCount: z.number().int().min(1), // For future display
 });
 

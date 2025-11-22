@@ -39,7 +39,7 @@ type EditOrganizationFormSchemaType = z.infer<
 export default function EditOrganizationForm() {
   const queryClient = useQueryClient();
   const { data: organization } = useSuspenseQuery(
-    orpcQuery.organization.getActiveOrganizationDetails.queryOptions(),
+    orpcQuery.organization.getActiveOrganization.queryOptions(),
   );
 
   const form = useForm<EditOrganizationFormSchemaType>({

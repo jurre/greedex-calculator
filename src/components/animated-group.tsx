@@ -1,7 +1,6 @@
 "use client";
-import { ReactNode } from "react";
-import { motion, Variants } from "motion/react";
-import React from "react";
+import { motion, type Variants } from "motion/react";
+import React, { type ReactNode } from "react";
 
 export type PresetType =
   | "fade"
@@ -126,7 +125,7 @@ function AnimatedGroup({
 
   const MotionChild = React.useMemo(
     () => motion.create(asChild),
-    [asChild]
+    [asChild],
   ) as any;
 
   // If triggerOnView is true, use `whileInView` + `viewport` so the

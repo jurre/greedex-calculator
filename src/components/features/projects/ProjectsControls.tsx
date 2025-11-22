@@ -2,6 +2,10 @@
 
 import { ChevronDown, Grid2X2, TableProperties } from "lucide-react";
 import { useTranslations } from "next-intl";
+import {
+  SORT_OPTIONS,
+  type SortOption,
+} from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,8 +15,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { SortOption } from "./types";
-import { SORT_OPTIONS } from "./types";
 
 interface ProjectsControlsProps {
   view: "grid" | "table";

@@ -5,13 +5,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { OrganizationType } from "@/components/features/organizations/types";
+import { DatePickerWithInput } from "@/components/date-picker-with-input";
+import type { Organization } from "@/components/features/organizations/types";
 import {
   ProjectFormSchema,
   type ProjectFormSchemaType,
 } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
-import { DatePickerWithInput } from "@/components/ui/date-picker-with-input";
 import {
   Field,
   FieldError,
@@ -32,7 +32,7 @@ import { useRouter } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface CreateProjectFormProps {
-  userOrganizations: Omit<OrganizationType, "metadata">[];
+  userOrganizations: Omit<Organization, "metadata">[];
 }
 
 function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {

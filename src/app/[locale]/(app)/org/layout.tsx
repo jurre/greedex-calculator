@@ -4,7 +4,7 @@ import {
   OrganizationHeader,
 } from "@/components/features/organizations/organozation-header";
 import { orpcQuery } from "@/lib/orpc/orpc";
-import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
+import { getQueryClient } from "@/lib/react-query/hydration";
 
 export default function Layout({
   children,
@@ -14,15 +14,15 @@ export default function Layout({
   const queryClient = getQueryClient();
 
   void queryClient.prefetchQuery(
-    orpcQuery.organization.getActiveOrganizationDetails.queryOptions(),
+    orpcQuery.organization.getActiveOrganization.queryOptions(),
   );
 
   return (
-    <HydrateClient client={queryClient}>
+    <>
       <Suspense fallback={<DashboardHeaderSkeleton />}>
         <OrganizationHeader />
       </Suspense>
       {children}
-    </HydrateClient>
+    </>
   );
 }
