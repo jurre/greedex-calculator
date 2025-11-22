@@ -130,21 +130,21 @@ export const auth = betterAuth({
 
       update: {
         before: async (session) => {
-          console.log("=== SESSION UPDATE HOOK CALLED ===");
-          console.log(
-            "Incoming session object:",
-            JSON.stringify(session, null, 2),
-          );
-          console.log("Session keys:", Object.keys(session));
-          console.log(
-            "Has activeOrganizationId?",
-            "activeOrganizationId" in session,
-          );
-          console.log(
-            "activeOrganizationId value:",
-            session.activeOrganizationId,
-          );
-          console.log("activeProjectId value:", session.activeProjectId);
+          // console.log("=== SESSION UPDATE HOOK CALLED ===");
+          // console.log(
+          //   "Incoming session object:",
+          //   JSON.stringify(session, null, 2),
+          // );
+          // console.log("Session keys:", Object.keys(session));
+          // console.log(
+          //   "Has activeOrganizationId?",
+          //   "activeOrganizationId" in session,
+          // );
+          // console.log(
+          //   "activeOrganizationId value:",
+          //   session.activeOrganizationId,
+          // );
+          // console.log("activeProjectId value:", session.activeProjectId);
 
           const result = {
             data: {
@@ -153,8 +153,8 @@ export const auth = betterAuth({
             },
           };
 
-          console.log("Returning:", JSON.stringify(result, null, 2));
-          console.log("=== END HOOK ===");
+          // console.log("Returning:", JSON.stringify(result, null, 2));
+          // console.log("=== END HOOK ===");
 
           return result;
         },

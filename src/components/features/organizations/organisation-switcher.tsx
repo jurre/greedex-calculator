@@ -115,26 +115,26 @@ export function OrganizationSwitcher() {
                       organizationId: org.id,
                     });
 
-                    // 2. Optimistically update local cache
-                    queryClient.setQueryData(
-                      orpcQuery.betterauth.getSession.queryKey(),
-                      (oldData) => {
-                        if (!oldData?.session) return oldData;
-                        return {
-                          ...oldData,
-                          session: {
-                            ...oldData.session,
-                            activeOrganizationId: org.id,
-                            activeProjectId: undefined,
-                          },
-                        };
-                      },
-                    );
+                    // // 2. Optimistically update local cache
+                    // queryClient.setQueryData(
+                    //   orpcQuery.betterauth.getSession.queryKey(),
+                    //   (oldData) => {
+                    //     if (!oldData?.session) return oldData;
+                    //     return {
+                    //       ...oldData,
+                    //       session: {
+                    //         ...oldData.session,
+                    //         activeOrganizationId: org.id,
+                    //         activeProjectId: undefined,
+                    //       },
+                    //     };
+                    //   },
+                    // );
 
-                    // 3. Cancel any ongoing queries to prevent race conditions
-                    await queryClient.cancelQueries({
-                      queryKey: orpcQuery.betterauth.getSession.queryKey(),
-                    });
+                    // // 3. Cancel any ongoing queries to prevent race conditions
+                    // await queryClient.cancelQueries({
+                    //   queryKey: orpcQuery.betterauth.getSession.queryKey(),
+                    // });
 
                     // 4. Refetch session to get server state
                     await queryClient.refetchQueries(
@@ -146,14 +146,18 @@ export function OrganizationSwitcher() {
                       orpcQuery.project.list.queryOptions(),
                     );
 
-                    // Invalidate participants queries for the previous active project if present
-                    if (session.session.activeProjectId) {
-                      await queryClient.invalidateQueries(
-                        orpcQuery.project.getParticipants.queryOptions({
-                          input: { projectId: session.session.activeProjectId },
-                        }),
-                      );
-                    }
+                    await queryClient.invalidateQueries(
+                      orpcQuery.organization.getActiveOrganizationDetails.queryOptions(),
+                    );
+
+                    // // Invalidate participants queries for the previous active project if present
+                    // if (session.session.activeProjectId) {
+                    //   await queryClient.invalidateQueries(
+                    //     orpcQuery.project.getParticipants.queryOptions({
+                    //       input: { projectId: session.session.activeProjectId },
+                    //     }),
+                    //   );
+                    // }
 
                     setActiveOrganization(org);
                   } finally {
