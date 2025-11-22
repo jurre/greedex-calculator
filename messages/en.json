@@ -340,6 +340,41 @@
       "no-projects-yet": {
         "title": "No projects yet",
         "description": "Projects will help you organize your work and track activities. Start by creating your first project!"
+      },
+      "form": {
+        "edit": {
+          "title": "Edit Project"
+        },
+        "delete": {
+          "confirm-title": "Are you sure?",
+          "confirm-description": "This will permanently delete the project \"{name}\". This action cannot be undone.",
+          "confirm-button": "Delete",
+          "cancel-button": "Cancel",
+          "toast-success": "Project deleted successfully",
+          "toast-error": "Failed to delete project",
+          "toast-error-generic": "An error occurred while deleting the project"
+        },
+        "new": {
+          "toast": {
+            "success": "Project created successfully",
+            "error": "Failed to create project",
+            "error-generic": "An error occurred"
+          },
+          "submit": {
+            "label": "New project"
+          },
+          "name": "Project Name",
+          "start-date": "Start Date",
+          "end-date": "End Date",
+          "country": "Country",
+          "location": "Location (optional)",
+          "welcome-message": "Welcome Message (optional)",
+          "organization": "Organization",
+          "select-organization": "Select organization",
+          "creating": "Creating...",
+          "create-project": "Create Project",
+          "title": "Create a new Project"
+        }
       }
     },
     "team": {
@@ -364,29 +399,6 @@
     }
   },
   "project": {
-    "create": {
-      "title": "Create a new Project",
-      "form": {
-        "name": "Project Name",
-        "start-date": "Start Date",
-        "end-date": "End Date",
-        "country": "Country",
-        "location": "Location (optional)",
-        "welcome-message": "Welcome Message (optional)",
-        "organization": "Organization",
-        "select-organization": "Select organization",
-        "creating": "Creating...",
-        "create-project": "Create Project",
-        "submit": {
-          "label": "New project"
-        }
-      },
-      "toast": {
-        "success": "Project created successfully",
-        "error": "Failed to create project",
-        "error-generic": "An error occurred"
-      }
-    },
     "details": {
       "title": "Project Details",
       "start-date": "Start Date",
@@ -399,18 +411,6 @@
       "activities-description": "Project activities will be displayed here.",
       "loading": "loading project details...",
       "error": "Failed to load project details."
-    },
-    "delete": {
-      "confirm-title": "Are you sure?",
-      "confirm-description": "This will permanently delete the project \"{name}\". This action cannot be undone.",
-      "confirm-button": "Delete",
-      "cancel-button": "Cancel",
-      "toast-success": "Project deleted successfully",
-      "toast-error": "Failed to delete project",
-      "toast-error-generic": "An error occurred while deleting the project"
-    },
-    "edit": {
-      "title": "Edit Project"
     }
   },
   "participation": {

@@ -340,6 +340,41 @@
       "no-projects-yet": {
         "title": "Noch keine Projekte",
         "description": "Mithilfe von Projekten können Sie Ihre Arbeit organisieren und Aktivitäten verfolgen. \nBeginnen Sie mit der Erstellung Ihres ersten Projekts!"
+      },
+      "form": {
+        "edit": {
+          "title": "Projekt bearbeiten"
+        },
+        "delete": {
+          "confirm-title": "Sind Sie sicher?",
+          "confirm-description": "Dies wird das Projekt \"{name}\" dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+          "confirm-button": "Löschen",
+          "cancel-button": "Abbrechen",
+          "toast-success": "Projekt erfolgreich gelöscht",
+          "toast-error": "Fehler beim Löschen des Projekts",
+          "toast-error-generic": "Fehler beim Löschen des Projekts"
+        },
+        "new": {
+          "toast": {
+            "success": "Projekt erfolgreich erstellt",
+            "error": "Fehler beim Erstellen des Projekts",
+            "error-generic": "Ein Fehler ist aufgetreten"
+          },
+          "submit": {
+            "label": "Neues Projekt"
+          },
+          "name": "Projektname",
+          "start-date": "Startdatum",
+          "end-date": "Enddatum",
+          "country": "Land",
+          "location": "Ort (optional)",
+          "welcome-message": "Willkommensnachricht (optional)",
+          "organization": "Organisation",
+          "select-organization": "Organisation auswählen",
+          "creating": "Wird erstellt...",
+          "create-project": "Projekt erstellen",
+          "title": "Neues Projekt erstellen"
+        }
       }
     },
     "team": {
@@ -364,29 +399,6 @@
     }
   },
   "project": {
-    "create": {
-      "title": "Neues Projekt erstellen",
-      "form": {
-        "name": "Projektname",
-        "start-date": "Startdatum",
-        "end-date": "Enddatum",
-        "country": "Land",
-        "location": "Ort (optional)",
-        "welcome-message": "Willkommensnachricht (optional)",
-        "organization": "Organisation",
-        "select-organization": "Organisation auswählen",
-        "creating": "Wird erstellt...",
-        "create-project": "Projekt erstellen",
-        "submit": {
-          "label": "Neues Projekt"
-        }
-      },
-      "toast": {
-        "success": "Projekt erfolgreich erstellt",
-        "error": "Fehler beim Erstellen des Projekts",
-        "error-generic": "Ein Fehler ist aufgetreten"
-      }
-    },
     "details": {
       "title": "Projektdetails",
       "start-date": "Startdatum",
@@ -399,18 +411,6 @@
       "activities-description": "Projektaktivitäten werden hier angezeigt.",
       "loading": "Projektdetails werden geladen...",
       "error": "Fehler beim Laden der Projektdetails."
-    },
-    "delete": {
-      "confirm-title": "Sind Sie sicher?",
-      "confirm-description": "Dies wird das Projekt \"{name}\" dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
-      "confirm-button": "Löschen",
-      "cancel-button": "Abbrechen",
-      "toast-success": "Projekt erfolgreich gelöscht",
-      "toast-error": "Fehler beim Löschen des Projekts",
-      "toast-error-generic": "Fehler beim Löschen des Projekts"
-    },
-    "edit": {
-      "title": "Projekt bearbeiten"
     }
   },
   "participation": {
