@@ -29,7 +29,7 @@ export default async () => {
     orpcQuery.member.search.queryOptions({
       input: {
         organizationId: activeOrganizationId,
-        roles: [memberRoles.Owner, memberRoles.Employee],
+        filters: { roles: [memberRoles.Owner, memberRoles.Employee] },
       },
     }),
   );

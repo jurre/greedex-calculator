@@ -29,7 +29,7 @@ export function TeamTable({ organizationId, roles }: TeamTableProps) {
 
   const { data: membersResult } = useSuspenseQuery(
     orpcQuery.member.search.queryOptions({
-      input: { organizationId, roles },
+      input: { organizationId, filters: { roles } },
     }),
   );
 
