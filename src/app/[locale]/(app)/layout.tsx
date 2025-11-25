@@ -15,6 +15,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/config/app";
 import { redirect } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
@@ -33,13 +34,13 @@ export default async function AppLayout({
   const { session, hasOrgs, rememberedPath } = await checkAuthAndOrgs();
 
   if (!session?.user) {
-    const fallbackPath = `/${locale}/org/dashboard`;
+    const fallbackPath = DASHBOARD_PATH;
     const href = handleUnauthenticatedRedirect(rememberedPath, fallbackPath);
     redirect({ href, locale });
   }
 
   if (!hasOrgs) {
-    redirect({ href: "/org/create", locale });
+    redirect({ href: CREATE_ORG_PATH, locale });
   }
 
   // Prefetch data for all suspended client components

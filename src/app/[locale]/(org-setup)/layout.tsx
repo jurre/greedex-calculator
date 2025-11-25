@@ -1,4 +1,5 @@
 import { getLocale } from "next-intl/server";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/config/app";
 import { redirect } from "@/lib/i18n/navigation";
 import {
   checkAuthAndOrgs,
@@ -22,13 +23,13 @@ export default async function OrgSetupLayout({
   const { session, hasOrgs, rememberedPath } = await checkAuthAndOrgs();
 
   if (!session?.user) {
-    const fallbackPath = `/${locale}/org/create`;
+    const fallbackPath = CREATE_ORG_PATH;
     const href = handleUnauthenticatedRedirect(rememberedPath, fallbackPath);
     redirect({ href, locale });
   }
 
   if (hasOrgs) {
-    redirect({ href: "/org/dashboard", locale });
+    redirect({ href: DASHBOARD_PATH, locale });
   }
 
   return <>{children}</>;

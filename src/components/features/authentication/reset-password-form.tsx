@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LockIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -18,19 +19,9 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { LOGIN_PATH } from "@/lib/config/app";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
-
-const createFormSchema = (t: (key: string) => string) =>
-  z
-    .object({
-      password: z.string().min(6, t("passwordMinLength")),
-      confirmPassword: z.string().min(1, t("passwordConfirmRequired")),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: t("passwordsNoMatch"),
-      path: ["confirmPassword"],
-    });
 
 interface ResetPasswordFormProps extends React.ComponentProps<"div"> {
   token: string;
@@ -42,10 +33,23 @@ export function ResetPasswordForm({
   ...props
 }: ResetPasswordFormProps) {
   const router = useRouter();
-  const tValidation = useTranslations("authentication.validation");
-  const t = useTranslations("authentication.resetPassword");
+  const t = useTranslations("authentication");
 
-  const formSchema = createFormSchema(tValidation);
+  const formSchema = useMemo(
+    () =>
+      z
+        .object({
+          password: z.string().min(6, t("validation.passwordMinLength")),
+          confirmPassword: z
+            .string()
+            .min(1, t("validation.passwordConfirmRequired")),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          message: t("validation.passwordsNoMatch"),
+          path: ["confirmPassword"],
+        }),
+    [t],
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,11 +67,13 @@ export function ResetPasswordForm({
       },
       {
         onSuccess: () => {
-          toast.success(t("messages.resetSuccess"));
-          router.push("/login");
+          toast.success(t("resetPassword.messages.resetSuccess"));
+          router.push(LOGIN_PATH);
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message || t("messages.resetFailed"));
+          toast.error(
+            ctx.error.message || t("resetPassword.messages.resetFailed"),
+          );
         },
       },
     );
@@ -81,9 +87,9 @@ export function ResetPasswordForm({
             <LockIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("title")}</h1>
+            <h1 className="font-bold text-2xl">{t("resetPassword.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
+          <CardDescription>{t("resetPassword.description")}</CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
@@ -92,19 +98,21 @@ export function ResetPasswordForm({
               <FormField
                 name="password"
                 control={form.control}
-                label={t("fields.newPassword")}
+                label={t("resetPassword.fields.newPassword")}
                 id="password"
                 type="password"
-                description={t("fields.newPasswordDescription")}
+                description={t("resetPassword.fields.newPasswordDescription")}
                 inputProps={{ disabled: form.formState.isSubmitting }}
               />
               <FormField
                 name="confirmPassword"
                 control={form.control}
-                label={t("fields.confirmPassword")}
+                label={t("resetPassword.fields.confirmPassword")}
                 id="confirm-password"
                 type="password"
-                description={t("fields.confirmPasswordDescription")}
+                description={t(
+                  "resetPassword.fields.confirmPasswordDescription",
+                )}
                 inputProps={{ disabled: form.formState.isSubmitting }}
               />
 
@@ -115,8 +123,8 @@ export function ResetPasswordForm({
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting
-                  ? t("buttons.resetting")
-                  : t("buttons.resetPassword")}
+                  ? t("resetPassword.buttons.resetting")
+                  : t("resetPassword.buttons.resetPassword")}
               </Button>
             </FieldGroup>
           </form>
@@ -125,7 +133,9 @@ export function ResetPasswordForm({
         <CardFooter className="px-0">
           <div className="w-full text-center">
             <Button variant="link" className="px-0" asChild>
-              <Link href="/login">{t("buttons.backToLogin")}</Link>
+              <Link href={LOGIN_PATH}>
+                {t("resetPassword.buttons.backToLogin")}
+              </Link>
             </Button>
           </div>
         </CardFooter>

@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { LOGIN_PATH } from "@/lib/config/app";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 
 export function UserSession() {
@@ -40,7 +41,7 @@ export function UserSession() {
     return (
       <div className="flex items-center">
         <Button variant="link" asChild className="px-2">
-          <Link href="/login">Sign in</Link>
+          <Link href={LOGIN_PATH}>Sign in</Link>
         </Button>
       </div>
     );

@@ -398,8 +398,18 @@
   },
   "app": {
     "sidebar": {
-      "projects": "Projects of your organization",
-      "organization": "Your organization"
+      "projects": {
+        "sectionLabel": "Projects of your organization",
+        "control": "Control",
+        "liveView": "Live view"
+      },
+      "organization": {
+        "sectionLabel": "Your organization",
+        "dashboard": "Dashboard",
+        "projects": "Projects",
+        "team": "Team Members",
+        "settings": "Settings"
+      }
     }
   },
   "project": {
@@ -673,6 +683,18 @@
       "heroCaption": "Greendex keeps the climate story visible so you can focus on the work.",
       "heroStatOne": "24% faster impact reports",
       "heroStatTwo": "88% planet-positive check-ins"
+    }
+  },
+  "header": {
+    "navigation": {
+      "workshops": "Workshops",
+      "eforest": "E+ Forest",
+      "tipsAndTricks": "Tips & Tricks",
+      "library": "Library",
+      "about": "About",
+      "login": "Login",
+      "signup": "Sign Up",
+      "openMenu": "Open Menu"
     }
   }
 }

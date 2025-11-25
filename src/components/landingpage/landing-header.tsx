@@ -1,7 +1,7 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import type { Route } from "next";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import Logo from "@/components/logo";
@@ -13,21 +13,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  ABOUT_PATH,
+  E_FOREST_PATH,
+  HOME_PATH,
+  LIBRARY_PATH,
+  LOGIN_PATH,
+  SIGNUP_PATH,
+  TIPS_AND_TRICKS_PATH,
+  WORKSHOPS_ANCHOR,
+} from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils/index";
 
-const menuItems = [
-  // { name: "Home", href: "/" },
-  { name: "Workshops", href: "/#workshops" as Route },
-  { name: "E+ Forest", href: "/e+forest" as Route },
-  { name: "Tips & Tricks", href: "/tips-and-tricks" as Route },
-  { name: "Library", href: "/library" as Route },
-  { name: "About", href: "/about" as Route },
-] as const;
-
-export const HeroHeader = () => {
+export const LandingHeader = () => {
+  const t = useTranslations("header");
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const menuItems = [
+    { name: t("navigation.workshops"), href: WORKSHOPS_ANCHOR },
+    { name: t("navigation.eforest"), href: E_FOREST_PATH },
+    { name: t("navigation.tipsAndTricks"), href: TIPS_AND_TRICKS_PATH },
+    { name: t("navigation.library"), href: LIBRARY_PATH },
+    { name: t("navigation.about"), href: ABOUT_PATH },
+  ] as const;
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -50,7 +60,7 @@ export const HeroHeader = () => {
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:flex-nowrap lg:gap-0 lg:py-4">
             <div className="flex w-full items-center justify-between lg:w-auto">
               <Link
-                href="/"
+                href={HOME_PATH}
                 aria-label="home"
                 className="flex items-center space-x-2"
               >
@@ -63,7 +73,7 @@ export const HeroHeader = () => {
                 <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
                   <DropdownMenuTrigger asChild>
                     <Button
-                      aria-label="Open Menu"
+                      aria-label={t("navigation.openMenu")}
                       className="-m-2.5 -mr-4 relative z-20 block cursor-pointer p-1.5 lg:hidden"
                     >
                       <Menu
@@ -108,8 +118,8 @@ export const HeroHeader = () => {
                             isScrolled ? "opacity-0" : "opacity-100",
                           )}
                         >
-                          <Link href="/login">
-                            <span>Login</span>
+                          <Link href={LOGIN_PATH}>
+                            <span>{t("navigation.login")}</span>
                           </Link>
                         </Button>
                       </div>
@@ -121,8 +131,8 @@ export const HeroHeader = () => {
                           "transform transition-transform ease-in-out",
                         )}
                       >
-                        <Link href="/signup">
-                          <span>Sign Up</span>
+                        <Link href={SIGNUP_PATH}>
+                          <span>{t("navigation.signup")}</span>
                         </Link>
                       </Button>
                     </div>
@@ -175,8 +185,8 @@ export const HeroHeader = () => {
                 size="sm"
                 className="transform transition-transform ease-in-out"
               >
-                <Link href="/signup">
-                  <span>Sign Up</span>
+                <Link href={SIGNUP_PATH}>
+                  <span>{t("navigation.signup")}</span>
                 </Link>
               </Button>
             </div>

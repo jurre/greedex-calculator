@@ -22,66 +22,75 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { DASHBOARD_PATH } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
-
-// Helper to get link configuration for a step
-function getStepLinks(stepKey: string): Array<{
-  linkKey: string;
-  href: string;
-  isExternal: boolean;
-}> {
-  const linkMap: Record<
-    string,
-    Array<{
-      linkKey: string;
-      href: string;
-      isExternal: boolean;
-    }>
-  > = {
-    create: [{ linkKey: "openApp", href: "/org/dashboard", isExternal: false }],
-    map: [
-      {
-        linkKey: "erasmusCalculator",
-        href: WORKSHOP_LINKS.erasmusCalculator,
-        isExternal: true,
-      },
-      {
-        linkKey: "googleMaps",
-        href: WORKSHOP_LINKS.googleMaps,
-        isExternal: true,
-      },
-    ],
-    plant: [
-      { linkKey: "eForest", href: WORKSHOP_LINKS.eForest, isExternal: true },
-    ],
-    read: [
-      {
-        linkKey: "challengesDescription",
-        href: WORKSHOP_LINKS.challengesDescription,
-        isExternal: true,
-      },
-    ],
-    present: [
-      {
-        linkKey: "challengesPresentation",
-        href: WORKSHOP_LINKS.challengesPresentation,
-        isExternal: true,
-      },
-    ],
-    introduce: [
-      {
-        linkKey: "greendexWebsite",
-        href: WORKSHOP_LINKS.greendexWebsite,
-        isExternal: true,
-      },
-    ],
-  };
-
-  return linkMap[stepKey] || [];
-}
 
 export function WorkshopDetails({ type }: { type: CalculatorType }) {
   const t = useTranslations("LandingPage.workshops");
+
+  // Helper to get link configuration for a step
+  const getStepLinks = (
+    stepKey: string,
+  ): Array<{
+    linkKey: string;
+    href: string;
+    isExternal: boolean;
+  }> => {
+    const linkMap: Record<
+      string,
+      Array<{
+        linkKey: string;
+        href: string;
+        isExternal: boolean;
+      }>
+    > = {
+      create: [
+        {
+          linkKey: "openApp",
+          href: DASHBOARD_PATH,
+          isExternal: false,
+        },
+      ],
+      map: [
+        {
+          linkKey: "erasmusCalculator",
+          href: WORKSHOP_LINKS.erasmusCalculator,
+          isExternal: true,
+        },
+        {
+          linkKey: "googleMaps",
+          href: WORKSHOP_LINKS.googleMaps,
+          isExternal: true,
+        },
+      ],
+      plant: [
+        { linkKey: "eForest", href: WORKSHOP_LINKS.eForest, isExternal: true },
+      ],
+      read: [
+        {
+          linkKey: "challengesDescription",
+          href: WORKSHOP_LINKS.challengesDescription,
+          isExternal: true,
+        },
+      ],
+      present: [
+        {
+          linkKey: "challengesPresentation",
+          href: WORKSHOP_LINKS.challengesPresentation,
+          isExternal: true,
+        },
+      ],
+      introduce: [
+        {
+          linkKey: "greendexWebsite",
+          href: WORKSHOP_LINKS.greendexWebsite,
+          isExternal: true,
+        },
+      ],
+    };
+
+    return linkMap[stepKey] || [];
+  };
 
   // Get workshop metadata from translations
   const title = t(`types.${type}.title`);
@@ -194,7 +203,7 @@ export function WorkshopDetails({ type }: { type: CalculatorType }) {
         <CardContent>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
-              <Link href="/org/dashboard">{t("links.openApp")}</Link>
+              <Link href={DASHBOARD_PATH}>{t("links.openApp")}</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/#workshops">View All Workshops</Link>
