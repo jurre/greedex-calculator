@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { getProjectDetailPath } from "@/lib/config/app";
 import { useRouter } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -68,7 +69,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
       } else {
         toast.error(t("toast.error"));
       }
-      router.push(`/org/projects/${result.project.id}`);
+      router.push(getProjectDetailPath(result.project.id));
       // Invalidate project list
       queryClient.invalidateQueries({
         queryKey: orpcQuery.project.list.queryKey(),

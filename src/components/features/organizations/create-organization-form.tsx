@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { DASHBOARD_PATH } from "@/lib/config/app";
 import { useRouter } from "@/lib/i18n/navigation";
 import { findAvailableSlug } from "@/lib/utils";
 
@@ -55,7 +56,7 @@ export default function CreateOrganizationForm({
               organizationId: ctx.data.id,
             });
             onSuccess?.();
-            router.push("/org/dashboard");
+            router.push(DASHBOARD_PATH);
             router.refresh();
           },
         },

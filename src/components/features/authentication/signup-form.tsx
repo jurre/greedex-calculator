@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -24,31 +25,34 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { LOGIN_PATH } from "@/lib/config/app";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
-
-const createFormSchema = (t: (key: string) => string) =>
-  z
-    .object({
-      name: z.string().min(1, t("fullNameRequired")),
-      email: z.email(t("emailInvalid")),
-      password: z.string().min(6, t("passwordMinLength")),
-      confirmPassword: z.string().min(1, t("passwordConfirmRequired")),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: t("passwordsNoMatch"),
-      path: ["confirmPassword"],
-    });
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
-  const tValidation = useTranslations("authentication.validation");
-  const t = useTranslations("authentication.signup");
+  const t = useTranslations("authentication");
 
-  const formSchema = createFormSchema(tValidation);
+  const formSchema = useMemo(
+    () =>
+      z
+        .object({
+          name: z.string().min(1, t("validation.fullNameRequired")),
+          email: z.email(t("validation.emailInvalid")),
+          password: z.string().min(6, t("validation.passwordMinLength")),
+          confirmPassword: z
+            .string()
+            .min(1, t("validation.passwordConfirmRequired")),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          message: t("validation.passwordsNoMatch"),
+          path: ["confirmPassword"],
+        }),
+    [t],
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +73,7 @@ export function SignupForm({
       },
       {
         onError: (c) => {
-          toast.error(c.error.message || t("messages.failedCreate"));
+          toast.error(c.error.message || t("signup.messages.failedCreate"));
         },
         onSuccess: () => {
           // Redirect to verify email page after successful signup
@@ -91,9 +95,9 @@ export function SignupForm({
             <UserPlus className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("title")}</h1>
+            <h1 className="font-bold text-2xl">{t("signup.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
+          <CardDescription>{t("signup.description")}</CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
@@ -101,38 +105,38 @@ export function SignupForm({
             <FormField
               name="name"
               control={form.control}
-              label={t("fields.fullName")}
+              label={t("signup.fields.fullName")}
               id="name"
               type="text"
-              placeholder={t("fields.fullNamePlaceholder")}
+              placeholder={t("signup.fields.fullNamePlaceholder")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
             <FormField
               name="email"
               control={form.control}
-              label={t("fields.email")}
+              label={t("signup.fields.email")}
               id="email"
               type="email"
-              placeholder={t("fields.emailPlaceholder")}
-              description={t("fields.emailDescription")}
+              placeholder={t("signup.fields.emailPlaceholder")}
+              description={t("signup.fields.emailDescription")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
             <FormField
               name="password"
               control={form.control}
-              label={t("fields.password")}
+              label={t("signup.fields.password")}
               id="password"
               type="password"
-              description={t("fields.passwordDescription")}
+              description={t("signup.fields.passwordDescription")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
             <FormField
               name="confirmPassword"
               control={form.control}
-              label={t("fields.confirmPassword")}
+              label={t("signup.fields.confirmPassword")}
               id="confirm-password"
               type="password"
-              description={t("fields.confirmPasswordDescription")}
+              description={t("signup.fields.confirmPasswordDescription")}
               inputProps={{ disabled: form.formState.isSubmitting }}
             />
 
@@ -142,8 +146,8 @@ export function SignupForm({
               className="mt-2"
             >
               {form.formState.isSubmitting
-                ? t("buttons.creatingAccount")
-                : t("buttons.createAccount")}
+                ? t("signup.buttons.creatingAccount")
+                : t("signup.buttons.createAccount")}
             </Button>
           </FieldGroup>
         </CardContent>
@@ -152,14 +156,14 @@ export function SignupForm({
           <div className="w-full">
             <Field>
               <FieldDescription className="px-6 text-center font-bold">
-                {t("footer.haveAccount")}
+                {t("signup.footer.haveAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
-                  <Link href="/login">{t("footer.signIn")}</Link>
+                  <Link href={LOGIN_PATH}>{t("signup.footer.signIn")}</Link>
                 </Button>
               </FieldDescription>
 
               <FieldSeparator className="my-4 font-bold">
-                {t("footer.orContinueWith")}
+                {t("signup.footer.orContinueWith")}
               </FieldSeparator>
 
               <SocialButtons disabled={form.formState.isSubmitting} />

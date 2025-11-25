@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { KeyRoundIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -18,22 +19,23 @@ import {
 } from "@/components/ui/card";
 import { FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { LOGIN_PATH, RESET_PASSWORD_PATH } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
-
-const createFormSchema = (t: (key: string) => string) =>
-  z.object({
-    email: z.email(t("emailInvalid")),
-  });
 
 export function ForgotPasswordForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const tValidation = useTranslations("authentication.validation");
-  const t = useTranslations("authentication.forgotPassword");
+  const t = useTranslations("authentication");
 
-  const formSchema = createFormSchema(tValidation);
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        email: z.email(t("validation.emailInvalid")),
+      }),
+    [t],
+  );
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,15 +48,17 @@ export function ForgotPasswordForm({
     await authClient.requestPasswordReset(
       {
         email: data.email,
-        redirectTo: "/reset-password",
+        redirectTo: RESET_PASSWORD_PATH,
       },
       {
         onSuccess: () => {
-          toast.success(t("messages.resetLinkSent"));
+          toast.success(t("forgotPassword.messages.resetLinkSent"));
           form.reset();
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message || t("messages.failedSend"));
+          toast.error(
+            ctx.error.message || t("forgotPassword.messages.failedSend"),
+          );
         },
       },
     );
@@ -68,9 +72,9 @@ export function ForgotPasswordForm({
             <KeyRoundIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("title")}</h1>
+            <h1 className="font-bold text-2xl">{t("forgotPassword.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
+          <CardDescription>{t("forgotPassword.description")}</CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
@@ -79,10 +83,10 @@ export function ForgotPasswordForm({
               <FormField
                 name="email"
                 control={form.control}
-                label={t("fields.email")}
+                label={t("forgotPassword.fields.email")}
                 id="email"
                 type="email"
-                placeholder={t("fields.emailPlaceholder")}
+                placeholder={t("forgotPassword.fields.emailPlaceholder")}
                 inputProps={{ disabled: form.formState.isSubmitting }}
               />
 
@@ -93,8 +97,8 @@ export function ForgotPasswordForm({
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting
-                  ? t("buttons.sending")
-                  : t("buttons.sendResetLink")}
+                  ? t("forgotPassword.buttons.sending")
+                  : t("forgotPassword.buttons.sendResetLink")}
               </Button>
             </FieldGroup>
           </form>
@@ -103,7 +107,9 @@ export function ForgotPasswordForm({
         <CardFooter className="px-0">
           <div className="w-full text-center">
             <Button variant="link" className="px-0" asChild>
-              <Link href="/login">{t("buttons.backToLogin")}</Link>
+              <Link href={LOGIN_PATH}>
+                {t("forgotPassword.buttons.backToLogin")}
+              </Link>
             </Button>
           </div>
         </CardFooter>

@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogInIcon } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -28,32 +28,23 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { env } from "@/env";
 import { authClient } from "@/lib/better-auth/auth-client";
+import {
+  DASHBOARD_PATH,
+  FORGOT_PASSWORD_PATH,
+  SIGNUP_PATH,
+} from "@/lib/config/app";
 import { Link, useRouter } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
-
-// Schema factory function that takes translation function
-const createCredentialsSchema = (t: (key: string) => string) =>
-  z.object({
-    email: z.email(t("emailInvalid")),
-    password: z.string().min(6, t("passwordRequired")),
-  });
-
-export const createMagicLinkSchema = (t: (key: string) => string) =>
-  z.object({
-    email: z.email(t("emailInvalid")),
-  });
 
 export function LoginForm({
   className,
   nextPageUrl,
   ...props
 }: React.ComponentProps<"div"> & { nextPageUrl?: string | string[] }) {
-  const router = useRouter();
   const [lastLoginMethod, setLastLoginMethod] = useState<string | null>(null);
-  console.log("Last login method:", lastLoginMethod);
-  const locale = useLocale();
-  const tValidation = useTranslations("authentication.validation");
-  const t = useTranslations("authentication.login");
+
+  const router = useRouter();
+  const t = useTranslations("authentication");
 
   // append the callbackUrl to the env
   const normalizedRedirect =
@@ -62,8 +53,8 @@ export function LoginForm({
       : Array.isArray(nextPageUrl)
         ? nextPageUrl[0]
         : undefined;
-  const fallbackRedirect = `/${locale}/org/dashboard`;
-  const finalRedirect = normalizedRedirect ?? fallbackRedirect;
+  const fallbackPath = DASHBOARD_PATH;
+  const finalRedirect = normalizedRedirect ?? fallbackPath;
   const callbackURL = env.NEXT_PUBLIC_BASE_URL + finalRedirect;
 
   // Get last login method on component mount
@@ -72,8 +63,21 @@ export function LoginForm({
     setLastLoginMethod(method);
   }, []);
 
-  const credentialsSchema = createCredentialsSchema(tValidation);
-  const magicLinkSchema = createMagicLinkSchema(tValidation);
+  const credentialsSchema = useMemo(
+    () =>
+      z.object({
+        email: z.email(t("validation.emailInvalid")),
+        password: z.string().min(6, t("validation.passwordRequired")),
+      }),
+    [t],
+  );
+  const magicLinkSchema = useMemo(
+    () =>
+      z.object({
+        email: z.email(t("validation.emailInvalid")),
+      }),
+    [t],
+  );
 
   const form = useForm<z.infer<typeof credentialsSchema>>({
     resolver: zodResolver(credentialsSchema),
@@ -106,7 +110,7 @@ export function LoginForm({
             );
             return;
           }
-          toast.error(c.error.message || t("messages.failedSignIn"));
+          toast.error(c.error.message || t("login.messages.failedSignIn"));
         },
       },
     );
@@ -120,10 +124,10 @@ export function LoginForm({
       },
       {
         onSuccess: () => {
-          toast.success(t("messages.magicLinkSent"));
+          toast.success(t("login.messages.magicLinkSent"));
         },
         onError: (c) => {
-          toast.error(c.error.message || t("messages.failedMagicLink"));
+          toast.error(c.error.message || t("login.messages.failedMagicLink"));
         },
       },
     );
@@ -137,9 +141,9 @@ export function LoginForm({
             <LogInIcon className="size-8 text-primary" />
           </div>
           <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("title")}</h1>
+            <h1 className="font-bold text-2xl">{t("login.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
+          <CardDescription>{t("login.description")}</CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
@@ -147,14 +151,14 @@ export function LoginForm({
           <Tabs defaultValue="password" className="w-full space-y-8">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger className="relative" value="password">
-                {t("tabs.password")}
+                {t("login.tabs.password")}
                 {(lastLoginMethod === "email" ||
                   lastLoginMethod === "credential") && (
                   <LastUsedBadge className="-left-8" />
                 )}
               </TabsTrigger>
               <TabsTrigger className="relative" value="magic-link">
-                {t("tabs.magicLink")}
+                {t("login.tabs.magicLink")}
                 {lastLoginMethod === "magic-link" && <LastUsedBadge />}
               </TabsTrigger>
             </TabsList>
@@ -166,8 +170,8 @@ export function LoginForm({
                     control={form.control}
                     id="email"
                     type="email"
-                    label={t("fields.email")}
-                    placeholder={t("fields.emailPlaceholder")}
+                    label={t("login.fields.email")}
+                    placeholder={t("login.fields.emailPlaceholder")}
                     inputProps={{ disabled: form.formState.isSubmitting }}
                   />
                   <FormField
@@ -175,14 +179,14 @@ export function LoginForm({
                     control={form.control}
                     id="password"
                     type="password"
-                    label={t("fields.password")}
+                    label={t("login.fields.password")}
                     rightLabel={
                       <Button variant="link" className="px-0" asChild>
                         <Link
-                          href="/forgot-password"
+                          href={FORGOT_PASSWORD_PATH}
                           className="ml-auto text-sm underline-offset-4 hover:underline"
                         >
-                          {t("fields.forgotPassword")}
+                          {t("login.fields.forgotPassword")}
                         </Link>
                       </Button>
                     }
@@ -196,8 +200,8 @@ export function LoginForm({
                     disabled={form.formState.isSubmitting}
                   >
                     {form.formState.isSubmitting
-                      ? t("buttons.signingIn")
-                      : t("buttons.login")}
+                      ? t("login.buttons.signingIn")
+                      : t("login.buttons.login")}
                   </Button>
                 </FieldGroup>
               </form>
@@ -208,10 +212,10 @@ export function LoginForm({
                   <FormField
                     name="email"
                     control={magicLinkForm.control}
-                    label={t("fields.email")}
+                    label={t("login.fields.email")}
                     id="magic-email"
                     type="email"
-                    placeholder={t("fields.emailPlaceholder")}
+                    placeholder={t("login.fields.emailPlaceholder")}
                     inputProps={{
                       disabled: magicLinkForm.formState.isSubmitting,
                     }}
@@ -224,8 +228,8 @@ export function LoginForm({
                     disabled={magicLinkForm.formState.isSubmitting}
                   >
                     {magicLinkForm.formState.isSubmitting
-                      ? t("buttons.sending")
-                      : t("buttons.sendMagicLink")}
+                      ? t("login.buttons.sending")
+                      : t("login.buttons.sendMagicLink")}
                   </Button>
                 </FieldGroup>
               </form>
@@ -237,14 +241,14 @@ export function LoginForm({
           <div className="w-full">
             <Field>
               <FieldDescription className="px-6 text-center font-bold">
-                {t("footer.noAccount")}
+                {t("login.footer.noAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
-                  <Link href="/signup">{t("footer.signUp")}</Link>
+                  <Link href={SIGNUP_PATH}>{t("login.footer.signUp")}</Link>
                 </Button>
               </FieldDescription>
 
               <FieldSeparator className="my-4 font-bold">
-                {t("footer.orContinueWith")}
+                {t("login.footer.orContinueWith")}
               </FieldSeparator>
 
               <SocialButtons

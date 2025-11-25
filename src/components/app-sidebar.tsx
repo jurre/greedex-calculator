@@ -3,13 +3,11 @@
 import {
   BarChart3Icon,
   CogIcon,
-  FileTextIcon,
   LayoutDashboardIcon,
   MapPinnedIcon,
   SettingsIcon,
   UsersIcon,
 } from "lucide-react";
-import type { Route } from "next";
 import { useTranslations } from "next-intl";
 import { OrganizationSwitcher } from "@/components/features/organizations/organisation-switcher";
 import { ProjectSwitcher } from "@/components/features/projects/project-switcher";
@@ -25,29 +23,47 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import {
+  ACTIVE_PROJECT_PATH,
+  DASHBOARD_PATH,
+  LIVE_VIEW_PATH,
+  PROJECTS_PATH,
+  SETTINGS_PATH,
+  TEAM_PATH,
+} from "@/lib/config/app";
 import { Link, usePathname } from "@/lib/i18n/navigation";
-
-const projectsMenuItems = [
-  // { title: "Home", icon: Home, url: "/" },
-  { title: "Control", icon: CogIcon, url: "/org/activeproject" },
-  {
-    title: "Live view",
-    icon: BarChart3Icon,
-    url: "/org/activeproject/liveview",
-  },
-  { title: "Documents", icon: FileTextIcon, url: "/documents" },
-];
-const organizationMenuItems = [
-  // { title: "Home", icon: Home, url: "/" },
-  { title: "Dashboard", icon: LayoutDashboardIcon, url: "/org/dashboard" },
-  { title: "Projects", icon: MapPinnedIcon, url: "/org/projects" },
-  { title: "Team", icon: UsersIcon, url: "/org/team" },
-  { title: "Settings", icon: SettingsIcon, url: "/org/settings" },
-];
 
 export function AppSidebar() {
   const pathname = usePathname();
   const t = useTranslations("app.sidebar");
+
+  const projectsMenuItems = [
+    { title: t("projects.control"), icon: CogIcon, url: ACTIVE_PROJECT_PATH },
+    {
+      title: t("projects.liveView"),
+      icon: BarChart3Icon,
+      url: LIVE_VIEW_PATH,
+    },
+  ];
+
+  const organizationMenuItems = [
+    {
+      title: t("organization.dashboard"),
+      icon: LayoutDashboardIcon,
+      url: DASHBOARD_PATH,
+    },
+    {
+      title: t("organization.projects"),
+      icon: MapPinnedIcon,
+      url: PROJECTS_PATH,
+    },
+    { title: t("organization.team"), icon: UsersIcon, url: TEAM_PATH },
+    {
+      title: t("organization.settings"),
+      icon: SettingsIcon,
+      url: SETTINGS_PATH,
+    },
+  ];
 
   return (
     <Sidebar
@@ -60,7 +76,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>{t("projects")}</SidebarGroupLabel>
+          <SidebarGroupLabel>{t("projects.sectionLabel")}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {projectsMenuItems.map((item) => (
@@ -69,10 +85,7 @@ export function AppSidebar() {
                     asChild
                     className="hover:bg-secondary hover:text-secondary-foreground active:bg-secondary active:text-secondary-foreground data-[active=true]:bg-secondary data-[active=true]:text-secondary-foreground data-[state=open]:hover:bg-secondary data-[state=open]:hover:text-secondary-foreground"
                   >
-                    <Link
-                      href={item.url as Route}
-                      data-active={pathname === item.url}
-                    >
+                    <Link href={item.url} data-active={pathname === item.url}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
                     </Link>
@@ -84,16 +97,15 @@ export function AppSidebar() {
         </SidebarGroup>
         <div className="grow flex-col" />
         <SidebarGroup>
-          <SidebarGroupLabel>{t("organization")}</SidebarGroupLabel>
+          <SidebarGroupLabel>
+            {t("organization.sectionLabel")}
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {organizationMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <Link
-                      href={item.url as Route}
-                      data-active={pathname === item.url}
-                    >
+                    <Link href={item.url} data-active={pathname === item.url}>
                       <item.icon className="size-4" />
                       <span>{item.title}</span>
                     </Link>

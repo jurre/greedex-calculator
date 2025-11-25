@@ -7,6 +7,7 @@ import {
   SUPPORTED_OAUTH_PROVIDERS,
   type SupportedOAuthProvider,
 } from "@/lib/better-auth/o-auth-providers";
+import { DASHBOARD_PATH } from "@/lib/config/app";
 
 interface Props {
   disabled?: boolean;
@@ -19,7 +20,7 @@ function SocialButtons({ disabled, callbackUrl, lastLoginMethod }: Props) {
     await authClient.signIn.social({
       provider,
       callbackURL:
-        typeof callbackUrl === "string" ? callbackUrl : "/org/dashboard",
+        typeof callbackUrl === "string" ? callbackUrl : DASHBOARD_PATH,
     });
   };
 

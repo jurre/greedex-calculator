@@ -22,6 +22,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { getProjectDetailPath } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -128,7 +129,7 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
               // size="sm"
               disabled={permissionsPending}
             >
-              <Link href={`/org/projects/${project.id}`}>
+              <Link href={getProjectDetailPath(project.id)}>
                 <EyeIcon />
                 View Details
               </Link>

@@ -385,7 +385,7 @@
         "email": "E-Mail",
         "role": "Rolle",
         "joined": "Beigetreten",
-        "table": {
+        "control": {
           "filter": "Teammitglieder filtern",
           "clear": "Löschen Sie alle Filter"
         }
@@ -398,8 +398,18 @@
   },
   "app": {
     "sidebar": {
-      "projects": "Projekte deiner Organisation",
-      "organization": "Deine Organisation"
+      "projects": {
+        "sectionLabel": "Projekte deiner Organisation",
+        "control": "Steuerung",
+        "liveView": "Live-Ansicht"
+      },
+      "organization": {
+        "sectionLabel": "Organisationsbereich",
+        "dashboard": "Dashboard",
+        "projects": "Projekte",
+        "team": "Team",
+        "settings": "Einstellungen"
+      }
     }
   },
   "project": {
@@ -673,6 +683,18 @@
       "heroCaption": "Greendex macht Klima-Storys sichtbar, damit ihr euch auf die Umsetzung konzentrieren könnt.",
       "heroStatOne": "24 % schnellere Impact-Reports",
       "heroStatTwo": "88 % planeten-freundliche Check-ins"
+    }
+  },
+  "header": {
+    "navigation": {
+      "workshops": "Workshops",
+      "eforest": "E+ Wald",
+      "tipsAndTricks": "Tipps & Tricks",
+      "library": "Ressourcen",
+      "about": "Über uns",
+      "login": "Anmelden",
+      "signup": "Registrieren",
+      "openMenu": "Menü öffnen"
     }
   }
 }

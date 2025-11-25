@@ -3,6 +3,11 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
+    NODE_ENV: z.enum(["development", "production", "test"]),
+    PORT: z.preprocess(
+      (val) => (typeof val === "string" ? Number(val) : val),
+      z.number().int().min(1).max(65535),
+    ),
     DATABASE_URL: z.string().url(),
     BETTER_AUTH_SECRET: z.string().min(1),
     BETTER_AUTH_URL: z.url(),
@@ -72,5 +77,7 @@ export const env = createEnv({
     SMTP_USERNAME: process.env.SMTP_USERNAME,
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
     SMTP_SECURE: process.env.SMTP_SECURE,
+    NODE_ENV: process.env.NODE_ENV,
+    PORT: process.env.PORT,
   },
 });

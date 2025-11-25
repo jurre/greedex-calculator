@@ -1,4 +1,4 @@
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -15,11 +15,15 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { auth } from "@/lib/better-auth";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/config/app";
 import { redirect } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient, HydrateClient } from "@/lib/react-query/hydration";
 import { cn } from "@/lib/utils";
+import {
+  checkAuthAndOrgs,
+  handleUnauthenticatedRedirect,
+} from "@/lib/utils/auth-utils";
 
 export default async function AppLayout({
   children,
@@ -27,40 +31,16 @@ export default async function AppLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
-  const requestHeaders = await headers();
-  const rememberedPath =
-    requestHeaders.get("x-org-requested-path") ?? undefined;
-  // Ensure the user is authenticated
-  const session = await auth.api.getSession({
-    headers: requestHeaders,
-  });
+  const { session, hasOrgs, rememberedPath } = await checkAuthAndOrgs();
 
   if (!session?.user) {
-    // Not authenticated -> send to login (auth group).
-    // The (auth) directory is a route group, its login page is at '/login'.
-    const fallbackPath = `/${locale}/org/dashboard`;
-    const nextPageUrl = rememberedPath ?? fallbackPath;
-    redirect({
-      href: `/login?nextPageUrl=${encodeURIComponent(nextPageUrl)}`,
-      locale,
-    });
-  }
-
-  // If authenticated, ensure they have an organization
-  let hasOrgs = false;
-  try {
-    const organizations = await auth.api.listOrganizations({
-      headers: await headers(),
-    });
-    hasOrgs = Array.isArray(organizations) && organizations.length > 0;
-  } catch (err) {
-    hasOrgs = false;
-    console.error("Session creation without having organizations:", err);
+    const fallbackPath = DASHBOARD_PATH;
+    const href = handleUnauthenticatedRedirect(rememberedPath, fallbackPath);
+    redirect({ href, locale });
   }
 
   if (!hasOrgs) {
-    // Authenticated but no orgs -> send to org setup flow (different route group)
-    redirect({ href: "/org/create", locale });
+    redirect({ href: CREATE_ORG_PATH, locale });
   }
 
   // Prefetch data for all suspended client components

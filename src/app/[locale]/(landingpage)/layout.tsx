@@ -1,4 +1,4 @@
-import { HeroHeader } from "@/components/header";
+import { LandingHeader } from "@/components/landingpage/landing-header";
 
 export default function LandingPageLayout({
   children,
@@ -7,7 +7,7 @@ export default function LandingPageLayout({
 }) {
   return (
     <>
-      <HeroHeader />
+      <LandingHeader />
       {children}
     </>
   );

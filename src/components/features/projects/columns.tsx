@@ -7,11 +7,11 @@ import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 import EditProjectForm from "@/components/features/projects/edit-project-form";
+import { SortableHeader } from "@/components/features/projects/sortable-header";
 import {
   type ProjectType,
   SORT_OPTIONS,
 } from "@/components/features/projects/types";
-import { SortableHeader } from "@/components/sortable-header";
 import { Button } from "@/components/ui/button";
 import { useConfirmDialog } from "@/components/ui/confirm-dialog";
 import {
@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
+import { getProjectDetailPath } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
@@ -195,7 +196,7 @@ function ProjectActionsCell({ project }: { project: ProjectType }) {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
           <DropdownMenuItem asChild>
-            <Link href={`/org/projects/${project.id}`}>
+            <Link href={getProjectDetailPath(project.id)}>
               <EyeIcon className="mr-2 h-4 w-4" />
               {t("table.view-details")}
             </Link>

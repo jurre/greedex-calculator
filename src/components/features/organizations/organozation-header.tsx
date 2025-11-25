@@ -5,6 +5,7 @@ import { Building2Icon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CREATE_PROJECT_PATH } from "@/lib/config/app";
 import { usePathname } from "@/lib/i18n/navigation";
 import { orpcQuery } from "@/lib/orpc/orpc";
 
@@ -32,7 +33,7 @@ export function OrganizationHeader() {
           </p>
         </div>
         <div>
-          {pathname !== "/org/create-project" && (
+          {pathname !== CREATE_PROJECT_PATH && (
             <CreateProjectButton
               className="hidden sm:inline-flex"
               variant="secondary"

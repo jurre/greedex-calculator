@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { auth } from "@/lib/better-auth";
+import { CREATE_ORG_PATH, DASHBOARD_PATH } from "@/lib/config/app";
 import { redirect } from "@/lib/i18n/navigation";
 
 export default async function AuthLayout({
@@ -23,10 +24,10 @@ export default async function AuthLayout({
 
     if (!hasOrgs) {
       // Signed in but no organization -> send to org setup flow
-      redirect({ href: "/org/create", locale });
+      redirect({ href: CREATE_ORG_PATH, locale });
     } else {
       // Signed in and has orgs -> app dashboard
-      redirect({ href: "/org/dashboard", locale });
+      redirect({ href: DASHBOARD_PATH, locale });
     }
   }
 

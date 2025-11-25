@@ -15,10 +15,11 @@ import {
 } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import { authClient } from "@/lib/better-auth/auth-client";
+import { LOGIN_PATH, SIGNUP_PATH } from "@/lib/config/app";
 import { Link } from "@/lib/i18n/navigation";
 import { cn } from "@/lib/utils";
 
-export async function VerifyEmailContent({
+export function VerifyEmailContent({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -63,7 +64,7 @@ export async function VerifyEmailContent({
     try {
       await authClient.sendVerificationEmail({
         email,
-        callbackURL: "/login",
+        callbackURL: LOGIN_PATH,
       });
 
       setLastSentAt(new Date());
@@ -104,7 +105,7 @@ export async function VerifyEmailContent({
 
         <CardFooter>
           <Field className="w-full">
-            <Link href="/signup">
+            <Link href={SIGNUP_PATH}>
               <Button variant="default" className="w-full">
                 Go to Sign Up
               </Button>
