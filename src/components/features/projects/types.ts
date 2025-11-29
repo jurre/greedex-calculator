@@ -4,11 +4,21 @@ import type { InferSelectModel } from "drizzle-orm";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import type { z } from "zod";
 import { projectTable } from "@/lib/drizzle/schema";
+import { organization, user } from "@/lib/drizzle/schemas/auth-schema";
 
 export type ProjectType = InferSelectModel<typeof projectTable>;
 // export type InsertProjectType = InferInsertModel<typeof projectTable>;
 
-export const ProjectSelectSchema = createSelectSchema(projectTable);
+const ProjectSelectSchema = createSelectSchema(projectTable);
+
+// Schema for project with responsible user included
+export const ProjectWithRelationsSchema = ProjectSelectSchema.extend({
+  responsibleUser: createSelectSchema(user),
+  organization: createSelectSchema(organization),
+});
+
+// Inferred type from the schema
+export type ProjectWithRelations = z.infer<typeof ProjectWithRelationsSchema>;
 
 // Full insert schema (includes all DB fields) with refinements
 const ProjectInsertSchema = createInsertSchema(projectTable, {

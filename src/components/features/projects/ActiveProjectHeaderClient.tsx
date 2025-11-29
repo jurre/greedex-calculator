@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  Building2Icon,
   CalendarIcon,
   Edit2Icon,
   MapPinIcon,
@@ -13,7 +14,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Blockquote, BlockquoteAuthor } from "@/components/block-quote";
 import EditProjectForm from "@/components/features/projects/edit-project-form";
-import type { ProjectType } from "@/components/features/projects/types";
+import type { ProjectWithRelations } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,7 +36,7 @@ import { useProjectPermissions } from "@/lib/better-auth/permissions-utils";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface ActiveProjectHeaderClientProps {
-  activeProject: ProjectType;
+  activeProject: ProjectWithRelations;
 }
 
 export default function ActiveProjectHeaderClient({
@@ -100,7 +101,7 @@ export default function ActiveProjectHeaderClient({
 
   return (
     <>
-      <Card className="space-y-4 border border-secondary/30 bg-secondary/5 shadow-sm backdrop-blur">
+      <Card className="space-y-4 border border-secondary/30 bg-secondary/10 shadow-sm backdrop-blur">
         <CardHeader className="gap-4">
           <CardTitle className="text-secondary text-sm">
             {t("header.contextLabel")}
@@ -110,37 +111,12 @@ export default function ActiveProjectHeaderClient({
           </p> */}
           <CardTitle>
             <CardDescription className="flex items-center gap-3 font-bold text-3xl text-secondary dark:text-secondary-foreground">
-              <span className="rounded-full bg-secondary/20 p-2 text-secondary-foreground">
+              <span className="rounded-full bg-secondary/30 p-2 text-secondary-foreground">
                 <MapPinnedIcon className="size-5" />
               </span>
               <span>{activeProject.name}</span>
             </CardDescription>
-
-            <div className="font-bold text-3xl text-secondary-foreground"></div>
           </CardTitle>
-          <CardDescription>
-            <div className="flex flex-wrap gap-4 text-muted-foreground text-sm">
-              <span className="flex items-center gap-1">
-                <MapPinIcon className="h-4 w-4 text-secondary" />
-                {activeProject.location}, {activeProject.country}
-              </span>
-              <span className="flex items-center gap-1">
-                <CalendarIcon className="h-4 w-4 text-secondary" />
-                {format.dateTime(activeProject.startDate, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}{" "}
-                -{" "}
-                {format.dateTime(activeProject.endDate, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </span>
-            </div>
-          </CardDescription>
-
           <CardAction>
             <div className="flex flex-wrap gap-2">
               {/* Edit Modal */}
@@ -154,7 +130,9 @@ export default function ActiveProjectHeaderClient({
                       onClick={() => setIsEditModalOpen(true)}
                     >
                       <Edit2Icon className="h-4 w-4" />
-                      {/* {t("header.edit")} */}
+                      <span className="ml-1 hidden sm:inline">
+                        {t("header.edit")}
+                      </span>
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
@@ -182,14 +160,40 @@ export default function ActiveProjectHeaderClient({
               )}
             </div>
           </CardAction>
+          <CardDescription>
+            <div className="flex flex-wrap gap-4 text-muted-foreground text-sm">
+              <span className="flex items-center gap-1">
+                <MapPinIcon className="h-4 w-4 text-secondary" />
+                {activeProject.location}, {activeProject.country}
+              </span>
+              <span className="flex items-center gap-1">
+                <CalendarIcon className="h-4 w-4 text-secondary" />
+                {format.dateTime(activeProject.startDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}{" "}
+                -{" "}
+                {format.dateTime(activeProject.endDate, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </span>
+            </div>
+          </CardDescription>
         </CardHeader>
 
         {activeProject.welcomeMessage && (
           <CardFooter>
             <Blockquote className="w-full border-l-secondary/60 bg-secondary/10 text-secondary text-xl">
               {activeProject.welcomeMessage}
-              <BlockquoteAuthor className="font-light font-serif text-muted-foreground/80">
-                Franklin Roosevelt
+              <BlockquoteAuthor className="font-light font-serif text-muted-foreground/80 text-sm">
+                <p className="inline-flex items-center gap-2">
+                  {activeProject.responsibleUser.name}
+                  <Building2Icon className="inline size-4 text-secondary" />
+                  {activeProject.organization.name}
+                </p>
               </BlockquoteAuthor>
             </Blockquote>
           </CardFooter>

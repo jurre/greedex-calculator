@@ -10,7 +10,7 @@ import { ProjectParticipantWithUserSchema } from "@/components/features/projects
 import {
   DEFAULT_PROJECT_SORT,
   ProjectFormSchema,
-  ProjectSelectSchema,
+  ProjectWithRelationsSchema,
   SORT_OPTIONS,
 } from "@/components/features/projects/types";
 import { auth } from "@/lib/better-auth";
@@ -43,7 +43,7 @@ export const createProject = authorized
   .output(
     z.object({
       success: z.boolean(),
-      project: ProjectSelectSchema,
+      project: ProjectWithRelationsSchema,
     }),
   )
   .handler(async ({ input, context }) => {
@@ -63,9 +63,24 @@ export const createProject = authorized
       })
       .returning();
 
+    // Fetch the created project with responsible user
+    const project = await db.query.projectTable.findFirst({
+      where: eq(projectTable.id, newProject[0].id),
+      with: {
+        responsibleUser: true,
+        organization: true,
+      },
+    });
+
+    if (!project) {
+      throw new ORPCError("INTERNAL_ERROR", {
+        message: "Failed to fetch created project",
+      });
+    }
+
     return {
       success: true,
-      project: newProject[0],
+      project,
     };
   });
 
@@ -98,7 +113,7 @@ export const listProjects = authorized
       })
       .optional(),
   )
-  .output(z.array(ProjectSelectSchema))
+  .output(z.array(ProjectWithRelationsSchema))
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
       throw new ORPCError("BAD_REQUEST", {
@@ -127,13 +142,17 @@ export const listProjects = authorized
 
     // Get all projects that belong to the user's active organization
     // Permission check ensures user is a member of the organization
-    const projects = await db
-      .select()
-      .from(projectTable)
-      .where(
-        eq(projectTable.organizationId, context.session.activeOrganizationId),
-      )
-      .orderBy(orderByClause);
+    const projects = await db.query.projectTable.findMany({
+      where: eq(
+        projectTable.organizationId,
+        context.session.activeOrganizationId,
+      ),
+      orderBy: [orderByClause],
+      with: {
+        responsibleUser: true,
+        organization: true,
+      },
+    });
 
     return projects;
   });
@@ -159,7 +178,7 @@ export const getProjectById = authorized
       id: z.string().describe("Project ID"),
     }),
   )
-  .output(ProjectSelectSchema)
+  .output(ProjectWithRelationsSchema)
   .handler(async ({ input, context }) => {
     if (!context.session.activeOrganizationId) {
       throw new ORPCError("BAD_REQUEST", {
@@ -168,16 +187,16 @@ export const getProjectById = authorized
     }
 
     // Fetch project and verify it belongs to user's organization
-    const [project] = await db
-      .select()
-      .from(projectTable)
-      .where(
-        and(
-          eq(projectTable.id, input.id),
-          eq(projectTable.organizationId, context.session.activeOrganizationId),
-        ),
-      )
-      .limit(1);
+    const project = await db.query.projectTable.findFirst({
+      where: and(
+        eq(projectTable.id, input.id),
+        eq(projectTable.organizationId, context.session.activeOrganizationId),
+      ),
+      with: {
+        responsibleUser: true,
+        organization: true,
+      },
+    });
 
     if (!project) {
       throw new ORPCError("NOT_FOUND", {
@@ -213,7 +232,7 @@ export const updateProject = authorized
   .output(
     z.object({
       success: z.boolean(),
-      project: ProjectSelectSchema,
+      project: ProjectWithRelationsSchema,
     }),
   )
   .handler(async ({ input, context }) => {
@@ -247,15 +266,29 @@ export const updateProject = authorized
       });
     }
 
-    const [updatedProject] = await db
+    await db
       .update(projectTable)
       .set(input.data)
-      .where(eq(projectTable.id, input.id))
-      .returning();
+      .where(eq(projectTable.id, input.id));
+
+    // Fetch the updated project with responsible user
+    const project = await db.query.projectTable.findFirst({
+      where: eq(projectTable.id, input.id),
+      with: {
+        responsibleUser: true,
+        organization: true,
+      },
+    });
+
+    if (!project) {
+      throw new ORPCError("INTERNAL_ERROR", {
+        message: "Failed to fetch updated project",
+      });
+    }
 
     return {
       success: true,
-      project: updatedProject,
+      project,
     };
   });
 
