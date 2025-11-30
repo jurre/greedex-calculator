@@ -119,11 +119,9 @@ export const ActivityFormItemSchema = ProjectActivityFormSchema.omit({
 
 // Schema for edit form (update operation, inferred from DB update schema)
 export const EditActivityFormItemSchema = ProjectActivityUpdateSchema.omit({
-  id: true,
   createdAt: true,
   updatedAt: true,
 }).extend({
-  id: z.string().optional(), // Track activity ID for updates
   isNew: z.boolean().optional(), // Track if activity is new
   isDeleted: z.boolean().optional(), // Track if activity should be deleted
 });
