@@ -18,22 +18,10 @@ export default async function ProjectsDetailsPage({
   const { id } = await params;
   const t = await getTranslations("project.details");
 
-  // Prefetch the project details data on the server
-  // const queryClient = getQueryClient();
-  // void queryClient.prefetchQuery(
-  //   orpcQuery.project.getById.queryOptions({
-  //     input: {
-  //       id,
-  //     },
-  //   }),
-  // );
-
   return (
     <ErrorBoundary fallback={t("error")}>
       <Suspense fallback={<ProjectDetailsSkeleton />}>
-        {/* <HydrateClient client={queryClient}> */}
         <ProjectDetails id={id} />
-        {/* </HydrateClient> */}
       </Suspense>
     </ErrorBoundary>
   );
