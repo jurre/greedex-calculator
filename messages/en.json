@@ -350,7 +350,8 @@
             "success": "Project updated successfully",
             "error": "Failed to update project",
             "failed-activities": "Failed to process {count, plural, one {# activity} other {# activities}}: {activities}"
-          }
+          },
+          "back": "Back"
         },
         "delete": {
           "confirm-title": "Are you sure?",
@@ -399,7 +400,8 @@
           "country-description": "Specify the country where the project takes place.",
           "location-description": "Optional: Provide additional location details.",
           "welcome-message-description": "Optional: Add a welcome message for participants.",
-          "organization-description": "Choose the organization that owns this project."
+          "organization-description": "Choose the organization that owns this project.",
+          "back": "Back"
         }
       },
       "activeProject": {

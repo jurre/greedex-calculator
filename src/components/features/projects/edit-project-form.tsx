@@ -47,8 +47,8 @@ type EditProjectWithActivitiesType = z.infer<
 >;
 
 function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
-  const t = useTranslations("organization.projects.form");
   const tActivities = useTranslations("project.activities");
+  const t = useTranslations("organization.projects.form");
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 2;
 
@@ -517,7 +517,7 @@ function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                 className="w-fit"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
+                {t("edit.back")}
               </Button>
 
               <Button type="submit" disabled={isUpdating} className="w-fit">

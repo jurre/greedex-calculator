@@ -439,7 +439,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
                 className="w-fit"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
+                {t("back")}
               </Button>
 
               <Button

@@ -350,7 +350,8 @@
             "success": "Projekt erfolgreich aktualisiert",
             "error": "Fehler beim Aktualisieren des Projekts",
             "failed-activities": "Fehler beim Verarbeiten von {count, plural, one {# Aktivität} other {# Aktivitäten}}: {activities}"
-          }
+          },
+          "back": "Zurück"
         },
         "delete": {
           "confirm-title": "Sind Sie sicher?",
@@ -399,7 +400,8 @@
           "country-description": "Gib das Land an, in dem das Projekt stattfindet.",
           "location-description": "Optional: Gib zusätzliche Ortsdetails an.",
           "welcome-message-description": "Optional: Füge eine Willkommensnachricht für Teilnehmende hinzu.",
-          "organization-description": "Wähle die Organisation, die das Projekt besitzt."
+          "organization-description": "Wähle die Organisation, die das Projekt besitzt.",
+          "back": "Zurück"
         }
       },
       "activeProject": {
