@@ -704,7 +704,7 @@ export const createProjectActivity = authorized
         id: randomUUID(),
         projectId: input.projectId,
         activityType: input.activityType,
-        distanceKm: String(input.distanceKm),
+        distanceKm: input.distanceKm.toString(),
         description: input.description,
         activityDate: input.activityDate,
       })
@@ -781,7 +781,7 @@ export const updateProjectActivity = authorized
     const { distanceKm, ...restData } = input.data;
     const updateData: typeof restData & { distanceKm?: string } = { ...restData };
     if (distanceKm !== undefined) {
-      updateData.distanceKm = String(distanceKm);
+      updateData.distanceKm = distanceKm.toString();
     }
 
     const [updatedActivity] = await db

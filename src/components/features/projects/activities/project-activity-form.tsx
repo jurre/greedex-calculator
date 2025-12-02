@@ -54,7 +54,7 @@ export function ProjectActivityForm({
     defaultValues: {
       projectId,
       activityType: activity?.activityType ?? undefined,
-      distanceKm: activity?.distanceKm ? String(activity.distanceKm) : "0",
+      distanceKm: activity?.distanceKm ? parseFloat(activity.distanceKm) : 0,
       description: activity?.description ?? null,
       activityDate: activity?.activityDate ?? null,
     },
@@ -170,8 +170,10 @@ export function ProjectActivityForm({
                   step="0.01"
                   min="0"
                   placeholder={t("form.distance-placeholder")}
-                  value={field.value || ""}
-                  onChange={(e) => field.onChange(e.target.value)}
+                  value={field.value ?? ""}
+                  onChange={(e) =>
+                    field.onChange(parseFloat(e.target.value) || 0)
+                  }
                 />
               )}
             />

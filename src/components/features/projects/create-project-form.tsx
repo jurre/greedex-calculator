@@ -188,7 +188,7 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const addActivity = () => {
     append({
       activityType: "car",
-      distanceKm: "0",
+      distanceKm: 0,
       description: null,
       activityDate: null,
     });
