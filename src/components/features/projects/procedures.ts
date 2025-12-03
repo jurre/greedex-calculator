@@ -507,6 +507,8 @@ export const getProjectParticipants = authorized
       .innerJoin(user, eq(projectParticipantsTable.userId, user.id))
       .where(eq(projectParticipantsTable.projectId, input.projectId));
 
+    // NOTE: Demo delay has been moved into a global orpc middleware
+
     return participants;
   });
 

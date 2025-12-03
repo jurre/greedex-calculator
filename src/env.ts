@@ -56,6 +56,12 @@ export const env = createEnv({
         message: "Must be 'true' or 'false'",
       })
       .transform((value) => value === "true"),
+    ORPC_DEV_DELAY_MS: z
+      .preprocess(
+        (val) => (typeof val === "string" ? Number(val) : val),
+        z.number().int().min(0),
+      )
+      .optional(),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.url(),
@@ -79,5 +85,6 @@ export const env = createEnv({
     SMTP_SECURE: process.env.SMTP_SECURE,
     NODE_ENV: process.env.NODE_ENV,
     PORT: process.env.PORT,
+    ORPC_DEV_DELAY_MS: process.env.ORPC_DEV_DELAY_MS,
   },
 });

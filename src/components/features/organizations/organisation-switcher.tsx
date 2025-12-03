@@ -95,35 +95,19 @@ export function OrganizationSwitcher() {
                       organizationId: org.id,
                     });
 
-                    // Invalidate session to get server state
-                    await queryClient.invalidateQueries(
-                      orpcQuery.betterauth.getSession.queryOptions(),
-                    );
-
-                    // Invalidate projects
-                    await queryClient.invalidateQueries(
-                      orpcQuery.projects.list.queryOptions(),
-                    );
-
-                    // Invalidate active organization
-                    await queryClient.invalidateQueries(
-                      orpcQuery.organizations.getActive.queryOptions(),
-                    );
-
-                    // // Invalidate participants queries for the previous active project if present
-                    // if (session.session.activeProjectId) {
-                    //   await queryClient.invalidateQueries(
-                    //     orpcQuery.project.getParticipants.queryOptions({
-                    //       input: { projectId: session.session.activeProjectId },
-                    //     }),
-                    //   );
-                    // }
-
-                    // setActiveOrganization(org);
-
-                    // await authClient.organization.setActive({
-                    //   organizationId: org.id,
-                    // });
+                    // Invalidate session / projects / active organization
+                    // Run invalidations in parallel to avoid sequential delays
+                    await Promise.all([
+                      queryClient.invalidateQueries(
+                        orpcQuery.betterauth.getSession.queryOptions(),
+                      ),
+                      queryClient.invalidateQueries(
+                        orpcQuery.projects.list.queryOptions(),
+                      ),
+                      queryClient.invalidateQueries(
+                        orpcQuery.organizations.getActive.queryOptions(),
+                      ),
+                    ]);
                   } finally {
                     setIsLoading(false);
                   }

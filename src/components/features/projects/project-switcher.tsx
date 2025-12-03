@@ -64,15 +64,15 @@ export function ProjectSwitcher() {
         projectId,
       }),
     onSuccess: async () => {
-      // Invalidate oRPC session cache (used throughout app)
-      await queryClient.invalidateQueries(
-        orpcQuery.betterauth.getSession.queryOptions(),
-      );
-
-      // Invalidate project list
-      queryClient.invalidateQueries({
-        queryKey: orpcQuery.projects.list.queryKey(),
-      });
+      // Invalidate session & project list concurrently to avoid double delays
+      await Promise.all([
+        queryClient.invalidateQueries(
+          orpcQuery.betterauth.getSession.queryOptions(),
+        ),
+        queryClient.invalidateQueries({
+          queryKey: orpcQuery.projects.list.queryKey(),
+        }),
+      ]);
     },
   });
 

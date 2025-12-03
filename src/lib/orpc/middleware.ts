@@ -1,13 +1,13 @@
 import { ORPCError } from "@orpc/server";
 import type { ProjectPermission } from "@/components/features/projects/permissions";
 import { auth } from "@/lib/better-auth";
-import { base } from "@/lib/orpc/context";
+import { base, rootBase } from "@/lib/orpc/context";
 
 /**
  * Middleware that validates authentication using Better Auth
  * Adds session and user to the context for protected procedures
  */
-const authMiddleware = base.middleware(async ({ context, next }) => {
+const authMiddleware = rootBase.middleware(async ({ context, next }) => {
   const sessionData = await auth.api.getSession({
     headers: context.headers,
   });

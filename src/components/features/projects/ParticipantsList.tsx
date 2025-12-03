@@ -103,29 +103,38 @@ export default function ParticipantsList({
 
 export function ParticipantsListSkeleton() {
   return (
-    <Card className="rounded-md border border-secondary/70 bg-secondary/10 p-4">
+    <Card className="border border-border/60 bg-card/80 shadow-sm">
       <CardHeader>
-        <div className="mb-4 flex items-center gap-2">
-          <UsersIcon className="h-5 w-5 text-secondary" />
-          <h2 className="font-semibold text-lg">Participants</h2>
+        <div className="flex items-center gap-3">
+          <div className="border border-secondary/30 bg-secondary/10 p-2 text-secondary">
+            <UsersIcon className="h-5 w-5" />
+          </div>
+          <div>
+            <div className="animate-pulse font-medium text-secondary/70 text-xs uppercase tracking-[0.2em]">
+              Participants
+            </div>
+            <div className="mt-1 h-6 w-32 animate-pulse rounded bg-secondary/50"></div>
+          </div>
         </div>
       </CardHeader>
 
-      <div className="space-y-2">
-        {[...Array(3)].map((_, index) => (
-          <div
-            key={index}
-            className="flex animate-pulse items-center gap-4 rounded-lg border p-4"
-          >
-            <div className="h-10 w-10 rounded-full bg-secondary/50" />
-            <div className="flex-1 space-y-2">
-              <div className="h-4 w-1/3 rounded bg-secondary/50" />
-              <div className="h-3 w-1/2 rounded bg-secondary/50" />
+      <CardContent>
+        <div className="space-y-2">
+          {[...Array(7)].map((_, index) => (
+            <div
+              key={index}
+              className="flex animate-pulse items-center gap-4 rounded-xl border border-secondary/20 bg-background p-4"
+            >
+              <div className="h-10 w-10 rounded-full bg-secondary/50" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-1/3 rounded bg-secondary/50" />
+                <div className="h-3 w-1/2 rounded bg-secondary/50" />
+              </div>
+              <div className="h-3 w-24 rounded bg-secondary/50" />
             </div>
-            <div className="h-3 w-24 rounded bg-secondary/50" />
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </CardContent>
     </Card>
   );
 }
