@@ -55,7 +55,8 @@ app.prepare().then(() => {
   );
 
   // In production, Socket.IO runs on a separate HTTP server on a different port.
-  // In development, Socket.IO runs as a separate process (see dev:socket script).
+  // This code path is only used in production (via `npm run start`).
+  // In development, Socket.IO runs as a completely separate process (see dev:socket script).
   const socketServer = createServer();
   const io = new Server(socketServer, {
     cors: {

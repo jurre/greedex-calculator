@@ -8,13 +8,6 @@ interface Message {
   timestamp: string;
 }
 
-// In development, Socket.IO runs on port 4000 (separate process).
-// In production, Socket.IO runs on port 4000 (same server, different port).
-const SOCKET_URL =
-  process.env.NODE_ENV === "production"
-    ? `${window.location.protocol}//${window.location.hostname}:4000`
-    : "http://localhost:4000";
-
 export default function Home() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
@@ -22,8 +15,15 @@ export default function Home() {
   const [inputMessage, setInputMessage] = useState("");
 
   useEffect(() => {
+    // In development, Socket.IO runs on port 4000 (separate process).
+    // In production, Socket.IO runs on port 4000 (same server, different port).
+    const socketUrl =
+      process.env.NODE_ENV === "production"
+        ? `${window.location.protocol}//${window.location.hostname}:4000`
+        : "http://localhost:4000";
+
     // Initialize socket connection to the separate Socket.IO server
-    const socketInstance = io(SOCKET_URL, {
+    const socketInstance = io(socketUrl, {
       withCredentials: true,
     });
 
