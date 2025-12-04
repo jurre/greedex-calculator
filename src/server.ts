@@ -8,6 +8,7 @@ import next from "next";
 import { Server } from "socket.io";
 
 const port = parseInt(process.env.PORT || "3000", 10);
+const socketPort = parseInt(process.env.SOCKET_PORT || "4000", 10);
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
 const app = next({
@@ -53,32 +54,28 @@ app.prepare().then(() => {
     },
   );
 
-  // Initialize Socket.IO with optimized settings
-  const io = new Server(httpServer, {
-    // Accept any origin but reflect it back to allow credentials
-    // socket.io accepts `origin: true` to echo the origin in the CORS response
+  // In production, Socket.IO runs on a separate HTTP server on a different port.
+  // In development, Socket.IO runs as a separate process (see dev:socket script).
+  const socketServer = createServer();
+  const io = new Server(socketServer, {
     cors: {
       origin: true,
       credentials: true,
       methods: ["GET", "POST"],
     },
-    // Use built-in heartbeat instead of custom intervals
-    pingInterval: 10000, // Send ping every 10s
-    pingTimeout: 5000, // Wait 5s for pong before considering connection dead
-    connectTimeout: 45000, // Disconnect inactive clients to free resources
+    pingInterval: 10000,
+    pingTimeout: 5000,
+    connectTimeout: 45000,
   });
 
-  // Socket.IO connection handler
   io.on("connection", (socket) => {
     console.log(`Client connected: ${socket.id}`);
 
-    // Send a welcome message
     socket.emit("message", {
       text: "Welcome to Socket.IO!",
       timestamp: new Date().toISOString(),
     });
 
-    // Handle client messages
     socket.on("client-message", (data) => {
       console.log("Received from client:", data);
       socket.emit("message", {
@@ -87,10 +84,14 @@ app.prepare().then(() => {
       });
     });
 
-    // Cleanup on disconnect
     socket.on("disconnect", (reason) => {
       console.log(`Client disconnected: ${socket.id}, reason: ${reason}`);
     });
+  });
+
+  // Start Socket.IO on separate port in production
+  socketServer.listen(socketPort, () => {
+    console.log(`> Socket.IO server listening on port ${socketPort}`);
   });
 
   httpServer
