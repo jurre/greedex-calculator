@@ -54,9 +54,19 @@ if (env.NODE_ENV === "development") {
   process.on("beforeExit", stopLogging);
 }
 
-httpServer.listen(socketPort, () => {
-  console.log(`Socket.IO server listening on port ${socketPort}`);
-}).on('error', (err) => {
-  console.error('Failed to start Socket.IO server:', err);
-  process.exit(1);
-});
+httpServer
+  .listen(socketPort, () => {
+    console.log(`Socket.IO server listening on port ${socketPort}`);
+  })
+  .on("error", (error: NodeJS.ErrnoException) => {
+    console.error(
+      `Failed to start Socket.IO server on port ${socketPort}:`,
+      error,
+    );
+    if (error.code === "EADDRINUSE") {
+      console.error(
+        `Port ${socketPort} is already in use. Please choose a different port.`,
+      );
+    }
+    process.exit(1);
+  });

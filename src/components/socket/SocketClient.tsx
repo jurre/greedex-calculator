@@ -6,6 +6,7 @@ import { io, type Socket } from "socket.io-client";
 interface Message {
   text: string;
   timestamp: string;
+  type?: "message" | "ping";
 }
 
 interface Props {
@@ -33,26 +34,14 @@ export default function SocketClient({ socketUrl }: Props) {
 
     socketInstance.on("message", (data: Message) => {
       setMessages((prev) => {
-        const newMessages = [
-          ...prev,
-          {
-            ...data,
-            type: "message",
-          } as unknown as Message,
-        ];
+        const newMessages: Message[] = [...prev, { ...data, type: "message" }];
         return newMessages.slice(-100);
       });
     });
 
     socketInstance.on("ping", (data: Message) => {
       setMessages((prev) => {
-        const newMessages = [
-          ...prev,
-          {
-            ...data,
-            type: "ping",
-          } as unknown as Message,
-        ];
+        const newMessages: Message[] = [...prev, { ...data, type: "ping" }];
         return newMessages.slice(-100);
       });
     });
@@ -99,7 +88,9 @@ export default function SocketClient({ socketUrl }: Props) {
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") sendMessage();
+            }}
             placeholder="Type a message..."
             className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 dark:border-gray-700 dark:bg-gray-800"
           />

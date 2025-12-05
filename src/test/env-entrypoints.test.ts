@@ -8,7 +8,12 @@ describe("dotenv config import in node entrypoints", () => {
   files.forEach((file) => {
     it(`should import "dotenv/config" at top of ${file}`, () => {
       const content = readFileSync(path.resolve(file), "utf8");
-      expect(content.includes('import "dotenv/config"')).toBe(true);
+      const lines = content.split("\n");
+      const importLine = lines.findIndex(
+        (line) => line.trim() === 'import "dotenv/config";',
+      );
+      expect(importLine).toBeGreaterThanOrEqual(0);
+      expect(importLine).toBeLessThan(3); // Should be within first 3 lines
     });
   });
 });

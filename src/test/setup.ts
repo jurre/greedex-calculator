@@ -20,7 +20,8 @@ vi.mock("@/lib/better-auth/auth-client", () => ({
 vi.mock("@/env", () => ({
   env: {
     NEXT_PUBLIC_BASE_URL: "http://localhost:3000",
-    DATABASE_URL: process.env.DATABASE_URL || "postgresql://test:test@localhost:5432/test",
+    DATABASE_URL:
+      process.env.DATABASE_URL || "postgresql://test:test@localhost:5432/test",
     BETTER_AUTH_SECRET: "test-secret",
     BETTER_AUTH_URL: "http://localhost:3000",
     GOOGLE_CLIENT_ID: "123456789012-test-google-client-id",

@@ -12,9 +12,9 @@ export const env = createEnv({
       (val) => (typeof val === "string" ? Number(val) : val),
       z.number().int().min(0),
     ),
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.url(),
     BETTER_AUTH_SECRET: z.string().min(1),
-    BETTER_AUTH_URL: z.string().url(),
+    BETTER_AUTH_URL: z.url(),
     GOOGLE_CLIENT_ID: z
       .string()
       .refine((value) => value.endsWith("apps.googleusercontent.com"), {
@@ -64,7 +64,7 @@ export const env = createEnv({
       (val) => (typeof val === "string" ? Number(val) : val),
       z.number().int().min(1).max(65535),
     ),
-    CORS_ORIGIN: z.string().url(),
+    CORS_ORIGIN: z.url(),
     NEXT_DIST_DIR: z.string().min(1),
   },
   client: {
