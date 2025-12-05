@@ -85,17 +85,17 @@ DISCORD_CLIENT_SECRET=your-discord-client-secret
 
 ### Development
 
-Run the development server with custom server support (includes Socket.IO POC):
+Run the development server with Socket.IO support (decoupled for memory leak prevention):
 ```bash
 bun run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser. The server watches `src/server.ts` for changes.
+Visit [http://localhost:3000](http://localhost:3000) in your browser. The Socket.IO server runs separately on port 4000.
 
 ### Build & Production
 
 ```bash
-# Build: compile server + Next.js
+# Build: compile Next.js application
 bun run build
 
 # Start: run production server

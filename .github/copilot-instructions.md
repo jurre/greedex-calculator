@@ -158,7 +158,7 @@ Troublesome changes to avoid
 
 If you'd like, I can:
 
-- add a minimal Socket.IO wiring example to `src/server.ts` (feature-flagged / non-breaking), or
+- add a minimal Socket.IO wiring example to `src/socket-server.ts` (feature-flagged / non-breaking), or
 - add a client example `src/app/socket-client.tsx` that connects with `socket.io-client`, or
 - add a short PR that wires `src/instrumentation.ts` to initialize the oRPC server client for SSR.
 
