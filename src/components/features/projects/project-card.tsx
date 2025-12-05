@@ -3,7 +3,7 @@ import { Edit2Icon, EyeIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react
 import { useFormatter } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import EditProjectForm from "@/components/features/projects/edit-project-form";
+import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import type { ProjectType } from "@/components/features/projects/types";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,7 +38,7 @@ interface ProjectDetailCardProps {
   project: ProjectType;
 }
 
-function ProjectCard({ project }: ProjectDetailCardProps) {
+export function ProjectCard({ project }: ProjectDetailCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const format = useFormatter();
   const queryClient = useQueryClient();
@@ -203,5 +203,3 @@ function ProjectCard({ project }: ProjectDetailCardProps) {
     </>
   );
 }
-
-export default ProjectCard;

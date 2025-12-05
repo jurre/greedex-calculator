@@ -3,7 +3,7 @@
 import { ArrowUpDown, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
-import ProjectCard from "@/components/features/projects/project-card";
+import { ProjectCard } from "@/components/features/projects/project-card";
 import type {
   ProjectSortField,
   ProjectType,
@@ -28,7 +28,7 @@ interface ProjectsGridProps {
   sortBy?: ProjectSortField;
 }
 
-function ProjectsGrid({ projects }: ProjectsGridProps) {
+export function ProjectsGrid({ projects }: ProjectsGridProps) {
   const t = useTranslations("organization.projects");
 
   const [sortBy, setSortBy] = useState<ProjectSortField>(
@@ -118,5 +118,3 @@ function ProjectsGrid({ projects }: ProjectsGridProps) {
     </>
   );
 }
-
-export default ProjectsGrid;

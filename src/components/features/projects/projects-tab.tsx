@@ -5,7 +5,7 @@ import { FolderOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CreateProjectButton } from "@/components/features/projects/create-project-button";
-import ProjectsGrid from "@/components/features/projects/projects-grid";
+import { ProjectsGrid } from "@/components/features/projects/projects-grid";
 import { ProjectsTable } from "@/components/features/projects/projects-table";
 import { ProjectsViewSelect } from "@/components/features/projects/projects-view-select";
 import { DEFAULT_PROJECT_SORTING_FIELD } from "@/components/features/projects/types";

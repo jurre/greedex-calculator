@@ -45,7 +45,7 @@ interface CreateProjectFormProps {
   userOrganizations: Omit<Organization, "metadata">[];
 }
 
-function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
+export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
   const [currentStep, setCurrentStep] = useState(1);
@@ -456,5 +456,3 @@ function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
     </form>
   );
 }
-
-export default CreateProjectForm;

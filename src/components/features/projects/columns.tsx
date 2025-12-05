@@ -6,7 +6,7 @@ import { Edit2Icon, EyeIcon, MoreHorizontalIcon, Trash2Icon } from "lucide-react
 import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import EditProjectForm from "@/components/features/projects/edit-project-form";
+import { EditProjectForm } from "@/components/features/projects/edit-project-form";
 import { SortableHeader } from "@/components/features/projects/sortable-header";
 import {
   PROJECT_SORT_FIELDS,

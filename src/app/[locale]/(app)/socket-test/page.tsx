@@ -11,12 +11,5 @@ export default function Home() {
   baseUrl.port = String(env.SOCKET_PORT);
   const socketUrl = baseUrl.toString();
 
-  return (
-    <div className="min-h-screen p-8 pb-20 font-sans sm:p-20">
-      <main className="mx-auto max-w-4xl">
-        <h1 className="mb-8 font-bold text-4xl">Socket.IO + Next.js</h1>
-        <SocketClient socketUrl={socketUrl} />
-      </main>
-    </div>
-  );
+  return <SocketClient socketUrl={socketUrl} />;
 }
