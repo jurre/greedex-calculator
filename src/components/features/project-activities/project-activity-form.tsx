@@ -10,8 +10,8 @@ import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import {
   activityTypeValues,
   type ProjectActivityType,
-} from "@/components/features/project-activities/types";
-import { ProjectActivityFormSchema } from "@/components/features/project-activities/validation-schemas";
+} from "@/components/features/projects/types";
+import { ProjectActivityFormSchema } from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -168,7 +168,7 @@ export function ProjectActivityForm({
                   id="distanceKm"
                   type="number"
                   step="0.01"
-                  min="0"
+                  min="1"
                   placeholder={t("form.distance-placeholder")}
                   value={field.value ?? ""}
                   onChange={(e) =>

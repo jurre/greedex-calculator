@@ -9,8 +9,8 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import { activityTypeValues } from "@/components/features/project-activities/types";
 import type { ProjectType } from "@/components/features/projects/types";
+import { activityTypeValues } from "@/components/features/projects/types";
 import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
@@ -126,8 +126,8 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }) => {
       const validActivity = EditActivityFormItemSchema.parse(params.activity);
 
-      if (!validActivity.activityType || !validActivity.distanceKm) {
-        throw new Error("Activity type and distance are required");
+      if (!validActivity.activityType) {
+        throw new Error("Activity type is required");
       }
 
       return orpc.projectActivities.create({
@@ -147,8 +147,8 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     }) => {
       const validActivity = EditActivityFormItemSchema.parse(params.activity);
 
-      if (!validActivity.activityType || !validActivity.distanceKm) {
-        throw new Error("Activity type and distance are required");
+      if (!validActivity.activityType) {
+        throw new Error("Activity type is required");
       }
 
       return orpc.projectActivities.update({
@@ -258,7 +258,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     append({
       id: undefined,
       activityType: "car",
-      distanceKm: 0,
+      distanceKm: 1,
       description: null,
       activityDate: null,
       isNew: true,
@@ -461,7 +461,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                                   id={`activities.${index}.distance`}
                                   type="number"
                                   step="0.01"
-                                  min="0"
+                                  min="1"
                                   placeholder={tActivities(
                                     "form.distance-placeholder",
                                   )}
