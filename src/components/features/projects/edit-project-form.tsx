@@ -36,6 +36,17 @@ interface EditProjectFormProps {
   onSuccess?: () => void;
 }
 
+/**
+ * Render an editable two-step form for updating a project and its related activities.
+ *
+ * The form lets the user edit project details (step 1) and manage activity entries (step 2),
+ * then persists changes to the server (update project; create, update, or delete activities).
+ * On successful save, related queries are invalidated and `onSuccess` is invoked if provided.
+ *
+ * @param project - The project object to edit; used to populate initial form values.
+ * @param onSuccess - Optional callback invoked after a successful update and activity processing.
+ * @returns The rendered edit project form UI.
+ */
 export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form");
