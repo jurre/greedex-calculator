@@ -100,6 +100,15 @@ interface SendOrganizationInvitationParams {
 }
 
 /**
+ * Sends an email inviting a recipient to join an organization.
+ *
+ * @param email - Recipient email address
+ * @param inviteLink - URL the recipient can use to accept the invitation
+ * @param organizationName - Name of the organization the recipient is invited to
+ * @param inviterName - Optional name of the person who sent the invitation
+ * @throws Propagates any error encountered while rendering or sending the email
+ */
+/**
  * Sends an invitation email asking the recipient to join the specified organization.
  *
  * @param email - Recipient's email address
