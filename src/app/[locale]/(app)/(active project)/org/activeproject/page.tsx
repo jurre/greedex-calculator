@@ -12,37 +12,22 @@ import { orpcQuery } from "@/lib/orpc/orpc";
 import { getQueryClient } from "@/lib/react-query/hydration";
 
 export default async function ControlActiveProjectPage() {
-  const queryClient = getQueryClient();
-
   // Get session for server-side data
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  // Prefetch all necessary data
-  // Using await ensures data is in cache BEFORE dehydration
-  const prefetches = [
-    queryClient.prefetchQuery(orpcQuery.betterauth.getSession.queryOptions()),
-    queryClient.prefetchQuery(orpcQuery.projects.list.queryOptions()),
-    queryClient.prefetchQuery(orpcQuery.organizations.list.queryOptions()),
-    queryClient.prefetchQuery(orpcQuery.organizations.getActive.queryOptions()),
-  ];
-
   // Prefetch participants data if we have an active project
-  const activeProjectId = session?.session?.activeProjectId;
+  const activeProjectId = session?.session.activeProjectId;
   if (activeProjectId) {
-    prefetches.push(
-      queryClient.prefetchQuery(
-        orpcQuery.projects.getParticipants.queryOptions({
-          input: {
-            projectId: activeProjectId,
-          },
-        }),
-      ),
+    await getQueryClient().prefetchQuery(
+      orpcQuery.projects.getParticipants.queryOptions({
+        input: {
+          projectId: activeProjectId,
+        },
+      }),
     );
   }
-
-  await Promise.all(prefetches);
 
   return (
     <>
