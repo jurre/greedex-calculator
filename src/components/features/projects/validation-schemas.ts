@@ -5,6 +5,11 @@ import {
 } from "drizzle-zod";
 import z from "zod";
 import {
+  DISTANCE_KM_STEP,
+  MIN_DISTANCE_KM,
+  validateDistanceStep,
+} from "@/lib/constants/distance";
+import {
   organization,
   projectActivitiesTable,
   projectsTable,
@@ -42,7 +47,13 @@ export const EditActivityFormItemSchema = createUpdateSchema(
     updatedAt: true,
   })
   .extend({
-    distanceKm: z.number().positive("Distance must be greater than zero"),
+    distanceKm: z
+      .number()
+      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
+      .refine(
+        validateDistanceStep,
+        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      ),
     isNew: z.boolean().optional(), // Track if activity is new
     isDeleted: z.boolean().optional(), // Track if activity should be deleted
   });
@@ -62,7 +73,13 @@ export const ProjectActivityFormSchema = createInsertSchema(
     updatedAt: true,
   })
   .extend({
-    distanceKm: z.number().positive("Distance must be greater than zero"),
+    distanceKm: z
+      .number()
+      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
+      .refine(
+        validateDistanceStep,
+        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      ),
   });
 
 export const ActivityFormItemSchema = ProjectActivityFormSchema.omit({

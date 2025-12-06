@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/lib/constants/distance";
 import { useRouter } from "@/lib/i18n/navigation";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils";
@@ -191,7 +192,7 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
   const addActivity = () => {
     append({
       activityType: "car",
-      distanceKm: 1,
+      distanceKm: MIN_DISTANCE_KM,
       description: null,
       activityDate: null,
     });
@@ -394,13 +395,17 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
                               <Input
                                 id={`activities.${index}.distance`}
                                 type="number"
-                                step="0.01"
-                                min="1"
+                                step={DISTANCE_KM_STEP}
+                                min={MIN_DISTANCE_KM}
                                 placeholder={tActivities(
                                   "form.distance-placeholder",
                                 )}
                                 value={field.value || ""}
-                                onChange={(e) => field.onChange(e.target.value)}
+                                onChange={(e) =>
+                                  field.onChange(
+                                    parseFloat(e.target.value) || MIN_DISTANCE_KM,
+                                  )
+                                }
                               />
                             )}
                           />

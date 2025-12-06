@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/lib/constants/distance";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface ProjectActivityFormProps {
@@ -68,7 +69,9 @@ export function ProjectActivityForm({
     defaultValues: {
       projectId,
       activityType: activity?.activityType ?? undefined,
-      distanceKm: activity?.distanceKm ? parseFloat(activity.distanceKm) : 0,
+      distanceKm: activity?.distanceKm
+        ? parseFloat(activity.distanceKm)
+        : MIN_DISTANCE_KM,
       description: activity?.description ?? null,
       activityDate: activity?.activityDate ?? null,
     },
@@ -181,12 +184,12 @@ export function ProjectActivityForm({
                 <Input
                   id="distanceKm"
                   type="number"
-                  step="0.01"
-                  min="1"
+                  step={DISTANCE_KM_STEP}
+                  min={MIN_DISTANCE_KM}
                   placeholder={t("form.distance-placeholder")}
                   value={field.value ?? ""}
                   onChange={(e) =>
-                    field.onChange(parseFloat(e.target.value) || 0)
+                    field.onChange(parseFloat(e.target.value) || MIN_DISTANCE_KM)
                   }
                 />
               )}

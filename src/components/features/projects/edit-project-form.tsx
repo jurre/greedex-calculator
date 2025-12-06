@@ -29,6 +29,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { DISTANCE_KM_STEP, MIN_DISTANCE_KM } from "@/lib/constants/distance";
 import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 
 interface EditProjectFormProps {
@@ -269,7 +270,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
     append({
       id: undefined,
       activityType: "car",
-      distanceKm: 1,
+      distanceKm: MIN_DISTANCE_KM,
       description: null,
       activityDate: null,
       isNew: true,
@@ -471,15 +472,16 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
                                 <Input
                                   id={`activities.${index}.distance`}
                                   type="number"
-                                  step="0.01"
-                                  min="1"
+                                  step={DISTANCE_KM_STEP}
+                                  min={MIN_DISTANCE_KM}
                                   placeholder={tActivities(
                                     "form.distance-placeholder",
                                   )}
                                   value={field.value ?? ""}
                                   onChange={(e) =>
                                     field.onChange(
-                                      parseFloat(e.target.value) || 0,
+                                      parseFloat(e.target.value) ||
+                                        MIN_DISTANCE_KM,
                                     )
                                   }
                                 />
