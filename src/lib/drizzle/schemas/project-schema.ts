@@ -64,8 +64,8 @@ export const projectActivitiesTable = pgTable("project_activity", {
     .$type<ActivityType>()
     .notNull(),
 
-  // Distance in kilometers
-  distanceKm: decimal("distance_km", { precision: 10, scale: 2 }).notNull(),
+  // Distance in kilometers (scale 1 supports 0.1 km increments)
+  distanceKm: decimal("distance_km", { precision: 10, scale: 1 }).notNull(),
 
   // Optional fields for additional activity details
   description: text("description"),
