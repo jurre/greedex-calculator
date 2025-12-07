@@ -5,6 +5,27 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 type LoadingMode = "project" | "organization";
+
+const getModeStyles = (mode?: LoadingMode) => {
+  switch (mode) {
+    case "project":
+      return {
+        containerClassName: `border-2 border-secondary bg-secondary/20`,
+        textColor: "text-secondary",
+      };
+    case "organization":
+      return {
+        containerClassName: `border-2 border-accent bg-accent/20`,
+        textColor: "text-accent",
+      };
+    default:
+      return {
+        containerClassName: "",
+        textColor: "text-primary",
+      };
+  }
+};
+
 interface LoadingState {
   isLoading: boolean;
   message?: string;
@@ -28,26 +49,6 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const setLoading = React.useCallback((updates: Partial<LoadingState>) => {
     setLoadingState((prev) => ({ ...prev, ...updates }));
   }, []);
-
-  const getModeStyles = (mode?: LoadingMode) => {
-    switch (mode) {
-      case "project":
-        return {
-          containerClassName: `border-2 border-secondary bg-secondary/20`,
-          textColor: "text-secondary",
-        };
-      case "organization":
-        return {
-          containerClassName: `border-2 border-accent bg-accent/20`,
-          textColor: "text-accent",
-        };
-      default:
-        return {
-          containerClassName: "",
-          textColor: "text-primary",
-        };
-    }
-  };
 
   const modeStyles = getModeStyles(loadingState.mode);
 
