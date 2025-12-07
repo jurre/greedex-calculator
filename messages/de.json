@@ -665,6 +665,11 @@
         "continue": "Weiter",
         "complete": "Abschließen"
       },
+      "project-activities": {
+        "title": "Projektaktivitäten",
+        "description": "Dieses Projekt beinhaltet organisierte Aktivitäten, die zu den Basis-Emissionen beitragen:",
+        "note": "Dies ist bereits in deinem Gesamt-Fußabdruck enthalten"
+      },
       "results": {
         "CO₂-footprint": "CO₂-Fußabdruck",
         "trees-needed": "Bäume (1 Jahr)",
@@ -672,6 +677,7 @@
         "transport": "Transport:",
         "accommodation": "Unterkunft:",
         "food": "Essen:",
+        "project-activities": "Projektaktivitäten:",
         "total": "Gesamt:",
         "console-note": "Daten wurden in die Konsole protokolliert (siehe Browser-Entwicklertools)",
         "co2-footprint": "CO₂-Fußabdruck"

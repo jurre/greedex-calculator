@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { QuestionnaireForm } from "@/components/participate/questionnaire-form";
 import { Skeleton } from "@/components/ui/skeleton";
+import { orpc } from "@/lib/orpc/orpc";
 
 interface ParticipatePageProps {
   params: Promise<{
@@ -9,20 +10,18 @@ interface ParticipatePageProps {
   }>;
 }
 
-// Mock project data fetch - replace with actual data fetching later
+// Fetch project data with activities from the database
 async function getProjectData(projectId: string) {
-  // TODO: Fetch actual project data from database
-  // For now, return mock data
-  return {
-    id: projectId,
-    name: "Summer Youth Exchange 2024",
-    location: "Barcelona, Spain",
-    country: "Spain",
-    startDate: new Date("2024-07-15"),
-    endDate: new Date("2024-07-22"),
-    welcomeMessage:
-      "Welcome to our Erasmus+ Youth Exchange! We're excited to have you join us in calculating the carbon footprint of your journey.",
-  };
+  try {
+    const data = await orpc.projects.getForParticipation({ id: projectId });
+    return {
+      ...data.project,
+      activities: data.activities,
+    };
+  } catch (error) {
+    console.error("Failed to fetch project data:", error);
+    return null;
+  }
 }
 
 export default async function ParticipatePage({ params }: ParticipatePageProps) {

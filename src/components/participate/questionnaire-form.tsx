@@ -16,10 +16,12 @@ import {
   ACCOMMODATION_OPTIONS,
   CAR_TYPE_OPTIONS,
   calculateEmissions,
+  calculateProjectActivitiesCO2,
   ELECTRICITY_OPTIONS,
   FOOD_OPTIONS,
   GENDER_OPTIONS,
   type ParticipantAnswers,
+  type ProjectActivity,
   ROOM_OCCUPANCY_OPTIONS,
 } from "@/components/participate/questionnaire-types";
 import { Button } from "@/components/ui/button";
@@ -30,11 +32,12 @@ import { Label } from "@/components/ui/label";
 interface Project {
   id: string;
   name: string;
-  location: string;
+  location: string | null;
   country: string;
   startDate: Date;
   endDate: Date;
   welcomeMessage?: string | null;
+  activities: ProjectActivity[];
 }
 
 interface QuestionnaireFormProps {
@@ -202,11 +205,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
       } else {
         delete answersWithoutCurrent[stepKey as keyof ParticipantAnswers];
       }
-      const previousCO2 = calculateEmissions(answersWithoutCurrent).totalCO2;
+      const previousCO2 = calculateEmissions(
+        answersWithoutCurrent,
+        project.activities,
+      ).totalCO2;
 
       // Calculate new CO₂ WITH the current answer
       const currentValue = answers[stepKey as keyof ParticipantAnswers];
-      const newCO2 = calculateEmissions(answers).totalCO2;
+      const newCO2 = calculateEmissions(answers, project.activities).totalCO2;
       const impact = newCO2 - previousCO2;
 
       setImpactData({
@@ -223,7 +229,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   };
 
   const handleImpactModalClose = () => {
-    const fullEmissions = calculateEmissions(answers);
+    const fullEmissions = calculateEmissions(answers, project.activities);
     setConfirmedEmissions({
       totalCO2: fullEmissions.totalCO2,
       treesNeeded: fullEmissions.treesNeeded,
@@ -246,12 +252,14 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
   };
 
   const handleSubmit = () => {
-    const emissions = calculateEmissions(answers);
+    const emissions = calculateEmissions(answers, project.activities);
 
     // Complete data structure as requested
+    // Note: Project activities are NOT included in the response since the app
+    // already knows them. Only participant's personal travel is sent back.
     const completeData = {
       answers, // Discrete answers object
-      emissions, // Calculated results
+      emissions, // Calculated results (includes project activities in totals)
       summary: {
         totalCO2: emissions.totalCO2,
         treesNeeded: emissions.treesNeeded,
@@ -259,6 +267,7 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           transport: emissions.transportCO2,
           accommodation: emissions.accommodationCO2,
           food: emissions.foodCO2,
+          projectActivities: emissions.projectActivitiesCO2,
         },
       },
     };
@@ -315,7 +324,8 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
     }
   };
 
-  const emissions = calculateEmissions(answers);
+  const emissions = calculateEmissions(answers, project.activities);
+  const projectActivitiesCO2 = calculateProjectActivitiesCO2(project.activities);
   const currentStepDisplay =
     currentStep === 14 && (!answers.carKm || answers.carKm === 0)
       ? 12 // Show as step 12 if we skipped car questions
@@ -338,7 +348,35 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
           {t("header.subtitle")}
         </h1>
         <p className="text-lg text-muted-foreground">{project.name}</p>
+        {project.location && (
+          <p className="text-muted-foreground text-sm">
+            {project.location}, {project.country}
+          </p>
+        )}
       </div>
+
+      {/* Project Activities Baseline Info */}
+      {projectActivitiesCO2 > 0 && (
+        <Card className="border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 p-4">
+          <div className="space-y-2 text-center">
+            <h3 className="font-semibold text-foreground text-lg">
+              {t("project-activities.title")}
+            </h3>
+            <p className="text-muted-foreground text-sm">
+              {t("project-activities.description")}
+            </p>
+            <div className="flex items-center justify-center gap-2 pt-2">
+              <Factory className="h-5 w-5 text-blue-400" />
+              <span className="font-bold font-mono text-2xl text-blue-400">
+                +{projectActivitiesCO2.toFixed(1)} kg CO₂
+              </span>
+            </div>
+            <p className="text-muted-foreground text-xs">
+              {t("project-activities.note")}
+            </p>
+          </div>
+        </Card>
+      )}
 
       {/* Progress Bar */}
       <div className="relative h-2 overflow-hidden rounded-full bg-gradient-to-r from-teal-800/60 to-secondary/60">
@@ -872,6 +910,16 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                   {emissions.foodCO2.toFixed(1)} kg CO₂
                 </span>
               </div>
+              {emissions.projectActivitiesCO2 > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    {t("results.project-activities")}
+                  </span>
+                  <span className="font-semibold text-foreground">
+                    {emissions.projectActivitiesCO2.toFixed(1)} kg CO₂
+                  </span>
+                </div>
+              )}
               <div className="border-teal-500/30 border-t pt-3">
                 <div className="flex justify-between text-lg">
                   <span className="font-bold text-foreground">
