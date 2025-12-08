@@ -13,7 +13,10 @@ import {
   MIN_DISTANCE_KM,
   type ProjectActivityType,
 } from "@/components/features/projects/types";
-import { CreateActivityInputSchema } from "@/components/features/projects/validation-schemas";
+import {
+  CreateActivityInputSchema,
+  type UpdateActivityInputSchema,
+} from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -100,18 +103,13 @@ export function ProjectActivityForm({
   });
 
   const updateMutation = useMutation({
-    mutationFn: (values: z.infer<typeof CreateActivityInputSchema>) => {
+    mutationFn: (values: z.infer<typeof UpdateActivityInputSchema>) => {
       if (!activity?.id) {
         throw new Error("Activity ID is required for update");
       }
       return orpc.projectActivities.update({
         id: activity.id,
-        data: {
-          activityType: values.activityType,
-          distanceKm: values.distanceKm,
-          description: values.description,
-          activityDate: values.activityDate,
-        },
+        data: values,
       });
     },
     onSuccess: (result) => {
@@ -142,7 +140,8 @@ export function ProjectActivityForm({
    */
   async function onSubmit(values: z.infer<typeof CreateActivityInputSchema>) {
     if (isEditing) {
-      await updateMutation.mutateAsync(values);
+      const { projectId: _, ...updateValues } = values;
+      await updateMutation.mutateAsync(updateValues);
     } else {
       await createMutation.mutateAsync(values);
     }

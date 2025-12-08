@@ -25,7 +25,6 @@ export const MemberWithUserSchema = createSelectSchema(memberTable).extend({
     })
     .extend({
       image: z.string().optional(),
-      country: z.string().nullable().optional(), // Made optional for Better Auth compatibility
     }),
 });
 

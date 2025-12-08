@@ -81,8 +81,8 @@ export function CreateProjectForm({
     mode: "onChange",
     defaultValues: {
       name: "",
-      startDate: undefined,
-      endDate: undefined,
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       country: undefined,
       location: undefined,
       welcomeMessage: undefined,
@@ -236,7 +236,7 @@ export function CreateProjectForm({
                   render={({ field }) => (
                     <DatePickerWithInput
                       id="startDate"
-                      value={field.value || new Date()}
+                      value={field.value}
                       onChange={field.onChange}
                     />
                   )}
@@ -253,10 +253,7 @@ export function CreateProjectForm({
                   render={({ field }) => (
                     <DatePickerWithInput
                       id="endDate"
-                      value={
-                        field.value ||
-                        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-                      }
+                      value={field.value}
                       onChange={field.onChange}
                     />
                   )}
