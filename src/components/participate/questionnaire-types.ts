@@ -143,6 +143,17 @@ export interface ProjectActivity {
   description?: string | null;
 }
 
+export interface Project {
+  id: string;
+  name: string;
+  location: string | null;
+  country: string;
+  startDate: Date;
+  endDate: Date;
+  welcomeMessage?: string | null;
+  activities: ProjectActivity[];
+}
+
 export interface EmissionCalculation {
   transportCO2: number;
   accommodationCO2: number;

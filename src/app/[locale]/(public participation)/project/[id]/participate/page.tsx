@@ -34,17 +34,15 @@ export default async function ParticipatePage({ params }: ParticipatePageProps) 
   }
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-4xl px-4 py-8">
-      <Suspense
-        fallback={
-          <div className="space-y-4">
-            <Skeleton className="h-12 w-3/4" />
-            <Skeleton className="h-64 w-full" />
-          </div>
-        }
-      >
-        <QuestionnaireForm project={project} />
-      </Suspense>
-    </div>
+    <Suspense
+      fallback={
+        <div className="space-y-4">
+          <Skeleton className="h-12 w-3/4" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+      }
+    >
+      <QuestionnaireForm project={project} />
+    </Suspense>
   );
 }
