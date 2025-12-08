@@ -11,6 +11,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AnimatedGroup } from "@/components/animated-group";
+import { CountrySelect } from "@/components/country-select";
 import { ImpactModal } from "@/components/participate/impact-modal";
 import {
   ACCOMMODATION_OPTIONS,
@@ -460,18 +461,16 @@ export function QuestionnaireForm({ project }: QuestionnaireFormProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="country" className="text-foreground">
+                <Label className="text-foreground">
                   {t("participant-info.country")}{" "}
                   <span className="text-red-500">
                     {t("participant-info.required")}
                   </span>
                 </Label>
-                <Input
-                  id="country"
-                  type="text"
-                  placeholder={t("participant-info.country-placeholder")}
+                <CountrySelect
                   value={answers.country || ""}
-                  onChange={(e) => updateAnswer("country", e.target.value)}
+                  onValueChange={(value) => updateAnswer("country", value)}
+                  placeholder={t("participant-info.country-placeholder")}
                   className="text-lg"
                 />
               </div>
