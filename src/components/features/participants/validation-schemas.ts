@@ -1,6 +1,4 @@
 import { createSelectSchema } from "drizzle-zod";
-import z from "zod";
-import { ProjectActivityWithRelationsSchema } from "@/components/features/projects/validation-schemas";
 import {
   projectParticipantsTable,
   user as userTable,
@@ -17,13 +15,12 @@ export const ProjectParticipantWithUserSchema = createSelectSchema(
   }),
 });
 
-// Schema for participant with user details and activities
-// This represents a participant in a project with all their activities
-export const ProjectParticipantWithActivitiesSchema = createSelectSchema(
+// Schema for UI participant display - flattens user fields for easier access
+export const ParticipantSchema = createSelectSchema(
   projectParticipantsTable,
 ).extend({
-  user: createSelectSchema(userTable),
-  activities: z.array(ProjectActivityWithRelationsSchema),
+  name: createSelectSchema(userTable).shape.name,
+  country: createSelectSchema(userTable).shape.country,
 });
 
 // Computed fields type for participant statistics

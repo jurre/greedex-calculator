@@ -142,6 +142,11 @@ function generateMockData(): Participant[] {
 
     return {
       id: `participant-${index}`,
+      projectId: "mock-project-id",
+      memberId: `mock-member-${index}`,
+      userId: `mock-user-${index}`,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       name,
       country: countries[index],
       totalCO2,

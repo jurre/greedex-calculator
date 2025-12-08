@@ -735,7 +735,7 @@ export const updateProjectActivity = authorized
   .input(
     z.object({
       id: z.string().describe("Activity ID"),
-      data: UpdateActivityInputSchema.partial(),
+      data: UpdateActivityInputSchema,
     }),
   )
   .output(

@@ -1,34 +1,24 @@
 import type { z } from "zod";
 import type {
   ParticipantComputedFields,
-  ProjectParticipantWithActivitiesSchema,
+  ParticipantSchema,
 } from "@/components/features/participants/validation-schemas";
 import type { ActivityType } from "@/components/features/projects/types";
 
 /**
- * Participant type inferred from database schema with relations
- * This is the base type from the database
- */
-export type ParticipantBase = z.infer<
-  typeof ProjectParticipantWithActivitiesSchema
->;
-
-/**
  * Participant type for UI display with computed fields
- * This extends the database type with calculated values
+ * This extends the inferred database type with calculated values
  */
-export type Participant = {
-  id: string;
-  name: string;
-  country: string | null;
-  activities: Activity[];
+export type Participant = z.infer<typeof ParticipantSchema> & {
+  activities: ParticipationActivity[];
 } & ParticipantComputedFields;
 
 /**
- * Activity type inferred from database schema
- * Extended with computed CO2 field for UI display
+ * Participation activity type - computed values for UI display
+ * Represents individual travel segments calculated from participant questionnaire responses
+ * Not stored in database, computed at runtime for display purposes
  */
-export type Activity = {
+export type ParticipationActivity = {
   id: string;
   type: ActivityType;
   distanceKm: number;
@@ -39,7 +29,7 @@ export type Activity = {
  * Project statistics type - computed values only, not persisted
  * This is calculated on-the-fly from participant and activity data
  */
-export interface ProjectStats {
+export type ProjectStats = {
   totalParticipants: number;
   totalCO2: number;
   averageCO2: number;
@@ -52,4 +42,4 @@ export interface ProjectStats {
     }
   >;
   treesNeeded: number; // Average tree absorbs ~22kg CO₂ per year, ~1 ton in lifetime (~45 years)
-}
+};
