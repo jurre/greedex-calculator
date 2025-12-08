@@ -665,6 +665,11 @@
         "continue": "Continue",
         "complete": "Complete"
       },
+      "project-activities": {
+        "title": "Project Activities",
+        "description": "This project includes organized activities that add to the baseline emissions:",
+        "note": "This is already included in your total footprint"
+      },
       "results": {
         "CO₂-footprint": "CO₂ Footprint",
         "trees-needed": "Trees (1 Year)",
@@ -672,6 +677,7 @@
         "transport": "Transport:",
         "accommodation": "Accommodation:",
         "food": "Food:",
+        "project-activities": "Project Activities:",
         "total": "Total:",
         "console-note": "Data has been logged to the console (check browser developer tools)",
         "co2-footprint": "CO₂ Footprint"

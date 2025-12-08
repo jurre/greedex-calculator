@@ -22,7 +22,3 @@ export const LOCALE_CODES: LocaleCode[] = SUPPORTED_LOCALES.map(
 );
 
 export const DEFAULT_LOCALE: LocaleCode = LOCALE_CODES[0];
-
-export const isSupportedLocale = (
-  value: string | undefined,
-): value is LocaleCode => !!value && LOCALE_CODES.includes(value as LocaleCode);

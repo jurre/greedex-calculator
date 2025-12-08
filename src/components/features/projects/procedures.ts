@@ -24,6 +24,7 @@ import {
   session as sessionTable,
   user,
 } from "@/lib/drizzle/schema";
+import { base } from "@/lib/orpc/context";
 import { authorized, requireProjectPermissions } from "@/lib/orpc/middleware";
 
 /**
@@ -362,6 +363,12 @@ export const deleteProject = authorized
  * - Project must belong to user's active organization (if projectId is provided)
  */
 export const setActiveProject = authorized
+  .route({
+    method: "POST",
+    path: "/projects/active",
+    summary: "Set active project",
+    tags: ["project"],
+  })
   .input(
     z.object({
       projectId: z.string().optional(),
@@ -851,5 +858,89 @@ export const deleteProjectActivity = authorized
 
     return {
       success: true,
+    };
+  });
+
+// ============================================================================
+// PUBLIC PROCEDURES (NO AUTH REQUIRED)
+// ============================================================================
+
+/**
+ * Get project for public participation (no auth required)
+ *
+ * This is a public endpoint used by the participation form.
+ * Returns project details with activities for calculating the baseline CO2.
+ */
+export const getProjectForParticipation = base
+  .route({
+    method: "GET",
+    path: "/projects/:id/participate",
+    summary: "Get project details for participation (public)",
+    tags: ["project", "public"],
+  })
+  .input(
+    z.object({
+      id: z.string().describe("Project ID"),
+    }),
+  )
+  .output(
+    z.object({
+      project: ProjectWithRelationsSchema.pick({
+        id: true,
+        name: true,
+        location: true,
+        country: true,
+        startDate: true,
+        endDate: true,
+        welcomeMessage: true,
+      }),
+      activities: z.array(
+        ProjectActivityWithRelationsSchema.pick({
+          id: true,
+          activityType: true,
+          distanceKm: true,
+          description: true,
+        }),
+      ),
+    }),
+  )
+  .handler(async ({ input }) => {
+    // Fetch project (no organization check needed for public participation)
+    const project = await db.query.projectsTable.findFirst({
+      where: eq(projectsTable.id, input.id),
+      with: {
+        responsibleUser: true,
+        organization: true,
+      },
+    });
+
+    if (!project) {
+      throw new ORPCError("NOT_FOUND", {
+        message: "Project not found",
+      });
+    }
+
+    // Fetch all activities for this project
+    const activities = await db.query.projectActivitiesTable.findMany({
+      where: eq(projectActivitiesTable.projectId, input.id),
+      orderBy: [asc(projectActivitiesTable.createdAt)],
+    });
+
+    return {
+      project: {
+        id: project.id,
+        name: project.name,
+        location: project.location,
+        country: project.country,
+        startDate: project.startDate,
+        endDate: project.endDate,
+        welcomeMessage: project.welcomeMessage,
+      },
+      activities: activities.map((activity) => ({
+        id: activity.id,
+        activityType: activity.activityType,
+        distanceKm: activity.distanceKm,
+        description: activity.description,
+      })),
     };
   });
