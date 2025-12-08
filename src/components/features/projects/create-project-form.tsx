@@ -20,6 +20,7 @@ import {
   type CreateProjectWithActivities,
   CreateProjectWithActivitiesSchema,
 } from "@/components/features/projects/validation-schemas";
+import { FormField } from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -219,12 +220,12 @@ export function CreateProjectForm({
         {/* Step 1: Project Details */}
         {currentStep === 1 && (
           <FieldGroup>
-            <Field data-invalid={!!errors.name}>
-              <FieldLabel htmlFor="name">{t("name")}</FieldLabel>
-              <Input id="name" {...register("name")} />
-              <FieldDescription>{t("name-description")}</FieldDescription>
-              <FieldError errors={[errors.name]} />
-            </Field>
+            <FormField
+              control={control}
+              name="name"
+              label={t("name")}
+              description={t("name-description")}
+            />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Field data-invalid={!!errors.startDate}>
@@ -283,11 +284,12 @@ export function CreateProjectForm({
               <FieldError errors={[errors.country]} />
             </Field>
 
-            <Field>
-              <FieldLabel htmlFor="location">{t("location")}</FieldLabel>
-              <Input id="location" {...register("location")} />
-              <FieldDescription>{t("location-description")}</FieldDescription>
-            </Field>
+            <FormField
+              control={control}
+              name="location"
+              label={t("location")}
+              description={t("location-description")}
+            />
 
             <Field>
               <FieldLabel htmlFor="welcomeMessage">

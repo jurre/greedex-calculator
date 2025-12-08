@@ -20,6 +20,7 @@ import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
 } from "@/components/features/projects/validation-schemas";
+import { FormField } from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -320,11 +321,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         {/* Step 1: Project Details */}
         {currentStep === 1 && (
           <FieldGroup>
-            <Field data-invalid={!!errors.name}>
-              <FieldLabel htmlFor="name">{t("new.name")}</FieldLabel>
-              <Input id="name" {...register("name")} />
-              <FieldError errors={[errors.name]} />
-            </Field>
+            <FormField control={control} name="name" label={t("new.name")} />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Field data-invalid={!!errors.startDate}>
@@ -377,10 +374,11 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
               <FieldError errors={[errors.country]} />
             </Field>
 
-            <Field>
-              <FieldLabel htmlFor="location">{t("new.location")}</FieldLabel>
-              <Input id="location" {...register("location")} />
-            </Field>
+            <FormField
+              control={control}
+              name="location"
+              label={t("new.location")}
+            />
 
             <Field>
               <FieldLabel htmlFor="welcomeMessage">
