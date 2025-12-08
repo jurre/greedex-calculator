@@ -41,7 +41,7 @@ export default async function AuthFlowLayout({
         <div className="-bottom-10 -translate-x-1/2 absolute left-1/2 h-72 w-72 rounded-full bg-[radial-gradient(circle,_var(--accent)_0%,_transparent_80%)] opacity-25 blur-[140px]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-stretch lg:gap-14">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col gap-10 p-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-stretch lg:gap-14">
         <div
           className={cn(
             "mx-auto w-full max-w-xl",

@@ -1,16 +1,24 @@
 // Centralized i18n configuration
 // This file contains all internationalization-related settings
 
+/**
+ * Supported locales configuration
+ *
+ * Note: "en" represents International English and is NOT tied to a specific EU country.
+ * The countryCode is optional and only used when a locale directly represents an EU member state.
+ */
 export const SUPPORTED_LOCALES = [
   {
     code: "en",
     label: "English",
-    countryCode: "GB",
+    displayRegion: "International",
+    // No countryCode - International English is not tied to UK/GB (non-EU)
   },
   {
     code: "de",
     label: "Deutsch",
-    countryCode: "DE",
+    displayRegion: "Deutschland",
+    countryCode: "DE", // Germany is an EU member
   },
 ] as const;
 

@@ -84,7 +84,7 @@ describe("Project Activities Integration Tests", () => {
 
   describe("Database Setup & Verification", () => {
     it("should create test user in database", async () => {
-      // Insert test user directly into database
+      // Insert test user directly into database (no country field anymore)
       await db.insert(user).values({
         id: TEST_USER.id,
         name: TEST_USER.name,
@@ -92,7 +92,6 @@ describe("Project Activities Integration Tests", () => {
         emailVerified: true,
         createdAt: new Date(),
         updatedAt: new Date(),
-        country: "DE" as CountryCode,
       });
 
       // Verify user was created

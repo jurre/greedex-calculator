@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
+import type { ProjectActivityType } from "@/components/features/projects/types";
 import {
   ACCOMMODATION_FACTORS,
   CO2_FACTORS,
   calculateEmissions,
   calculateProjectActivitiesCO2,
   type ParticipantAnswers,
-  type ProjectActivity,
 } from "@/components/participate/questionnaire-types";
 
 describe("Questionnaire Types and Calculations", () => {
@@ -140,9 +140,27 @@ describe("Questionnaire Types and Calculations", () => {
 
   describe("Project Activities Calculations", () => {
     it("should calculate project activities CO2 correctly", () => {
-      const activities: ProjectActivity[] = [
-        { id: "1", activityType: "bus", distanceKm: "50", description: null },
-        { id: "2", activityType: "train", distanceKm: "100", description: null },
+      const activities: ProjectActivityType[] = [
+        {
+          id: "1",
+          projectId: "project1",
+          activityType: "bus",
+          distanceKm: "50.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: "2",
+          projectId: "project1",
+          activityType: "train",
+          distanceKm: "100.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
 
       const activitiesCO2 = calculateProjectActivitiesCO2(activities);
@@ -167,8 +185,17 @@ describe("Questionnaire Types and Calculations", () => {
         carKm: 0,
       };
 
-      const projectActivities: ProjectActivity[] = [
-        { id: "1", activityType: "car", distanceKm: "30", description: null },
+      const projectActivities: ProjectActivityType[] = [
+        {
+          id: "1",
+          projectId: "project1",
+          activityType: "car",
+          distanceKm: "30.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
 
       const emissionsWithoutActivities = calculateEmissions(answers);
@@ -186,40 +213,107 @@ describe("Questionnaire Types and Calculations", () => {
     });
 
     it("should handle multiple project activities", () => {
-      const activities: ProjectActivity[] = [
-        { id: "1", activityType: "boat", distanceKm: "20", description: null },
-        { id: "2", activityType: "bus", distanceKm: "40", description: null },
-        { id: "3", activityType: "train", distanceKm: "150", description: null },
-        { id: "4", activityType: "car", distanceKm: "25", description: null },
+      const activities: ProjectActivityType[] = [
+        {
+          id: "1",
+          projectId: "project1",
+          activityType: "boat",
+          distanceKm: "20.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: "2",
+          projectId: "project1",
+          activityType: "bus",
+          distanceKm: "40.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: "3",
+          projectId: "project1",
+          activityType: "train",
+          distanceKm: "15.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: "4",
+          projectId: "project1",
+          activityType: "car",
+          distanceKm: "25.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
 
       const activitiesCO2 = calculateProjectActivitiesCO2(activities);
 
       // Boat: 20 * 0.115 = 2.3
       // Bus: 40 * 0.089 = 3.56
-      // Train: 150 * 0.041 = 6.15
+      // Train: 15 * 0.041 = 0.615
       // Car: 25 * 0.192 = 4.8
-      // Total: 16.81
-      expect(activitiesCO2).toBeCloseTo(16.81, 2);
+      // Total: 11.275
+      expect(activitiesCO2).toBeCloseTo(11.275, 2);
     });
 
     it("should handle empty project activities", () => {
-      const activities: ProjectActivity[] = [];
+      const activities: ProjectActivityType[] = [];
       const activitiesCO2 = calculateProjectActivitiesCO2(activities);
       expect(activitiesCO2).toBe(0);
     });
 
     it("should handle invalid distance values in project activities", () => {
-      const activities: ProjectActivity[] = [
-        { id: "1", activityType: "bus", distanceKm: "0", description: null },
-        { id: "2", activityType: "train", distanceKm: "-10", description: null },
+      const activities: ProjectActivityType[] = [
+        {
+          id: "1",
+          projectId: "project1",
+          activityType: "bus",
+          distanceKm: "0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: "2",
+          projectId: "project1",
+          activityType: "train",
+          distanceKm: "-10",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
         {
           id: "3",
+          projectId: "project1",
           activityType: "car",
           distanceKm: "invalid",
           description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
-        { id: "4", activityType: "boat", distanceKm: "50", description: null },
+        {
+          id: "4",
+          projectId: "project1",
+          activityType: "boat",
+          distanceKm: "50.0",
+          description: null,
+          activityDate: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
 
       const activitiesCO2 = calculateProjectActivitiesCO2(activities);

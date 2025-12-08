@@ -20,7 +20,7 @@ export const ParticipantSchema = createSelectSchema(
   projectParticipantsTable,
 ).extend({
   name: createSelectSchema(userTable).shape.name,
-  country: createSelectSchema(userTable).shape.country,
+  // Note: country is already in projectParticipantsTable, no need to extend
 });
 
 // Computed fields type for participant statistics

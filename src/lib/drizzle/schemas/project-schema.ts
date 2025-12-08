@@ -82,7 +82,9 @@ export const projectActivitiesTable = pgTable("project_activity", {
 /**
  * Project Participant table
  * 
- * Links project participants (members of the organization) to projects
+ * Links project participants (members of the organization) to projects.
+ * Country is stored here because it comes from the participation questionnaire,
+ * not from the user's account registration.
  */
 export const projectParticipantsTable = pgTable("project_participant", {
   id: text("id").primaryKey().$defaultFn(() => createId()),
@@ -95,6 +97,9 @@ export const projectParticipantsTable = pgTable("project_participant", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
+  
+  // Country code from participation questionnaire (EU member state)
+  country: text("country").$type<CountryCode>().notNull(),
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")

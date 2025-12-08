@@ -10,7 +10,7 @@ import type { ActivityType } from "@/components/features/projects/types";
  * This extends the inferred database type with calculated values
  */
 export type Participant = z.infer<typeof ParticipantSchema> & {
-  activities: ParticipationActivity[];
+  activities: ParticipantActivity[];
 } & ParticipantComputedFields;
 
 /**
@@ -18,7 +18,7 @@ export type Participant = z.infer<typeof ParticipantSchema> & {
  * Represents individual travel segments calculated from participant questionnaire responses
  * Not stored in database, computed at runtime for display purposes
  */
-export type ParticipationActivity = {
+export type ParticipantActivity = {
   id: string;
   type: ActivityType;
   distanceKm: number;

@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { ProjectType } from "@/components/features/projects/types";
 import {
@@ -361,7 +362,18 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
             <Field data-invalid={!!errors.country}>
               <FieldLabel htmlFor="country">{t("new.country")}</FieldLabel>
-              <Input id="country" {...register("country")} />
+              <Controller
+                control={control}
+                name="country"
+                render={({ field }) => (
+                  <CountrySelect
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    euOnly={true}
+                    placeholder={t("new.country-placeholder") || "Select country"}
+                  />
+                )}
+              />
               <FieldError errors={[errors.country]} />
             </Field>
 

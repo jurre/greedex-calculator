@@ -13,11 +13,7 @@ interface ParticipatePageProps {
 // Fetch project data with activities from the database
 async function getProjectData(projectId: string) {
   try {
-    const data = await orpc.projects.getForParticipation({ id: projectId });
-    return {
-      ...data.project,
-      activities: data.activities,
-    };
+    return await orpc.projects.getForParticipation({ id: projectId });
   } catch (error) {
     console.error("Failed to fetch project data:", error);
     return null;

@@ -17,17 +17,25 @@ import {
 import { EU_COUNTRY_CODES } from "@/lib/i18n/countries";
 import { validateDistanceStep } from "@/lib/utils/distance-utils";
 
+// Common form field extensions with custom error messages
+const projectFormExtensions = {
+  country: z.enum(EU_COUNTRY_CODES, {
+    message: "Please select a valid EU country",
+  }),
+  name: z.string().min(1, "Name is required"),
+  startDate: z.date({ message: "Please select a valid start date" }),
+  endDate: z.date({ message: "Please select a valid end date" }),
+};
+
 // Form schema (only user-provided fields)
-export const ProjectFormSchema = createInsertSchema(projectsTable)
+export const ProjectCreateFormSchema = createInsertSchema(projectsTable)
   .omit({
     id: true,
     responsibleUserId: true,
     createdAt: true,
     updatedAt: true,
   })
-  .extend({
-    country: z.enum(EU_COUNTRY_CODES),
-  });
+  .extend(projectFormExtensions);
 
 export const ProjectWithRelationsSchema = createSelectSchema(
   projectsTable,
@@ -45,7 +53,8 @@ export const ProjectUpdateFormSchema = createUpdateSchema(projectsTable)
     updatedAt: true,
   })
   .extend({
-    country: z.enum(EU_COUNTRY_CODES).optional(),
+    ...projectFormExtensions,
+    country: projectFormExtensions.country.optional(),
   });
 
 // Activity-related schemas (moved here to break circular dependency)
@@ -120,7 +129,7 @@ export const ActivityFormItemSchema = CreateActivityInputSchema.omit({
 });
 
 // Combined form schema with optional activities
-export const CreateProjectWithActivitiesSchema = ProjectFormSchema.extend({
+export const CreateProjectWithActivitiesSchema = ProjectCreateFormSchema.extend({
   activities: z.array(ActivityFormItemSchema).optional(),
 });
 
