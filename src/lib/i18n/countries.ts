@@ -3,6 +3,7 @@ import countries from "i18n-iso-countries";
 import deCountries from "i18n-iso-countries/langs/de.json";
 import enCountries from "i18n-iso-countries/langs/en.json";
 import type { ComponentType, SVGProps } from "react";
+import { SUPPORTED_LOCALES } from "@/config/Languages";
 
 // Register country locales for supported languages
 countries.registerLocale(enCountries);
@@ -43,6 +44,12 @@ export const EU_COUNTRY_CODES = [
 ] as const;
 
 export type EUCountryCode = (typeof EU_COUNTRY_CODES)[number];
+
+/**
+ * Type alias for country codes - using EU countries for type safety
+ * Based on i18n-iso-countries EU member states
+ */
+export type CountryCode = EUCountryCode;
 
 export interface CountryData {
   code: string;
@@ -134,6 +141,28 @@ export const getCountryData = (
  */
 export const isEUCountry = (countryCode: string): boolean => {
   return EU_COUNTRY_CODES.includes(countryCode.toUpperCase() as EUCountryCode);
+};
+
+/**
+ * Get the default EU country code for forms and UI elements
+ * Since locales are no longer tied to specific countries, this returns
+ * the first available EU country from supported locales, or Germany as fallback.
+ *
+ * @returns A valid EU country code
+ */
+export const getDefaultEUCountry = (): EUCountryCode => {
+  // Try to find a locale with a country code that's in the EU
+  const localeWithEUCountry = SUPPORTED_LOCALES.find(
+    (locale) =>
+      "countryCode" in locale && isEUCountry(locale.countryCode as string),
+  );
+
+  if (localeWithEUCountry && "countryCode" in localeWithEUCountry) {
+    return localeWithEUCountry.countryCode as EUCountryCode;
+  }
+
+  // Fallback to Germany (first EU country in the list)
+  return "DE";
 };
 
 /**

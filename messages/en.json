@@ -401,7 +401,8 @@
           "location-description": "Optional: Provide additional location details.",
           "welcome-message-description": "Optional: Add a welcome message for participants.",
           "organization-description": "Choose the organization that owns this project.",
-          "back": "Back"
+          "back": "Back",
+          "country-placeholder": "Country where the project takes place"
         }
       },
       "activeProject": {

@@ -13,7 +13,7 @@ import {
   MIN_DISTANCE_KM,
   type ProjectActivityType,
 } from "@/components/features/projects/types";
-import { ProjectActivityFormSchema } from "@/components/features/projects/validation-schemas";
+import { CreateActivityInputSchema } from "@/components/features/projects/validation-schemas";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -35,12 +35,10 @@ interface ProjectActivityFormProps {
 }
 
 /**
- * Render a form to create a new project activity or edit an existing one.
+ * Render a form for creating a new project activity or editing an existing one.
  *
- * The form validates input with the ProjectActivityFormSchema, calls the appropriate
- * create or update RPC on submit, displays success/error toasts, and invalidates
- * the project activities list query. When a mutation succeeds it will call the
- * optional `onSuccess` callback; `onCancel` is invoked when the cancel button is pressed.
+ * Prefills fields when an existing activity is provided, performs create or update
+ * operations on submit, invokes optional callbacks, and disables submission while a mutation is pending.
  *
  * @param projectId - ID of the project the activity belongs to
  * @param activity - Optional existing activity to prefill the form for editing
@@ -64,8 +62,8 @@ export function ProjectActivityForm({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<z.infer<typeof ProjectActivityFormSchema>>({
-    resolver: zodResolver(ProjectActivityFormSchema),
+  } = useForm<z.infer<typeof CreateActivityInputSchema>>({
+    resolver: zodResolver(CreateActivityInputSchema),
     mode: "onChange",
     defaultValues: {
       projectId,
@@ -79,7 +77,7 @@ export function ProjectActivityForm({
   });
 
   const createMutation = useMutation({
-    mutationFn: (values: z.infer<typeof ProjectActivityFormSchema>) =>
+    mutationFn: (values: z.infer<typeof CreateActivityInputSchema>) =>
       orpc.projectActivities.create(values),
     onSuccess: (result) => {
       if (result.success) {
@@ -102,7 +100,7 @@ export function ProjectActivityForm({
   });
 
   const updateMutation = useMutation({
-    mutationFn: (values: z.infer<typeof ProjectActivityFormSchema>) => {
+    mutationFn: (values: z.infer<typeof CreateActivityInputSchema>) => {
       if (!activity?.id) {
         throw new Error("Activity ID is required for update");
       }
@@ -137,7 +135,12 @@ export function ProjectActivityForm({
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  async function onSubmit(values: z.infer<typeof ProjectActivityFormSchema>) {
+  /**
+   * Submit validated activity input to create a new project activity or update an existing one.
+   *
+   * @param values - Activity input validated against `CreateActivityInputSchema`
+   */
+  async function onSubmit(values: z.infer<typeof CreateActivityInputSchema>) {
     if (isEditing) {
       await updateMutation.mutateAsync(values);
     } else {

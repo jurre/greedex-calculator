@@ -401,7 +401,8 @@
           "location-description": "Optional: Gib zusätzliche Ortsdetails an.",
           "welcome-message-description": "Optional: Füge eine Willkommensnachricht für Teilnehmende hinzu.",
           "organization-description": "Wähle die Organisation, die das Projekt besitzt.",
-          "back": "Zurück"
+          "back": "Zurück",
+          "country-placeholder": "Land, in dem das Projekt stattfindet"
         }
       },
       "activeProject": {

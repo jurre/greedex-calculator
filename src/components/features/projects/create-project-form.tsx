@@ -8,8 +8,8 @@ import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
-import type { Organization } from "@/components/features/organizations/types";
 import {
   activityTypeValues,
   DISTANCE_KM_STEP,
@@ -46,23 +46,24 @@ import { orpc, orpcQuery } from "@/lib/orpc/orpc";
 import { getProjectDetailPath } from "@/lib/utils/project-utils";
 
 interface CreateProjectFormProps {
-  userOrganizations: Omit<Organization, "metadata">[];
+  activeOrganizationId: string;
 }
 
 /**
  * Render a two-step form to create a project and optional activities.
  *
  * The first step collects project details (name, dates, country, location,
- * welcome message, and organization). The second step allows adding zero or
- * more activities (type, distance, description, date). Submitting the form
- * creates the project and any provided activities, shows success or error
- * toasts, navigates to the created project's detail page on success, and
- * invalidates the projects list cache.
+ * welcome message). The second step allows adding zero or more activities
+ * (type, distance, description, date). Submitting the form creates the project
+ * and any provided activities, shows success or error toasts, navigates to the
+ * created project's detail page on success, and invalidates the projects list cache.
  *
- * @param userOrganizations - Organizations available for the project's organization selector
+ * @param activeOrganizationId - The ID of the active organization for the project
  * @returns The CreateProjectForm React element
  */
-export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps) {
+export function CreateProjectForm({
+  activeOrganizationId,
+}: CreateProjectFormProps) {
   const tActivities = useTranslations("project.activities");
   const t = useTranslations("organization.projects.form.new");
   const [currentStep, setCurrentStep] = useState(1);
@@ -81,10 +82,10 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
       name: "",
       startDate: undefined,
       endDate: undefined,
-      location: null,
-      country: "",
-      welcomeMessage: null,
-      organizationId: "",
+      country: undefined,
+      location: undefined,
+      welcomeMessage: undefined,
+      organizationId: activeOrganizationId,
       activities: [],
     },
   });
@@ -133,6 +134,11 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
     },
   });
 
+  /**
+   * Validate required project fields for step 1 and advance the form to step 2 when validation succeeds.
+   *
+   * Triggers validation for "name", "startDate", "endDate", and "country". If all validations pass, updates the form state to move to step 2.
+   */
   async function handleNextStep() {
     // Validate step 1 fields before proceeding
     const isStepValid = await trigger([
@@ -140,7 +146,6 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
       "startDate",
       "endDate",
       "country",
-      "organizationId",
     ]);
     if (isStepValid) {
       setCurrentStep(2);
@@ -194,10 +199,10 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
 
   const addActivity = () => {
     append({
-      activityType: "car",
+      activityType: "train",
       distanceKm: MIN_DISTANCE_KM,
-      description: null,
-      activityDate: null,
+      description: undefined,
+      activityDate: undefined,
     });
   };
 
@@ -230,7 +235,7 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
                   render={({ field }) => (
                     <DatePickerWithInput
                       id="startDate"
-                      value={field.value}
+                      value={field.value || new Date()}
                       onChange={field.onChange}
                     />
                   )}
@@ -247,7 +252,10 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
                   render={({ field }) => (
                     <DatePickerWithInput
                       id="endDate"
-                      value={field.value}
+                      value={
+                        field.value ||
+                        new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+                      }
                       onChange={field.onChange}
                     />
                   )}
@@ -259,7 +267,18 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
 
             <Field data-invalid={!!errors.country}>
               <FieldLabel htmlFor="country">{t("country")}</FieldLabel>
-              <Input id="country" {...register("country")} />
+              <Controller
+                control={control}
+                name="country"
+                render={({ field }) => (
+                  <CountrySelect
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    euOnly={true}
+                    placeholder={t("country-placeholder")}
+                  />
+                )}
+              />
               <FieldDescription>{t("country-description")}</FieldDescription>
               <FieldError errors={[errors.country]} />
             </Field>
@@ -278,32 +297,6 @@ export function CreateProjectForm({ userOrganizations }: CreateProjectFormProps)
               <FieldDescription>
                 {t("welcome-message-description")}
               </FieldDescription>
-            </Field>
-
-            <Field data-invalid={!!errors.organizationId}>
-              <FieldLabel htmlFor="organizationId">
-                {t("organization")}
-              </FieldLabel>
-              <Controller
-                control={control}
-                name="organizationId"
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger id="organizationId">
-                      <SelectValue placeholder={t("select-organization")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {userOrganizations.map((org) => (
-                        <SelectItem key={org.id} value={org.id}>
-                          {org.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              <FieldDescription>{t("organization-description")}</FieldDescription>
-              <FieldError errors={[errors.organizationId]} />
             </Field>
 
             <Button

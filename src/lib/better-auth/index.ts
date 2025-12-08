@@ -84,6 +84,9 @@ export const auth = betterAuth({
       },
     },
   },
+  user: {
+    // No additional fields - country is stored in project_participant table
+  },
   plugins: [
     organizationPlugin({
       ac,

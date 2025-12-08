@@ -10,10 +10,13 @@ import {
   PROJECT_SORT_FIELDS,
 } from "@/components/features/projects/types";
 import {
-  ProjectActivityFormSchema,
+  CreateActivityInputSchema,
   ProjectActivityWithRelationsSchema,
-  ProjectFormSchema,
+  ProjectCreateFormSchema,
+  ProjectUpdateFormSchema,
+  ProjectWithActivitiesSchema,
   ProjectWithRelationsSchema,
+  UpdateActivityInputSchema,
 } from "@/components/features/projects/validation-schemas";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
@@ -43,7 +46,7 @@ export const createProject = authorized
     summary: "Create a new project",
     tags: ["project"],
   })
-  .input(ProjectFormSchema)
+  .input(ProjectCreateFormSchema)
   .output(
     z.object({
       success: z.boolean(),
@@ -229,7 +232,7 @@ export const updateProject = authorized
   .input(
     z.object({
       id: z.string().describe("Project ID"),
-      data: ProjectFormSchema.partial(),
+      data: ProjectUpdateFormSchema,
     }),
   )
   .output(
@@ -489,6 +492,7 @@ export const getProjectParticipants = authorized
         projectId: projectParticipantsTable.projectId,
         memberId: projectParticipantsTable.memberId,
         userId: projectParticipantsTable.userId,
+        country: projectParticipantsTable.country,
         createdAt: projectParticipantsTable.createdAt,
         updatedAt: projectParticipantsTable.updatedAt,
         user: {
@@ -669,7 +673,7 @@ export const createProjectActivity = authorized
     summary: "Create a new project activity",
     tags: ["project", "activity"],
   })
-  .input(ProjectActivityFormSchema)
+  .input(CreateActivityInputSchema)
   .output(
     z.object({
       success: z.boolean(),
@@ -732,7 +736,7 @@ export const updateProjectActivity = authorized
   .input(
     z.object({
       id: z.string().describe("Activity ID"),
-      data: ProjectActivityFormSchema.omit({ projectId: true }).partial(),
+      data: UpdateActivityInputSchema,
     }),
   )
   .output(
@@ -883,27 +887,7 @@ export const getProjectForParticipation = base
       id: z.string().describe("Project ID"),
     }),
   )
-  .output(
-    z.object({
-      project: ProjectWithRelationsSchema.pick({
-        id: true,
-        name: true,
-        location: true,
-        country: true,
-        startDate: true,
-        endDate: true,
-        welcomeMessage: true,
-      }),
-      activities: z.array(
-        ProjectActivityWithRelationsSchema.pick({
-          id: true,
-          activityType: true,
-          distanceKm: true,
-          description: true,
-        }),
-      ),
-    }),
-  )
+  .output(ProjectWithActivitiesSchema)
   .handler(async ({ input }) => {
     // Fetch project (no organization check needed for public participation)
     const project = await db.query.projectsTable.findFirst({
@@ -911,6 +895,9 @@ export const getProjectForParticipation = base
       with: {
         responsibleUser: true,
         organization: true,
+        activities: {
+          orderBy: [asc(projectActivitiesTable.createdAt)],
+        },
       },
     });
 
@@ -920,27 +907,5 @@ export const getProjectForParticipation = base
       });
     }
 
-    // Fetch all activities for this project
-    const activities = await db.query.projectActivitiesTable.findMany({
-      where: eq(projectActivitiesTable.projectId, input.id),
-      orderBy: [asc(projectActivitiesTable.createdAt)],
-    });
-
-    return {
-      project: {
-        id: project.id,
-        name: project.name,
-        location: project.location,
-        country: project.country,
-        startDate: project.startDate,
-        endDate: project.endDate,
-        welcomeMessage: project.welcomeMessage,
-      },
-      activities: activities.map((activity) => ({
-        id: activity.id,
-        activityType: activity.activityType,
-        distanceKm: activity.distanceKm,
-        description: activity.description,
-      })),
-    };
+    return project;
   });
