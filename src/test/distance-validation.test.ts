@@ -4,8 +4,8 @@ import {
   MIN_DISTANCE_KM,
 } from "@/components/features/projects/types";
 import {
+  CreateActivityInputSchema,
   EditActivityFormItemSchema,
-  ProjectActivityFormSchema,
 } from "@/components/features/projects/validation-schemas";
 import {
   isMultipleOfStep,
@@ -58,7 +58,7 @@ describe("Distance Constants", () => {
 });
 
 describe("Distance Validation Schemas", () => {
-  describe("ProjectActivityFormSchema", () => {
+  describe("CreateActivityInputSchema", () => {
     it("should accept valid distance values", () => {
       const validData = {
         projectId: "test-project",
@@ -68,7 +68,7 @@ describe("Distance Validation Schemas", () => {
         activityDate: null,
       };
 
-      const result = ProjectActivityFormSchema.safeParse(validData);
+      const result = CreateActivityInputSchema.safeParse(validData);
       expect(result.success).toBe(true);
     });
 
@@ -84,7 +84,7 @@ describe("Distance Validation Schemas", () => {
           activityDate: null,
         };
 
-        const result = ProjectActivityFormSchema.safeParse(data);
+        const result = CreateActivityInputSchema.safeParse(data);
         expect(result.success).toBe(true);
       }
     });
@@ -98,7 +98,7 @@ describe("Distance Validation Schemas", () => {
         activityDate: null,
       };
 
-      const result = ProjectActivityFormSchema.safeParse(invalidData);
+      const result = CreateActivityInputSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.issues[0].message).toContain("at least 0.1");
@@ -114,7 +114,7 @@ describe("Distance Validation Schemas", () => {
         activityDate: null,
       };
 
-      const result = ProjectActivityFormSchema.safeParse(invalidData);
+      const result = CreateActivityInputSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
     });
 
@@ -127,7 +127,7 @@ describe("Distance Validation Schemas", () => {
         activityDate: null,
       };
 
-      const result = ProjectActivityFormSchema.safeParse(invalidData);
+      const result = CreateActivityInputSchema.safeParse(invalidData);
       expect(result.success).toBe(false);
     });
 
@@ -143,7 +143,7 @@ describe("Distance Validation Schemas", () => {
           activityDate: null,
         };
 
-        const result = ProjectActivityFormSchema.safeParse(data);
+        const result = CreateActivityInputSchema.safeParse(data);
         expect(result.success).toBe(false);
         if (!result.success) {
           expect(result.error.issues[0].message).toContain("increments of 0.1");
@@ -156,6 +156,7 @@ describe("Distance Validation Schemas", () => {
     it("should accept valid distance values with activity ID", () => {
       const validData = {
         id: "test-id",
+        projectId: "test-project-id",
         activityType: "bus" as const,
         distanceKm: 5.5,
         description: "Test activity",
@@ -171,6 +172,7 @@ describe("Distance Validation Schemas", () => {
     it("should reject invalid distances in edit form", () => {
       const invalidData = {
         id: "test-id",
+        projectId: "test-project-id",
         activityType: "train" as const,
         distanceKm: 0.05,
         description: "Test activity",
@@ -186,6 +188,7 @@ describe("Distance Validation Schemas", () => {
     it("should enforce step validation in edit form", () => {
       const invalidData = {
         id: "test-id",
+        projectId: "test-project-id",
         activityType: "boat" as const,
         distanceKm: 1.25, // Not a multiple of 0.1
         description: "Test activity",

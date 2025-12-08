@@ -1,5 +1,10 @@
 // Questionnaire types based on the clickdummy App.js structure
 
+import type {
+  ProjectActivityType,
+  ProjectWithActivitiesType,
+} from "@/components/features/projects/types";
+
 const ACCOMMODATION_DATA = [
   ["Camping", 1.5],
   ["Hostel", 3.0],
@@ -136,23 +141,8 @@ const FOOD_FACTORS: Record<FoodFrequency, number> = Object.fromEntries(
   FOOD_DATA,
 ) as Record<FoodFrequency, number>;
 
-export interface ProjectActivity {
-  id: string;
-  activityType: "boat" | "bus" | "train" | "car";
-  distanceKm: string;
-  description?: string | null;
-}
-
-export interface Project {
-  id: string;
-  name: string;
-  location: string | null;
-  country: string;
-  startDate: Date;
-  endDate: Date;
-  welcomeMessage?: string | null;
-  activities: ProjectActivity[];
-}
+// Re-export Project type for use in questionnaire components
+export type Project = ProjectWithActivitiesType;
 
 export interface EmissionCalculation {
   transportCO2: number;
@@ -166,17 +156,18 @@ export interface EmissionCalculation {
 /**
  * Calculate CO₂ emissions from project activities.
  * These are activities configured at the project level that all participants share.
+ * This is the baseline CO₂ that applies to all participants.
  *
- * @param activities - Project activities (transport modes and distances)
+ * @param activities - Project activities from database (transport modes and distances)
  * @returns Total CO₂ emissions from project activities in kilograms
  */
 export function calculateProjectActivitiesCO2(
-  activities: ProjectActivity[],
+  activities: ProjectActivityType[],
 ): number {
   let activitiesCO2 = 0;
 
   for (const activity of activities) {
-    const distanceKm = Number.parseFloat(activity.distanceKm);
+    const distanceKm = Number(activity.distanceKm);
     if (Number.isNaN(distanceKm) || distanceKm <= 0) continue;
 
     switch (activity.activityType) {
@@ -200,21 +191,21 @@ export function calculateProjectActivitiesCO2(
 }
 
 /**
- * Compute CO₂ emissions for transport, accommodation, and food from participant answers and estimate trees required to offset the emissions.
+ * Compute CO₂ emissions from participant responses and estimate the number of trees required to offset the total.
  *
- * @param answers - Partial participant responses. Fields used: flightKm, boatKm, trainKm, busKm, carKm, carType, carPassengers, days, accommodationCategory, roomOccupancy, electricity, and food.
- * @param projectActivities - Optional project-level activities that add to the baseline CO₂
- * @returns An EmissionCalculation containing:
+ * @param answers - Partial participant responses; fields used: `flightKm`, `boatKm`, `trainKm`, `busKm`, `carKm`, `carType`, `carPassengers`, `days`, `accommodationCategory`, `roomOccupancy`, `electricity`, and `food`
+ * @param projectActivities - Optional project-level activities that contribute baseline CO₂ emissions
+ * @returns An EmissionCalculation object containing:
  * - `transportCO2` — total transport emissions in kilograms CO₂ (includes round trip and per-passenger car sharing),
- * - `accommodationCO2` — total accommodation emissions in kilograms CO₂ (adjusted by occupancy and electricity type),
- * - `foodCO2` — total food emissions in kilograms CO₂,
+ * - `accommodationCO2` — accommodation emissions in kilograms CO₂ (adjusted by occupancy and electricity type),
+ * - `foodCO2` — food emissions in kilograms CO₂,
  * - `projectActivitiesCO2` — CO₂ from project-level activities in kilograms,
  * - `totalCO2` — sum of all emissions in kilograms CO₂,
- * - `treesNeeded` — number of trees required to offset the `totalCO2` (computed as `Math.ceil(totalCO2 / 22)`).
+ * - `treesNeeded` — number of trees required to offset `totalCO2` (computed as `Math.ceil(totalCO2 / 22)`)
  */
 export function calculateEmissions(
   answers: Partial<ParticipantAnswers>,
-  projectActivities?: ProjectActivity[],
+  projectActivities?: ProjectActivityType[],
 ): EmissionCalculation {
   let transportCO2 = 0;
   let accommodationCO2 = 0;

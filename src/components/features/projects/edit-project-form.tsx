@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { CountrySelect } from "@/components/country-select";
 import { DatePickerWithInput } from "@/components/date-picker-with-input";
 import type { ProjectType } from "@/components/features/projects/types";
 import {
@@ -19,6 +20,7 @@ import {
   EditActivityFormItemSchema,
   EditProjectWithActivitiesSchema,
 } from "@/components/features/projects/validation-schemas";
+import { FormField } from "@/components/form-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -90,17 +92,19 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
   // Load existing activities into the form when they're fetched
   React.useEffect(() => {
     if (existingActivities && existingActivities.length > 0) {
-      const formattedActivities = existingActivities.map((activity) => ({
-        activityId: activity.id,
-        activityType: activity.activityType,
-        distanceKm: parseFloat(activity.distanceKm), // Convert from DB string to number
-        description: activity.description,
-        activityDate: activity.activityDate
-          ? new Date(activity.activityDate)
-          : null,
-        isNew: false,
-        isDeleted: false,
-      }));
+      const formattedActivities: z.infer<typeof EditActivityFormItemSchema>[] =
+        existingActivities.map((activity) => ({
+          id: activity.id,
+          projectId: activity.projectId,
+          activityType: activity.activityType,
+          distanceKm: parseFloat(activity.distanceKm),
+          description: activity.description,
+          activityDate: activity.activityDate
+            ? new Date(activity.activityDate)
+            : null,
+          isNew: false,
+          isDeleted: false,
+        }));
       setValue("activities", formattedActivities);
     }
   }, [existingActivities, setValue]);
@@ -271,7 +275,8 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
   const addActivity = () => {
     append({
-      id: undefined,
+      id: "",
+      projectId: project.id,
       activityType: "car",
       distanceKm: MIN_DISTANCE_KM,
       description: null,
@@ -316,11 +321,7 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
         {/* Step 1: Project Details */}
         {currentStep === 1 && (
           <FieldGroup>
-            <Field data-invalid={!!errors.name}>
-              <FieldLabel htmlFor="name">{t("new.name")}</FieldLabel>
-              <Input id="name" {...register("name")} />
-              <FieldError errors={[errors.name]} />
-            </Field>
+            <FormField control={control} name="name" label={t("new.name")} />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Field data-invalid={!!errors.startDate}>
@@ -358,14 +359,26 @@ export function EditProjectForm({ project, onSuccess }: EditProjectFormProps) {
 
             <Field data-invalid={!!errors.country}>
               <FieldLabel htmlFor="country">{t("new.country")}</FieldLabel>
-              <Input id="country" {...register("country")} />
+              <Controller
+                control={control}
+                name="country"
+                render={({ field }) => (
+                  <CountrySelect
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    euOnly={true}
+                    placeholder={t("new.country-placeholder") || "Select country"}
+                  />
+                )}
+              />
               <FieldError errors={[errors.country]} />
             </Field>
 
-            <Field>
-              <FieldLabel htmlFor="location">{t("new.location")}</FieldLabel>
-              <Input id="location" {...register("location")} />
-            </Field>
+            <FormField
+              control={control}
+              name="location"
+              label={t("new.location")}
+            />
 
             <Field>
               <FieldLabel htmlFor="welcomeMessage">

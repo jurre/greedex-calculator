@@ -10,17 +10,14 @@ export const getProjectDetailPath = (projectId: string): AppRoute =>
   PROJECT_DETAIL_PATH.replace("[id]", projectId) as AppRoute;
 
 /**
- * Fetch project data with activities from the database
- * @param projectId
- * @returns Project data including activities or null if not found
+ * Retrieve a project's data and its activities by project ID.
+ *
+ * @param projectId - The project's unique identifier
+ * @returns The project data including its activities, or `null` if an error occurs while fetching
  */
 export async function getProjectData(projectId: string) {
   try {
-    const data = await orpc.projects.getForParticipation({ id: projectId });
-    return {
-      ...data.project,
-      activities: data.activities,
-    };
+    return await orpc.projects.getForParticipation({ id: projectId });
   } catch (error) {
     console.error("Failed to fetch project data:", error);
     return null;
