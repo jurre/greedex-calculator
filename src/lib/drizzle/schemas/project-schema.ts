@@ -59,6 +59,11 @@ export const projectActivitiesTable = pgTable("project_activity", {
     .notNull()
     .references(() => projectsTable.id, { onDelete: "cascade" }),
 
+  // Foreign key to user (participant who created this activity)
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+
   // type ActivityType = "boat" | "bus" | "train" | "car"
   activityType: text("activity_type", { enum: activityTypeValues })
     .$type<ActivityType>()
@@ -127,6 +132,10 @@ export const projectActivityRelations = relations(
     project: one(projectsTable, {
       fields: [projectActivitiesTable.projectId],
       references: [projectsTable.id],
+    }),
+    user: one(user, {
+      fields: [projectActivitiesTable.userId],
+      references: [user.id],
     }),
   }),
 );

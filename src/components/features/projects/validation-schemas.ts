@@ -43,6 +43,7 @@ export const EditActivityFormItemSchema = createUpdateSchema(
   projectActivitiesTable,
 )
   .omit({
+    userId: true,
     createdAt: true,
     updatedAt: true,
   })
@@ -82,7 +83,27 @@ export const ProjectActivityFormSchema = createInsertSchema(
       ),
   });
 
-export const ActivityFormItemSchema = ProjectActivityFormSchema.omit({
+// Schema for creating activities from forms/client (omits userId, server provides it from context)
+export const CreateActivityInputSchema = createInsertSchema(
+  projectActivitiesTable,
+)
+  .omit({
+    id: true,
+    userId: true, // Server provides from authenticated user context
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    distanceKm: z
+      .number()
+      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
+      .refine(
+        validateDistanceStep,
+        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      ),
+  });
+
+export const ActivityFormItemSchema = CreateActivityInputSchema.omit({
   projectId: true,
 });
 
@@ -99,4 +120,14 @@ export const ProjectActivityWithRelationsSchema = createSelectSchema(
   projectActivitiesTable,
 ).extend({
   project: createSelectSchema(projectsTable).optional(),
+  user: createSelectSchema(user).optional(),
+});
+
+// Schema for Project with Activities included
+export const ProjectWithActivitiesSchema = createSelectSchema(
+  projectsTable,
+).extend({
+  responsibleUser: createSelectSchema(user),
+  organization: createSelectSchema(organization),
+  activities: z.array(ProjectActivityWithRelationsSchema),
 });

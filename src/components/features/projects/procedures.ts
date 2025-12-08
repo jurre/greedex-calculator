@@ -10,6 +10,7 @@ import {
   PROJECT_SORT_FIELDS,
 } from "@/components/features/projects/types";
 import {
+  CreateActivityInputSchema,
   ProjectActivityFormSchema,
   ProjectActivityWithRelationsSchema,
   ProjectFormSchema,
@@ -490,6 +491,7 @@ export const getProjectParticipants = authorized
           name: user.name,
           email: user.email,
           image: user.image,
+          country: user.country,
         },
       })
       .from(projectParticipantsTable)
@@ -663,7 +665,7 @@ export const createProjectActivity = authorized
     summary: "Create a new project activity",
     tags: ["project", "activity"],
   })
-  .input(ProjectActivityFormSchema)
+  .input(CreateActivityInputSchema)
   .output(
     z.object({
       success: z.boolean(),
@@ -693,6 +695,7 @@ export const createProjectActivity = authorized
       .insert(projectActivitiesTable)
       .values({
         projectId: input.projectId,
+        userId: context.user.id,
         activityType: input.activityType,
         distanceKm: input.distanceKm.toString(),
         description: input.description,

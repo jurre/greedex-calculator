@@ -244,6 +244,7 @@ describe("Project Activities Integration Tests", () => {
       await db.insert(projectActivitiesTable).values({
         id: activity1.id,
         projectId: activity1.projectId,
+        userId: userId,
         activityType: activity1.activityType,
         distanceKm: activity1.distanceKm,
         description: activity1.description,
@@ -255,6 +256,7 @@ describe("Project Activities Integration Tests", () => {
       await db.insert(projectActivitiesTable).values({
         id: activity2.id,
         projectId: activity2.projectId,
+        userId: userId,
         activityType: activity2.activityType,
         distanceKm: activity2.distanceKm,
         description: activity2.description,
@@ -322,6 +324,7 @@ describe("Project Activities Integration Tests", () => {
       await db.insert(projectActivitiesTable).values({
         id: activityData.id,
         projectId: activityData.projectId,
+        userId: userId,
         activityType: activityData.activityType,
         distanceKm: activityData.distanceKm,
         description: activityData.description,
@@ -408,6 +411,7 @@ describe("Project Activities Integration Tests", () => {
       const validActivity = {
         id: randomUUID(),
         projectId,
+        userId: userId,
         activityType: "car" as const,
         distanceKm: "100.00",
         createdAt: new Date(),
@@ -431,6 +435,7 @@ describe("Project Activities Integration Tests", () => {
       const activity = {
         id: randomUUID(),
         projectId,
+        userId: userId,
         activityType: "car" as const,
         distanceKm: testDistance,
         createdAt: new Date(),
@@ -464,6 +469,7 @@ describe("Project Activities Integration Tests", () => {
         await db.insert(projectActivitiesTable).values({
           id: randomUUID(),
           projectId: fakeProjectId,
+          userId: userId,
           activityType: "car" as const,
           distanceKm: "100.00",
           createdAt: new Date(),
@@ -498,6 +504,7 @@ describe("Project Activities Integration Tests", () => {
       await db.insert(projectActivitiesTable).values({
         id: cascadeActivityId,
         projectId: cascadeProjectId,
+        userId: userId,
         activityType: "car" as const,
         distanceKm: "50.00",
         createdAt: new Date(),
@@ -533,6 +540,7 @@ describe("Project Activities Integration Tests", () => {
       await db.insert(projectActivitiesTable).values({
         id: testActivityId,
         projectId,
+        userId: userId,
         activityType: "car" as const,
         distanceKm: "25.00",
         createdAt: new Date(),
@@ -615,6 +623,7 @@ describe("Project Activities Integration Tests", () => {
           db.insert(projectActivitiesTable).values({
             id: randomUUID(),
             projectId,
+            userId: userId,
             activityType: "car" as const,
             distanceKm: `${(i + 1) * 10}.00`,
             createdAt: new Date(),
