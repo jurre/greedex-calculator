@@ -2,27 +2,12 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { QuestionnaireForm } from "@/components/participate/questionnaire-form";
 import { Skeleton } from "@/components/ui/skeleton";
-import { orpc } from "@/lib/orpc/orpc";
+import { getProjectData } from "@/lib/utils/project-utils";
 
 interface ParticipatePageProps {
   params: Promise<{
     id: string;
   }>;
-}
-
-/**
- * Retrieves project data (including activities) for participation by id.
- *
- * @param projectId - The project identifier to fetch.
- * @returns The project data including activities, or `null` if the fetch fails.
- */
-async function getProjectData(projectId: string) {
-  try {
-    return await orpc.projects.getForParticipation({ id: projectId });
-  } catch (error) {
-    console.error("Failed to fetch project data:", error);
-    return null;
-  }
 }
 
 export default async function ParticipatePage({ params }: ParticipatePageProps) {
