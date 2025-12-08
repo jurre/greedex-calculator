@@ -64,25 +64,6 @@ export const EditProjectWithActivitiesSchema = ProjectUpdateFormSchema.extend({
   activities: z.array(EditActivityFormItemSchema).optional(),
 });
 
-// Form schema for ProjectActivity with proper number handling for distanceKm
-export const ProjectActivityFormSchema = createInsertSchema(
-  projectActivitiesTable,
-)
-  .omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true,
-  })
-  .extend({
-    distanceKm: z
-      .number()
-      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
-      .refine(
-        validateDistanceStep,
-        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
-      ),
-  });
-
 // Schema for creating activities from forms/client (omits userId, server provides it from context)
 export const CreateActivityInputSchema = createInsertSchema(
   projectActivitiesTable,
@@ -101,6 +82,28 @@ export const CreateActivityInputSchema = createInsertSchema(
         validateDistanceStep,
         `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
       ),
+  });
+
+// Schema for updating activities from client (omits userId, cannot be changed)
+export const UpdateActivityInputSchema = createUpdateSchema(
+  projectActivitiesTable,
+)
+  .omit({
+    id: true,
+    userId: true, // Cannot be changed after creation
+    projectId: true, // Cannot change which project the activity belongs to
+    createdAt: true,
+    updatedAt: true,
+  })
+  .extend({
+    distanceKm: z
+      .number()
+      .min(MIN_DISTANCE_KM, `Distance must be at least ${MIN_DISTANCE_KM} km`)
+      .refine(
+        validateDistanceStep,
+        `Distance must be in increments of ${DISTANCE_KM_STEP} km`,
+      )
+      .optional(),
   });
 
 export const ActivityFormItemSchema = CreateActivityInputSchema.omit({

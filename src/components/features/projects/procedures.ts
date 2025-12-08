@@ -11,10 +11,10 @@ import {
 } from "@/components/features/projects/types";
 import {
   CreateActivityInputSchema,
-  ProjectActivityFormSchema,
   ProjectActivityWithRelationsSchema,
   ProjectFormSchema,
   ProjectWithRelationsSchema,
+  UpdateActivityInputSchema,
 } from "@/components/features/projects/validation-schemas";
 import { auth } from "@/lib/better-auth";
 import { db } from "@/lib/drizzle/db";
@@ -729,7 +729,7 @@ export const updateProjectActivity = authorized
   .input(
     z.object({
       id: z.string().describe("Activity ID"),
-      data: ProjectActivityFormSchema.omit({ projectId: true }).partial(),
+      data: UpdateActivityInputSchema.partial(),
     }),
   )
   .output(
