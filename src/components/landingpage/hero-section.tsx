@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { AnimatedGradientCTA } from "@/components/animated-cta";
 import { AnimatedGroup } from "@/components/animated-group";
-import { AuthBackground } from "@/components/features/authentication/auth-background";
+import { BackgroundAnimations } from "@/components/background-animations";
 import { TextEffect } from "@/components/ui/text-effect";
 import { DASHBOARD_PATH } from "@/config/AppRoutes";
 import { Link } from "@/lib/i18n/navigation";
@@ -50,7 +50,7 @@ export async function HeroSection() {
         />
       </div>
 
-      <AuthBackground />
+      <BackgroundAnimations />
 
       <section>
         <div className="relative pt-20">

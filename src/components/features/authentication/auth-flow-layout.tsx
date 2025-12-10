@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { AnimatedGroup } from "@/components/animated-group";
 import { BackToHome } from "@/components/back-to-home";
-import { AuthBackground } from "@/components/features/authentication/auth-background";
+import { BackgroundAnimations } from "@/components/background-animations";
 import { RightSideImage } from "@/components/features/authentication/right-side-image";
 import { cn } from "@/lib/utils";
 
@@ -47,7 +47,7 @@ export default async function AuthFlowLayout({
 
   return (
     <div className="relative min-h-svh overflow-hidden bg-background">
-      <AuthBackground />
+      <BackgroundAnimations />
 
       <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center gap-10 p-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-center lg:gap-14">
         <div

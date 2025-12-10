@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 
-export function AuthBackground() {
+export function BackgroundAnimations() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <motion.div

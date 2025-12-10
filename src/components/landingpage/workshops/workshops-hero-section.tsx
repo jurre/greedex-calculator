@@ -2,7 +2,7 @@ import { ClockIcon } from "lucide-react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { AnimatedGroup } from "@/components/animated-group";
-import { AuthBackground } from "@/components/features/authentication/auth-background";
+import { BackgroundAnimations } from "@/components/background-animations";
 import { WORKSHOPS } from "@/components/landingpage/workshops/workshops.config";
 import {
   Card,
@@ -22,7 +22,7 @@ export async function WorkshopsHeroSection() {
       id="workshops"
       className="relative min-h-[calc(100vh-5rem)] overflow-hidden py-24 md:py-32"
     >
-      <AuthBackground />
+      <BackgroundAnimations />
 
       <div className="@container relative z-10 mx-auto max-w-6xl px-6 lg:px-0">
         <div className="space-y-8 text-center">
