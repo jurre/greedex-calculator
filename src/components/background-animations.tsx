@@ -44,6 +44,20 @@ export function BackgroundAnimations() {
         }}
         className="-bottom-32 -translate-x-1/2 absolute left-1/2 h-[600px] w-[600px] rounded-full bg-accent/20 blur-[140px] dark:bg-accent/10"
       />
+      {/* Additional gradient for light mode enhancement */}
+      <motion.div
+        animate={{
+          scale: [1, 1.15, 1],
+          x: [0, -30, 0],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
+        }}
+        className="absolute top-1/3 left-1/4 h-[350px] w-[350px] rounded-full bg-emerald-400/10 blur-[100px] dark:bg-emerald-500/5"
+      />
     </div>
   );
 }
