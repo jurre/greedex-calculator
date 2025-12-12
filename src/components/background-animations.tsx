@@ -16,7 +16,7 @@ export function BackgroundAnimations() {
           repeatType: "reverse",
           ease: "easeInOut",
         }}
-        className="-left-20 -top-32 absolute h-[500px] w-[500px] rounded-full bg-primary/20 blur-[120px] dark:bg-primary/10"
+        className="-left-20 -top-32 absolute h-[500px] w-[500px] rounded-full bg-primary/30 blur-[120px] dark:bg-primary/10"
       />
       <motion.div
         animate={{
@@ -29,7 +29,7 @@ export function BackgroundAnimations() {
           repeatType: "reverse",
           ease: "easeInOut",
         }}
-        className="-right-20 absolute top-1/4 h-[400px] w-[400px] rounded-full bg-secondary/20 blur-[100px] dark:bg-secondary/10"
+        className="-right-20 absolute top-1/4 h-[400px] w-[400px] rounded-full bg-secondary/30 blur-[100px] dark:bg-secondary/10"
       />
       <motion.div
         animate={{
@@ -42,7 +42,7 @@ export function BackgroundAnimations() {
           repeatType: "reverse",
           ease: "easeInOut",
         }}
-        className="-bottom-32 -translate-x-1/2 absolute left-1/2 h-[600px] w-[600px] rounded-full bg-accent/20 blur-[140px] dark:bg-accent/10"
+        className="-bottom-32 -translate-x-1/2 absolute left-1/2 h-[600px] w-[600px] rounded-full bg-accent/30 blur-[140px] dark:bg-accent/10"
       />
     </div>
   );

@@ -67,12 +67,12 @@ export const LandingHeader = () => {
       <nav className="fixed z-20 w-full px-2">
         <div
           className={cn(
-            "mx-auto mt-2 max-w-7xl px-6 transition-all lg:px-12",
+            "mx-auto mt-2 max-w-7xl px-6 transition-all duration-300 lg:px-8",
             isScrolled &&
-              "max-w-6xl rounded-2xl border bg-background/50 backdrop-blur-lg lg:px-5",
+              "max-w-7xl rounded-2xl border bg-background/50 backdrop-blur-lg lg:px-6",
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:flex-nowrap lg:gap-0 lg:py-4">
+          <div className="relative flex flex-wrap items-center justify-between gap-4 py-3 lg:flex-nowrap lg:gap-6 lg:py-4">
             <div className="flex w-full items-center justify-between lg:w-auto">
               <Link
                 href={HOME_PATH}
@@ -164,7 +164,7 @@ export const LandingHeader = () => {
             </div>
 
             <div className="inset-0 m-auto hidden size-fit lg:block">
-              <ul className="flex gap-4 text-lg">
+              <ul className="flex flex-nowrap gap-3 whitespace-nowrap text-base xl:gap-4 xl:text-lg">
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
@@ -178,34 +178,13 @@ export const LandingHeader = () => {
               </ul>
             </div>
 
-            <div className="hidden items-center gap-3 lg:flex">
+            <div className="hidden items-center gap-2 lg:flex xl:gap-3">
               <LocaleSwitcher className="rounded-md" />
-              {/* <div
-                className={cn(
-                  "relative hidden h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out xl:inline-block",
-                  isScrolled ? "max-w-0" : "max-w-[9rem]",
-                )}
-              >
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(
-                    "transition-opacity ease-in-out",
-                    isScrolled ? "opacity-0" : "opacity-100",
-                  )}
-                  aria-hidden={isScrolled}
-                >
-                  <Link href="/login">
-                    <span>Login</span>
-                  </Link>
-                </Button>
-              </div> */}
 
               <Button
                 asChild
                 size="sm"
-                className="transform transition-transform ease-in-out"
+                className="whitespace-nowrap transition-transform"
               >
                 <Link href={SIGNUP_PATH}>
                   <span>{t("navigation.signup")}</span>
