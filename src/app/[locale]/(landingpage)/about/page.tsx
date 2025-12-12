@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BackgroundAnimations } from "@/components/background-animations";
 import {
   PARTNERS,
   PARTNERS_HEADLINE,
@@ -15,8 +16,9 @@ import {
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen py-28">
-      <div className="container mx-auto max-w-6xl space-y-12 px-6">
+    <main className="relative min-h-screen overflow-hidden py-28">
+      <BackgroundAnimations />
+      <div className="container relative z-10 mx-auto max-w-6xl space-y-12 px-6">
         <header className="space-y-5 text-center">
           <h1 className="font-semibold text-5xl">About Greendex</h1>
           <p className="mx-auto max-w-5xl text-lg text-muted-foreground">
