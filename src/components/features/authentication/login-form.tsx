@@ -128,21 +128,23 @@ export function LoginForm({
   };
 
   return (
-    <Card className="p-4 sm:p-8 md:p-12">
-      <div className={cn("flex flex-col gap-6", className)} {...props}>
-        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
-          <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
-            <LogInIcon className="size-8 text-primary" />
+    <Card className="p-3 sm:p-4 md:p-6">
+      <div className={cn("flex flex-col gap-4", className)} {...props}>
+        <CardHeader className="flex flex-col items-center gap-3 px-0 text-center">
+          <div className="flex size-14 items-center justify-center rounded-full bg-primary/10">
+            <LogInIcon className="size-7 text-primary" />
           </div>
-          <CardTitle className="space-y-2">
-            <h1 className="font-bold text-2xl">{t("login.title")}</h1>
+          <CardTitle className="space-y-1">
+            <h1 className="font-bold text-xl">{t("login.title")}</h1>
           </CardTitle>
-          <CardDescription>{t("login.description")}</CardDescription>
+          <CardDescription className="text-sm">
+            {t("login.description")}
+          </CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
           {/* Badges are positioned absolute within the relative containers in the top right */}
-          <Tabs defaultValue="password" className="w-full space-y-8">
+          <Tabs defaultValue="password" className="w-full space-y-4">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger className="relative" value="password">
                 {t("login.tabs.password")}
@@ -158,7 +160,7 @@ export function LoginForm({
             </TabsList>
             <TabsContent value="password">
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FieldGroup className="">
+                <FieldGroup className="gap-3">
                   <FormField
                     name="email"
                     control={form.control}
@@ -192,7 +194,7 @@ export function LoginForm({
                   />
 
                   <Button
-                    className="mt-2"
+                    className="mt-1"
                     type="submit"
                     variant="default"
                     disabled={form.formState.isSubmitting}
@@ -206,7 +208,7 @@ export function LoginForm({
             </TabsContent>
             <TabsContent value="magic-link">
               <form onSubmit={magicLinkForm.handleSubmit(onMagicLinkSubmit)}>
-                <FieldGroup className="gap-4">
+                <FieldGroup className="gap-3">
                   <FormField
                     name="email"
                     control={magicLinkForm.control}
@@ -220,7 +222,7 @@ export function LoginForm({
                   />
 
                   <Button
-                    className="mt-2"
+                    className="mt-1"
                     type="submit"
                     variant="default"
                     disabled={magicLinkForm.formState.isSubmitting}
@@ -238,7 +240,7 @@ export function LoginForm({
         <CardFooter className="px-0">
           <div className="w-full">
             <Field>
-              <FieldDescription className="px-6 text-center font-bold">
+              <FieldDescription className="px-4 text-center font-bold text-sm">
                 {t("login.footer.noAccount")}
                 {(() => {
                   let signupHref = `${SIGNUP_PATH}`;
@@ -259,7 +261,7 @@ export function LoginForm({
                 })()}
               </FieldDescription>
 
-              <FieldSeparator className="my-4 font-bold">
+              <FieldSeparator className="my-3 font-bold text-sm">
                 {t("login.footer.orContinueWith")}
               </FieldSeparator>
 
