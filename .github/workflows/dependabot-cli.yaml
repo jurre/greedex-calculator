@@ -1,0 +1,74 @@
+name: Test Dependabot Graph
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Branch to run dependabot graph against'
+        required: true
+        default: 'main'
+        type: string
+      base_commit:
+        description: 'Base commit/branch to compare against (simulates PR base)'
+        required: true
+        default: 'main'
+        type: string
+
+jobs:
+  test-dependabot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_branch }}
+          # Use shallow clone like the runtime typically has
+          fetch-depth: 1
+      
+      - name: Download dependabot CLI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo dependabot/cli --pattern 'dependabot-v*-linux-amd64.tar.gz' --output dependabot.tar.gz
+          tar -xzf dependabot.tar.gz
+          chmod +x dependabot
+          
+      - name: Fetch base commit
+        run: |
+          echo "Fetching base commit: ${{ inputs.base_commit }}"
+          git fetch origin ${{ inputs.base_commit }} --depth=1
+          BASE_SHA=$(git rev-parse FETCH_HEAD)
+          echo "BASE_SHA=$BASE_SHA" >> $GITHUB_ENV
+          echo "Resolved base commit to SHA: $BASE_SHA"
+
+      - name: Create shared clone (like runtime does)
+        run: |
+          echo "Creating shared clone at /tmp/dependabot-base-test/repo"
+          mkdir -p /tmp/dependabot-base-test
+          
+          # This mirrors createBaseSnapshot() in git.ts
+          git clone --shared --no-checkout ${{ github.workspace }} /tmp/dependabot-base-test/repo
+          
+          cd /tmp/dependabot-base-test/repo
+          
+          # Fetch the specific commit (may fail if already available, that's ok)
+          git fetch origin ${{ env.BASE_SHA }} || true
+          
+          # Checkout the base commit
+          git checkout ${{ env.BASE_SHA }}
+          
+          echo "Shared clone created and checked out to ${{ env.BASE_SHA }}"
+          ls -la
+
+      - name: Run dependabot graph on BASE (shared clone) - THIS IS WHERE IT HANGS
+        run: |
+          echo "Running dependabot graph on BASE commit (shared clone)..."
+          echo "Directory: /tmp/dependabot-base-test/repo"
+          echo "This mimics: getDependenciesFromGraph(dependabot, ecosystem, baseDir, signal)"
+          time ./dependabot graph npm_and_yarn ${{ github.repository }} --local /tmp/dependabot-base-test/repo --branch main
+
+      - name: Run dependabot graph on HEAD (original checkout)
+        run: |
+          echo "Running dependabot graph on HEAD (staged changes)..."
+          echo "Directory: ${{ github.workspace }}"
+          echo "This mimics: getDependenciesFromGraph(dependabot, ecosystem, this.location, signal)"
+          time ./dependabot graph npm_and_yarn ${{ github.repository }} --local ${{ github.workspace }} --branch ${{ inputs.target_branch }}
