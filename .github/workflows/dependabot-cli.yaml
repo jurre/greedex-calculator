@@ -13,6 +13,11 @@ on:
         required: true
         default: 'main'
         type: string
+      disable_ipv6:
+        description: 'Disable IPv6 to simulate firewall behavior'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   test-dependabot:
@@ -21,9 +26,44 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.target_branch }}
-          # Use shallow clone like the runtime typically has
           fetch-depth: 1
       
+      - name: Check IPv6 status BEFORE any changes
+        run: |
+          echo "=== IPv6 Status BEFORE ==="
+          echo "IPv6 enabled (all): $(cat /proc/sys/net/ipv6/conf/all/disable_ipv6)"
+          echo "IPv6 enabled (default): $(cat /proc/sys/net/ipv6/conf/default/disable_ipv6)"
+          echo ""
+          echo "=== Network interfaces ==="
+          ip -6 addr show || echo "No IPv6 addresses"
+          echo ""
+          echo "=== DNS Resolution test ==="
+          echo "ghcr.io A records:"
+          dig +short A ghcr.io || true
+          echo "ghcr.io AAAA records:"
+          dig +short AAAA ghcr.io || true
+          echo ""
+          echo "registry.npmjs.org A records:"
+          dig +short A registry.npmjs.org || true
+          echo "registry.npmjs.org AAAA records:"
+          dig +short AAAA registry.npmjs.org || true
+
+      - name: Simulate firewall IPv6 blocking (if enabled)
+        if: ${{ inputs.disable_ipv6 }}
+        run: |
+          echo "=== Simulating firewall IPv6 DROP behavior ==="
+          
+          # Method 1: Disable IPv6 at kernel level
+          sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+          sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+          
+          # Method 2: Add ip6tables DROP rules (simulates firewall DROP not REJECT)
+          # This will cause IPv6 connections to HANG rather than fail fast
+          sudo ip6tables -A OUTPUT -j DROP || true
+          
+          echo "IPv6 disabled and blocked"
+          echo "IPv6 enabled (all): $(cat /proc/sys/net/ipv6/conf/all/disable_ipv6)"
+
       - name: Download dependabot CLI
         env:
           GH_TOKEN: ${{ github.token }}
@@ -44,31 +84,27 @@ jobs:
         run: |
           echo "Creating shared clone at /tmp/dependabot-base-test/repo"
           mkdir -p /tmp/dependabot-base-test
-          
-          # This mirrors createBaseSnapshot() in git.ts
           git clone --shared --no-checkout ${{ github.workspace }} /tmp/dependabot-base-test/repo
-          
           cd /tmp/dependabot-base-test/repo
-          
-          # Fetch the specific commit (may fail if already available, that's ok)
           git fetch origin ${{ env.BASE_SHA }} || true
-          
-          # Checkout the base commit
           git checkout ${{ env.BASE_SHA }}
-          
           echo "Shared clone created and checked out to ${{ env.BASE_SHA }}"
-          ls -la
 
-      - name: Run dependabot graph on BASE (shared clone) - THIS IS WHERE IT HANGS
+      - name: Run dependabot graph on BASE (with timeout to catch hangs)
         run: |
           echo "Running dependabot graph on BASE commit (shared clone)..."
-          echo "Directory: /tmp/dependabot-base-test/repo"
-          echo "This mimics: getDependenciesFromGraph(dependabot, ecosystem, baseDir, signal)"
-          time ./dependabot graph npm_and_yarn ${{ github.repository }} --local /tmp/dependabot-base-test/repo --branch main
+          echo "Timeout set to 60s - if it hangs, we'll know"
+          echo ""
+          echo "=== Starting at $(date) ==="
+          
+          # Use timeout to catch hangs - will exit 124 if it times out
+          timeout 60 ./dependabot graph npm_and_yarn ${{ github.repository }} --local /tmp/dependabot-base-test/repo --branch main \
+            && echo "SUCCESS: Completed in time" \
+            || (EXIT_CODE=$?; if [ $EXIT_CODE -eq 124 ]; then echo "TIMEOUT: Command hung for 60s!"; else echo "FAILED with exit code $EXIT_CODE"; fi; exit $EXIT_CODE)
 
-      - name: Run dependabot graph on HEAD (original checkout)
+      - name: Run dependabot graph on HEAD
         run: |
-          echo "Running dependabot graph on HEAD (staged changes)..."
-          echo "Directory: ${{ github.workspace }}"
-          echo "This mimics: getDependenciesFromGraph(dependabot, ecosystem, this.location, signal)"
-          time ./dependabot graph npm_and_yarn ${{ github.repository }} --local ${{ github.workspace }} --branch ${{ inputs.target_branch }}
+          echo "Running dependabot graph on HEAD..."
+          timeout 60 ./dependabot graph npm_and_yarn ${{ github.repository }} --local ${{ github.workspace }} --branch ${{ inputs.target_branch }} \
+            && echo "SUCCESS: Completed in time" \
+            || (EXIT_CODE=$?; if [ $EXIT_CODE -eq 124 ]; then echo "TIMEOUT: Command hung for 60s!"; else echo "FAILED with exit code $EXIT_CODE"; fi; exit $EXIT_CODE)
