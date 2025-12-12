@@ -1,4 +1,5 @@
 import { createParser } from "nuqs/server";
+import { BackgroundAnimations } from "@/components/background-animations";
 import { WorkshopContent } from "@/components/landingpage/workshops/workshop-tab-select";
 
 const typeParser = createParser({
@@ -32,8 +33,9 @@ export default async function WorkshopsPage({
       | "day") ?? "moment";
 
   return (
-    <main className="min-h-screen py-28">
-      <div className="container mx-auto max-w-5xl px-6">
+    <main className="relative min-h-screen py-28">
+      <BackgroundAnimations />
+      <div className="container relative z-10 mx-auto max-w-5xl px-6">
         <div className="mb-8 text-center">
           <h1 className="mb-4 font-semibold text-4xl lg:text-5xl">
             Workshop Guide
