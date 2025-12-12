@@ -96,24 +96,24 @@ export function SignupForm({
   };
 
   return (
-    <Card className="p-4 sm:p-8 md:p-12">
+    <Card className="p-4 sm:p-6 md:p-8">
       <form
-        className={cn("flex flex-col gap-6", className)}
+        className={cn("flex flex-col gap-4", className)}
         {...props}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <CardHeader className="flex flex-col items-center gap-4 px-0 text-center">
+        <CardHeader className="flex flex-col items-center gap-3 px-0 text-center">
           <div className="flex size-16 items-center justify-center rounded-full bg-primary/10">
             <UserPlus className="size-8 text-primary" />
           </div>
-          <CardTitle className="space-y-2">
+          <CardTitle className="space-y-1">
             <h1 className="font-bold text-2xl">{t("signup.title")}</h1>
           </CardTitle>
           <CardDescription>{t("signup.description")}</CardDescription>
         </CardHeader>
 
         <CardContent className="px-0">
-          <FieldGroup className="gap-4">
+          <FieldGroup className="gap-3">
             <FormField
               name="name"
               control={form.control}
@@ -163,7 +163,7 @@ export function SignupForm({
             <Button
               type="submit"
               disabled={form.formState.isSubmitting}
-              className="mt-2"
+              className="mt-1"
             >
               {form.formState.isSubmitting
                 ? t("signup.buttons.creatingAccount")
@@ -175,14 +175,14 @@ export function SignupForm({
         <CardFooter className="px-0">
           <div className="w-full">
             <Field>
-              <FieldDescription className="px-6 text-center font-bold">
+              <FieldDescription className="px-4 text-center font-bold">
                 {t("signup.footer.haveAccount")}
                 <Button variant="link" className="px-0 pl-1" asChild>
                   <Link href={LOGIN_PATH}>{t("signup.footer.signIn")}</Link>
                 </Button>
               </FieldDescription>
 
-              <FieldSeparator className="my-4 font-bold">
+              <FieldSeparator className="my-3 font-bold">
                 {t("signup.footer.orContinueWith")}
               </FieldSeparator>
 

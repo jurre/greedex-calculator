@@ -10,6 +10,10 @@
       "scrollDown": "Scroll down",
       "meetCustomers": "Meet Our Customers"
     },
+    "globe": {
+      "title": "Our European Network",
+      "description": "Connecting environmental initiatives across Europe, fostering collaboration and sustainable growth."
+    },
     "workshops": {
       "headingPrefix": "Hello, fellow",
       "headingEmphasis": "Earth walker",

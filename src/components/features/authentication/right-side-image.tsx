@@ -28,10 +28,10 @@ export function RightSideImage({
 }: RightSideImageProps) {
   return (
     <div className="relative hidden xl:flex xl:w-1/2">
-      <div className="relative flex-1 py-14">
+      <div className="relative flex-1">
         <AnimatedGroup
           className={cn(
-            "relative flex h-full flex-col gap-8 overflow-hidden rounded-3xl border border-border/40 bg-card/30 p-10 shadow-2xl backdrop-blur-xl",
+            "relative flex h-full flex-col gap-6 overflow-hidden rounded-3xl border border-border/40 bg-card/30 p-8 shadow-2xl backdrop-blur-xl",
           )}
           variants={{
             container: {

@@ -49,17 +49,21 @@ export default async function AuthFlowLayout({
     <div className="relative min-h-svh overflow-hidden bg-background">
       <BackgroundAnimations />
 
-      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center gap-10 p-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-center lg:gap-14">
+      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center gap-6 p-4 sm:px-6 sm:py-8 md:px-8 lg:flex-row lg:items-stretch lg:gap-8">
+        {/* Back to Home button moved outside and above both cards */}
+        <div className="mb-2 lg:absolute lg:top-8 lg:left-8 lg:z-20">
+          <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />
+        </div>
+
         <div
           className={cn(
             "mx-auto w-full max-w-xl",
-            "rounded-3xl border border-border/40 bg-card/40 p-8 shadow-2xl backdrop-blur-xl",
+            "rounded-3xl border border-border/40 bg-card/40 p-6 shadow-2xl backdrop-blur-xl sm:p-8",
             "xl:mx-0 xl:w-1/2 xl:max-w-none",
-            "xl:p-12",
           )}
         >
           <AnimatedGroup
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-4"
             variants={{
               container: {
                 visible: {
@@ -82,14 +86,13 @@ export default async function AuthFlowLayout({
               },
             }}
           >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />
+            <div className="flex items-center justify-end">
               <span className="rounded-full border border-primary/50 bg-primary/10 px-4 py-1 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
                 {t("badge")}
               </span>
             </div>
 
-            <div className="space-y-8">{children}</div>
+            <div className="space-y-4">{children}</div>
           </AnimatedGroup>
         </div>
 
