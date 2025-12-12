@@ -18,7 +18,6 @@ import {
   E_FOREST_PATH,
   HOME_PATH,
   LIBRARY_PATH,
-  LOGIN_PATH,
   SIGNUP_PATH,
   TIPS_AND_TRICKS_PATH,
   WORKSHOPS_ANCHOR,
@@ -67,13 +66,13 @@ export const LandingHeader = () => {
       <nav className="fixed z-20 w-full px-2">
         <div
           className={cn(
-            "mx-auto mt-2 max-w-7xl px-6 transition-all lg:px-12",
+            "mx-auto mt-2 max-w-7xl px-6 transition-all duration-300 lg:px-8",
             isScrolled &&
-              "max-w-6xl rounded-2xl border bg-background/50 backdrop-blur-lg lg:px-5",
+              "max-w-6xl rounded-2xl border bg-background/50 backdrop-blur-lg lg:px-8",
           )}
         >
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:flex-nowrap lg:gap-0 lg:py-4">
-            <div className="flex w-full items-center justify-between lg:w-auto">
+          <div className="relative flex items-center justify-between gap-4 py-3 lg:gap-6 lg:py-4">
+            <div className="flex items-center lg:w-auto">
               <Link
                 href={HOME_PATH}
                 aria-label="home"
@@ -81,95 +80,16 @@ export const LandingHeader = () => {
               >
                 <Logo isScrolled={!isScrolled} />
               </Link>
-
-              {/* Mobile burger menu */}
-              <div className="flex items-center gap-4 lg:hidden">
-                <LocaleSwitcher className="rounded-md has-[>svg]:px-2" />
-                <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      size="lg"
-                      aria-label={t("navigation.openMenu")}
-                      className="relative z-20 block h-10 cursor-pointer p-1.5 lg:hidden"
-                    >
-                      <MenuIcon
-                        className={`m-auto size-6 duration-500 ${
-                          menuOpen ? "rotate-180 scale-0 opacity-0" : ""
-                        }`}
-                      />
-                      <XIcon
-                        className={`-rotate-180 absolute inset-0 m-auto size-6 duration-500 ${
-                          menuOpen
-                            ? "rotate-0 scale-100 opacity-100"
-                            : "scale-0 opacity-0"
-                        }`}
-                      />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="rounded-3xl border bg-background p-4 shadow-2xl shadow-zinc-300/20"
-                    align="end"
-                  >
-                    <ul className="space-y-6 text-base">
-                      {menuItems.map((item) => (
-                        <DropdownMenuItem key={item.name} asChild>
-                          <Link
-                            href={item.href}
-                            className="block text-muted-foreground hover:text-primary-foreground"
-                          >
-                            <span>{item.name}</span>
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </ul>
-                    <DropdownMenuSeparator />
-                    <div className="flex w-full items-center justify-end gap-3">
-                      <div
-                        className={cn(
-                          "relative h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out",
-                          isScrolled ? "max-w-0" : "max-w-[7.5rem]",
-                        )}
-                        aria-hidden={isScrolled}
-                      >
-                        <Button
-                          asChild
-                          variant="outline"
-                          size="sm"
-                          className={cn(
-                            "transition-opacity ease-in-out",
-                            isScrolled ? "opacity-0" : "opacity-100",
-                          )}
-                        >
-                          <Link href={LOGIN_PATH}>
-                            <span>{t("navigation.login")}</span>
-                          </Link>
-                        </Button>
-                      </div>
-
-                      <Button
-                        asChild
-                        size="sm"
-                        className={cn(
-                          "transform transition-transform ease-in-out",
-                        )}
-                      >
-                        <Link href={SIGNUP_PATH}>
-                          <span>{t("navigation.signup")}</span>
-                        </Link>
-                      </Button>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
             </div>
 
-            <div className="inset-0 m-auto hidden size-fit lg:block">
-              <ul className="flex gap-4 text-lg">
+            {/* Desktop menu - centered */}
+            <div className="hidden flex-1 justify-center lg:flex">
+              <ul className="flex gap-4 text-base">
                 {menuItems.map((item) => (
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="block font-bold text-muted-foreground hover:text-accent"
+                      className="block whitespace-nowrap font-bold text-muted-foreground transition-colors hover:text-accent"
                     >
                       <span>{item.name}</span>
                     </Link>
@@ -178,39 +98,74 @@ export const LandingHeader = () => {
               </ul>
             </div>
 
+            {/* Desktop actions */}
             <div className="hidden items-center gap-3 lg:flex">
               <LocaleSwitcher className="rounded-md" />
-              {/* <div
-                className={cn(
-                  "relative hidden h-8 overflow-hidden transition-[max-width] duration-300 ease-in-out xl:inline-block",
-                  isScrolled ? "max-w-0" : "max-w-[9rem]",
-                )}
-              >
-                <Button
-                  asChild
-                  variant="outline"
-                  size="sm"
-                  className={cn(
-                    "transition-opacity ease-in-out",
-                    isScrolled ? "opacity-0" : "opacity-100",
-                  )}
-                  aria-hidden={isScrolled}
-                >
-                  <Link href="/login">
-                    <span>Login</span>
-                  </Link>
-                </Button>
-              </div> */}
-
               <Button
                 asChild
                 size="sm"
-                className="transform transition-transform ease-in-out"
+                className="whitespace-nowrap transition-transform"
               >
                 <Link href={SIGNUP_PATH}>
                   <span>{t("navigation.signup")}</span>
                 </Link>
               </Button>
+            </div>
+
+            {/* Mobile burger menu */}
+            <div className="flex items-center gap-4 lg:hidden">
+              <LocaleSwitcher className="rounded-md has-[>svg]:px-2" />
+              <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size="lg"
+                    aria-label={t("navigation.openMenu")}
+                    className="relative z-20 block h-10 cursor-pointer p-1.5 lg:hidden"
+                  >
+                    <MenuIcon
+                      className={`m-auto size-6 duration-500 ${
+                        menuOpen ? "rotate-180 scale-0 opacity-0" : ""
+                      }`}
+                    />
+                    <XIcon
+                      className={`-rotate-180 absolute inset-0 m-auto size-6 duration-500 ${
+                        menuOpen
+                          ? "rotate-0 scale-100 opacity-100"
+                          : "scale-0 opacity-0"
+                      }`}
+                    />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="rounded-3xl border bg-background p-4 shadow-2xl shadow-zinc-300/20"
+                  align="end"
+                >
+                  <ul className="space-y-6 text-base">
+                    {menuItems.map((item) => (
+                      <DropdownMenuItem key={item.name} asChild>
+                        <Link
+                          href={item.href}
+                          className="block text-muted-foreground hover:text-primary-foreground"
+                        >
+                          <span>{item.name}</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </ul>
+                  <DropdownMenuSeparator />
+                  <div className="flex w-full items-center justify-end gap-3">
+                    <Button
+                      asChild
+                      size="sm"
+                      className="transform transition-transform"
+                    >
+                      <Link href={SIGNUP_PATH}>
+                        <span>{t("navigation.signup")}</span>
+                      </Link>
+                    </Button>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

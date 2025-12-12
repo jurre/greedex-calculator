@@ -49,17 +49,22 @@ export default async function AuthFlowLayout({
     <div className="relative min-h-svh overflow-hidden bg-background">
       <BackgroundAnimations />
 
-      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col justify-center gap-10 p-4 sm:px-6 sm:py-10 md:px-8 lg:flex-row lg:items-center lg:gap-14">
+      {/* Back to Home button positioned outside cards */}
+      <div className="relative z-20 mx-auto max-w-7xl px-4 pt-6 sm:px-6 md:px-8">
+        <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />
+      </div>
+
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-6rem)] max-w-7xl flex-col justify-center gap-6 p-4 sm:px-6 sm:py-6 md:px-8 lg:flex-row lg:items-stretch lg:gap-6">
         <div
           className={cn(
-            "mx-auto w-full max-w-xl",
-            "rounded-3xl border border-border/40 bg-card/40 p-8 shadow-2xl backdrop-blur-xl",
+            "mx-auto flex w-full max-w-xl flex-col",
+            "rounded-3xl border border-border/40 bg-card/40 p-6 shadow-2xl backdrop-blur-xl",
             "xl:mx-0 xl:w-1/2 xl:max-w-none",
-            "xl:p-12",
+            "xl:p-8",
           )}
         >
           <AnimatedGroup
-            className="flex flex-col gap-6"
+            className="flex flex-1 flex-col gap-4"
             variants={{
               container: {
                 visible: {
@@ -82,14 +87,13 @@ export default async function AuthFlowLayout({
               },
             }}
           >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <BackToHome label={backLabel ?? "Back to Home"} href={backHref} />
-              <span className="rounded-full border border-primary/50 bg-primary/10 px-4 py-1 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
+            <div className="flex justify-end">
+              <span className="rounded-full border border-primary/50 bg-primary/10 px-3 py-1 font-semibold text-primary text-xs uppercase tracking-[0.4em]">
                 {t("badge")}
               </span>
             </div>
 
-            <div className="space-y-8">{children}</div>
+            <div className="flex-1">{children}</div>
           </AnimatedGroup>
         </div>
 

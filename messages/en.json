@@ -294,6 +294,11 @@
         "challengesPresentation": "Challenges Presentation (PDF)",
         "greendexWebsite": "www.greendex.world"
       }
+    },
+    "globe": {
+      "title": "Connecting Across Europe",
+      "description": "Our mission spans across the European Union, bringing together communities dedicated to sustainable practices and carbon neutrality. Join us in making a difference.",
+      "subtitle": "Interactive globe showing EU countries participating in the Greendex initiative"
     }
   },
   "organization": {

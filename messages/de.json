@@ -294,6 +294,11 @@
         "challengesPresentation": "Herausforderungspräsentation (PDF)",
         "greendexWebsite": "www.greendex.world"
       }
+    },
+    "globe": {
+      "title": "Verbindung über Europa",
+      "description": "Unsere Mission erstreckt sich über die Europäische Union und bringt Gemeinschaften zusammen, die sich für nachhaltige Praktiken und Klimaneutralität einsetzen. Machen Sie mit uns den Unterschied.",
+      "subtitle": "Interaktiver Globus mit EU-Ländern, die an der Greendex-Initiative teilnehmen"
     }
   },
   "organization": {
