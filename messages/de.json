@@ -294,6 +294,12 @@
         "challengesPresentation": "Herausforderungspräsentation (PDF)",
         "greendexWebsite": "www.greendex.world"
       }
+    },
+    "globe": {
+      "title": "Grüner Einfluss in ganz Europa",
+      "description": "Werden Sie Teil der wachsenden Bewegung von Erasmus+-Projekten, die sich der Nachhaltigkeit verschrieben haben. Unser Netzwerk erstreckt sich über die gesamte Europäische Union, mit Organisationen, die ihren CO₂-Fußabdruck berechnen und durch Baumpflanzinitiativen Maßnahmen zum Ausgleich ergreifen.",
+      "stat1": "27 EU-Länder",
+      "stat2": "Wachsendes Netzwerk"
     }
   },
   "organization": {

@@ -294,6 +294,12 @@
         "challengesPresentation": "Challenges Presentation (PDF)",
         "greendexWebsite": "www.greendex.world"
       }
+    },
+    "globe": {
+      "title": "Green Impact Across Europe",
+      "description": "Join the growing movement of Erasmus+ projects committed to sustainability. Our network spans across the European Union, with organizations calculating their carbon footprint and taking action to offset it through tree planting initiatives.",
+      "stat1": "27 EU Countries",
+      "stat2": "Growing Network"
     }
   },
   "organization": {
