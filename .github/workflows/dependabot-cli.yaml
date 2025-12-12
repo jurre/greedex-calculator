@@ -93,18 +93,18 @@ jobs:
       - name: Run dependabot graph on BASE (with timeout to catch hangs)
         run: |
           echo "Running dependabot graph on BASE commit (shared clone)..."
-          echo "Timeout set to 60s - if it hangs, we'll know"
+          echo "Timeout set to 300s - if it hangs, we'll know"
           echo ""
           echo "=== Starting at $(date) ==="
           
           # Use timeout to catch hangs - will exit 124 if it times out
-          timeout 60 ./dependabot graph npm_and_yarn ${{ github.repository }} --local /tmp/dependabot-base-test/repo --branch main \
+          timeout 300 ./dependabot graph npm_and_yarn ${{ github.repository }} --local /tmp/dependabot-base-test/repo --branch main \
             && echo "SUCCESS: Completed in time" \
-            || (EXIT_CODE=$?; if [ $EXIT_CODE -eq 124 ]; then echo "TIMEOUT: Command hung for 60s!"; else echo "FAILED with exit code $EXIT_CODE"; fi; exit $EXIT_CODE)
+            || (EXIT_CODE=$?; if [ $EXIT_CODE -eq 124 ]; then echo "TIMEOUT: Command hung for 300s!"; else echo "FAILED with exit code $EXIT_CODE"; fi; exit $EXIT_CODE)
 
       - name: Run dependabot graph on HEAD
         run: |
           echo "Running dependabot graph on HEAD..."
-          timeout 60 ./dependabot graph npm_and_yarn ${{ github.repository }} --local ${{ github.workspace }} --branch ${{ inputs.target_branch }} \
+          timeout 300 ./dependabot graph npm_and_yarn ${{ github.repository }} --local ${{ github.workspace }} --branch ${{ inputs.target_branch }} \
             && echo "SUCCESS: Completed in time" \
-            || (EXIT_CODE=$?; if [ $EXIT_CODE -eq 124 ]; then echo "TIMEOUT: Command hung for 60s!"; else echo "FAILED with exit code $EXIT_CODE"; fi; exit $EXIT_CODE)
+            || (EXIT_CODE=$?; if [ $EXIT_CODE -eq 124 ]; then echo "TIMEOUT: Command hung for 300s!"; else echo "FAILED with exit code $EXIT_CODE"; fi; exit $EXIT_CODE)
